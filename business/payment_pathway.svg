@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 520" width="960" height="520" font-family="Segoe UI, Arial, sans-serif">
+<defs><marker id="a" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#666"/></marker>
+<marker id="g" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#1D9E75"/></marker></defs>
+<rect width="960" height="520" fill="#fff"/>
+<text x="20" y="30" font-size="18" font-weight="bold" fill="#222">Payment pathway: H&amp;E-first molecular triage for sarcoma</text>
+<text x="20" y="52" font-size="12" fill="#666">Grey arrows = the patient's sample and report. Green arrows = money.</text>
+
+<rect x="20" y="90" width="170" height="90" rx="10" fill="#FBEAF0" stroke="#D4537E" stroke-width="2"/>
+<text x="105" y="120" font-size="13" font-weight="bold" fill="#4B1528" text-anchor="middle">1. Local hospital</text>
+<text x="105" y="142" font-size="11" fill="#72243E" text-anchor="middle">biopsy, H&amp;E slide</text>
+<text x="105" y="160" font-size="11" fill="#72243E" text-anchor="middle">scanned on existing scanner</text>
+
+<path d="M195 135 L245 135" stroke="#666" stroke-width="2" marker-end="url(#a)"/>
+
+<rect x="250" y="90" width="170" height="90" rx="10" fill="#E6F1FB" stroke="#378ADD" stroke-width="2"/>
+<text x="335" y="120" font-size="13" font-weight="bold" fill="#0C447C" text-anchor="middle">2. Triage model</text>
+<text x="335" y="142" font-size="11" fill="#185FA5" text-anchor="middle">minutes, per-slide call</text>
+<text x="335" y="160" font-size="11" fill="#185FA5" text-anchor="middle">subtype probability + test advice</text>
+
+<path d="M425 135 L475 135" stroke="#666" stroke-width="2" marker-end="url(#a)"/>
+
+<rect x="480" y="90" width="170" height="90" rx="10" fill="#EEEDFE" stroke="#7F77DD" stroke-width="2"/>
+<text x="565" y="120" font-size="13" font-weight="bold" fill="#26215C" text-anchor="middle">3. Genomic lab</text>
+<text x="565" y="142" font-size="11" fill="#3C3489" text-anchor="middle">UK: Genomic Laboratory Hub</text>
+<text x="565" y="160" font-size="11" fill="#3C3489" text-anchor="middle">TW: regional hospital NGS</text>
+
+<path d="M655 135 L705 135" stroke="#666" stroke-width="2" marker-end="url(#a)"/>
+
+<rect x="710" y="90" width="230" height="90" rx="10" fill="#E1F5EE" stroke="#1D9E75" stroke-width="2"/>
+<text x="825" y="120" font-size="13" font-weight="bold" fill="#04342C" text-anchor="middle">4. Sarcoma centre MDT</text>
+<text x="825" y="142" font-size="11" fill="#085041" text-anchor="middle">right test, ordered once</text>
+<text x="825" y="160" font-size="11" fill="#085041" text-anchor="middle">treatment decision weeks earlier</text>
+
+<rect x="250" y="250" width="440" height="80" rx="10" fill="#F1EFE8" stroke="#888780" stroke-width="2"/>
+<text x="470" y="278" font-size="13" font-weight="bold" fill="#2C2C2A" text-anchor="middle">Payer</text>
+<text x="470" y="300" font-size="11" fill="#444441" text-anchor="middle">UK: NHS England specialised commissioning via the Genomic Laboratory Hub</text>
+<text x="470" y="318" font-size="11" fill="#444441" text-anchor="middle">Taiwan: National Health Insurance Administration, reimbursement code for AI triage</text>
+
+<path d="M470 245 L470 200 L335 200 L335 185" stroke="#1D9E75" stroke-width="2.5" fill="none" marker-end="url(#g)"/>
+<text x="410" y="215" font-size="11" fill="#0F6E56">pays per slide</text>
+
+<path d="M565 245 L565 185" stroke="#1D9E75" stroke-width="2.5" fill="none" marker-end="url(#g)"/>
+<text x="575" y="215" font-size="11" fill="#0F6E56">already pays for the test</text>
+
+<rect x="250" y="380" width="440" height="100" rx="10" fill="#FAEEDA" stroke="#EF9F27" stroke-width="2"/>
+<text x="470" y="405" font-size="13" font-weight="bold" fill="#412402" text-anchor="middle">Why the payer saves</text>
+<text x="470" y="428" font-size="11" fill="#633806" text-anchor="middle">UK target for urgent solid tumour panels is 21 days; a misrouted request costs a second cycle</text>
+<text x="470" y="446" font-size="11" fill="#633806" text-anchor="middle">Taiwan NHI reimburses NGS once per lifetime, capped at NT$30,000, so the first order must be the right one</text>
+<text x="470" y="466" font-size="11" fill="#633806" text-anchor="middle">Triage protects the single reimbursed test and removes the avoidable referrals</text>
+
+<path d="M470 375 L470 335" stroke="#EF9F27" stroke-width="2" fill="none" marker-end="url(#a)"/>
+</svg>

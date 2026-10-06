@@ -1,0 +1,73 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<script src="https://cdn.tailwindcss.com"></script>
+<style>body{margin:0;background:#e5e7eb;font-family:"Segoe UI",system-ui,sans-serif}</style>
+</head>
+<body>
+<div class="w-[1400px] h-[820px] bg-slate-100 flex flex-col shadow-2xl">
+  <div class="h-12 bg-slate-800 flex items-center px-4 text-slate-100 text-sm gap-6">
+    <span class="font-semibold tracking-wide">PathView</span>
+    <span class="text-slate-400">Worklist</span><span class="text-white border-b-2 border-sky-400 pb-1">Case SARC-2026-0417</span><span class="text-slate-400">Reports</span>
+    <span class="ml-auto text-slate-300">Dr A. Patel · Cellular Pathology · 09:43</span>
+  </div>
+  <div class="flex flex-1 min-h-0">
+    <div class="w-14 bg-slate-700 flex flex-col items-center py-3 gap-5 text-slate-300">
+      <div class="w-8 h-8 rounded bg-slate-600"></div><div class="w-8 h-8 rounded bg-slate-600"></div><div class="w-8 h-8 rounded bg-sky-500"></div><div class="w-8 h-8 rounded bg-slate-600"></div>
+    </div>
+    <div class="flex-1 relative bg-black overflow-hidden">
+      <img src="file:///C:/Users/User/Documents/GitHub/ai-ortho-msk-hackathon-2026/technical/data/overviews/TCGA-3B-A9HL_DDLPS.png" class="absolute inset-0 w-full h-full object-cover" style="transform:scale(2.6);transform-origin:45% 50%">
+      <div class="absolute top-3 left-3 bg-black/60 text-white text-xs px-2 py-1 rounded">H&amp;E · 20× · Aperio GT450</div>
+      <div class="absolute bottom-3 left-3 bg-white rounded shadow border border-slate-300 w-44 h-28 overflow-hidden">
+        <img src="file:///C:/Users/User/Documents/GitHub/ai-ortho-msk-hackathon-2026/technical/data/overviews/TCGA-3B-A9HL_DDLPS.png" class="w-full h-full object-cover">
+        <div class="absolute border-2 border-red-500" style="left:62px;top:48px;width:36px;height:26px"></div>
+      </div>
+      <div class="absolute bottom-3 right-3 flex gap-1">
+        <div class="bg-black/60 text-white text-xs px-2 py-1 rounded">2×</div><div class="bg-black/60 text-white text-xs px-2 py-1 rounded">10×</div><div class="bg-sky-500 text-white text-xs px-2 py-1 rounded">20×</div><div class="bg-black/60 text-white text-xs px-2 py-1 rounded">40×</div>
+      </div>
+      <div class="absolute top-3 left-3 translate-y-8 w-7 h-7 rounded-full bg-red-500 text-white text-sm font-bold flex items-center justify-center shadow">1</div>
+    </div>
+    <div class="w-[420px] bg-white border-l border-slate-200 flex flex-col">
+      <div class="px-4 py-3 bg-sky-600 text-white flex items-center">
+        <span class="font-semibold">AI triage</span><span class="ml-2 text-xs bg-sky-500 px-2 py-0.5 rounded">beta</span>
+        <span class="ml-auto text-xs text-sky-100">v1.3.0 · 2 min</span>
+        <div class="ml-2 w-6 h-6 rounded-full bg-red-500 text-white text-xs font-bold flex items-center justify-center">2</div>
+      </div>
+      <div class="p-4 space-y-4 text-sm text-slate-700 overflow-hidden">
+        <div>
+          <div class="flex items-center justify-between"><span class="font-medium">Sarcoma?</span><div class="w-6 h-6 rounded-full bg-red-500 text-white text-xs font-bold flex items-center justify-center">3</div></div>
+          <div class="mt-2 h-3 w-full bg-slate-200 rounded-full overflow-hidden"><div class="h-3 bg-emerald-500" style="width:88%"></div></div>
+          <div class="text-right text-emerald-700 font-semibold mt-1">0.88</div>
+        </div>
+        <div>
+          <div class="flex items-center justify-between"><span class="font-medium">Which subtype</span><div class="w-6 h-6 rounded-full bg-red-500 text-white text-xs font-bold flex items-center justify-center">4</div></div>
+          <div class="mt-2 space-y-2">
+            <div class="flex items-center gap-2"><span class="w-32">Dediff. liposarcoma</span><div class="flex-1 h-2.5 bg-slate-200 rounded-full overflow-hidden"><div class="h-2.5 bg-violet-500" style="width:74%"></div></div><span class="w-10 text-right">0.74</span></div>
+            <div class="flex items-center gap-2"><span class="w-32">Leiomyosarcoma</span><div class="flex-1 h-2.5 bg-slate-200 rounded-full overflow-hidden"><div class="h-2.5 bg-violet-500" style="width:15%"></div></div><span class="w-10 text-right">0.15</span></div>
+            <div class="flex items-center gap-2"><span class="w-32">Myxoid lipo</span><div class="flex-1 h-2.5 bg-slate-200 rounded-full overflow-hidden"><div class="h-2.5 bg-violet-500" style="width:7%"></div></div><span class="w-10 text-right">0.07</span></div>
+            <div class="flex items-center gap-2"><span class="w-32">Other</span><div class="flex-1 h-2.5 bg-slate-200 rounded-full overflow-hidden"><div class="h-2.5 bg-violet-500" style="width:4%"></div></div><span class="w-10 text-right">0.04</span></div>
+          </div>
+        </div>
+        <div class="rounded-lg border border-emerald-300 bg-emerald-50 p-3 relative">
+          <div class="font-semibold text-emerald-900">Order first</div>
+          <div class="text-emerald-800">MDM2 amplification (FISH) · routine</div>
+          <div class="text-xs text-emerald-700 mt-1">Slide and request match ✓</div>
+          <div class="absolute top-2 right-2 w-6 h-6 rounded-full bg-red-500 text-white text-xs font-bold flex items-center justify-center">5</div>
+        </div>
+        <div class="rounded-lg border border-amber-300 bg-amber-50 p-3 text-amber-800 text-xs relative">Confidence OK · would abstain below 0.60
+          <div class="absolute top-2 right-2 w-6 h-6 rounded-full bg-red-500 text-white text-xs font-bold flex items-center justify-center">6</div></div>
+        <div class="flex gap-3 relative">
+          <button class="flex-1 bg-sky-600 text-white rounded-md py-2 font-medium">Write to LIS</button>
+          <button class="flex-1 border border-slate-300 rounded-md py-2">Disagree</button>
+          <div class="absolute -right-1 -top-3 w-6 h-6 rounded-full bg-red-500 text-white text-xs font-bold flex items-center justify-center">7</div>
+        </div>
+        <div class="rounded-lg bg-slate-50 border border-slate-200 p-3 text-xs text-slate-600 space-y-1 relative">
+          <div>Model ran inside hospital network · slide not transferred</div>
+          <div>Audit id 7f3a9c · pathologist opened slide 09:41 · AI shown 09:43</div>
+          <div>Training: TCGA-SARC + RNOH · robustness: 30-lab/3-scanner set</div>
+          <div class="absolute top-2 right-2 w-6 h-6 rounded-full bg-red-500 text-white text-xs font-bold flex items-center justify-center">8</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</body></html>

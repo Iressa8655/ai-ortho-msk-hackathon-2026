@@ -1,0 +1,16 @@
+numpy>=1.26
+pandas>=2.2
+torch>=2.2
+torchvision>=0.17
+scikit-learn>=1.4
+matplotlib>=3.8
+Pillow>=10
+tqdm>=4.66
+requests>=2.31
+fsspec>=2024.2
+aiohttp>=3.9
+tifffile>=2024.2
+imagecodecs>=2024.1
+nbformat>=5.10
+nbclient>=0.10
+ipykernel>=6.29
