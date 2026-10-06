@@ -1,59 +1,80 @@
 <!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Sarcoma H&E triage demo</title>
+<title>SarcomaTriage · H&E decision support</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <script src="https://cdn.tailwindcss.com"></script>
 <script src="https://cdn.jsdelivr.net/npm/onnxruntime-web@1.19.2/dist/ort.min.js"></script>
-<style>body{font-family:"Segoe UI",system-ui,sans-serif;background:#e5e7eb}</style>
+<style>
+  :root{--navy:#0f1f3d;--ink:#1a2333;--muted:#5b6b82;--line:#e4e8ef;--panel:#ffffff;--bg:#f3f5f8;--accent:#1f5fbf;--ok:#1b7f5a;--warn:#9a6700}
+  body{font-family:Inter,"Segoe UI",system-ui,sans-serif;background:var(--bg);color:var(--ink);margin:0}
+  .panel{background:var(--panel);border:1px solid var(--line);border-radius:10px}
+  .label{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600}
+  .bar{height:8px;background:#e9edf3;border-radius:999px;overflow:hidden}
+  .bar>div{height:8px;background:var(--accent);border-radius:999px;transition:width .4s ease}
+  .btn{border:1px solid var(--line);background:#fff;color:var(--ink);padding:8px 14px;border-radius:8px;font-weight:500;font-size:13px}
+  .btn:hover{background:#f6f8fb}
+  .btn-primary{background:var(--navy);color:#fff;border-color:var(--navy)}
+  .btn-primary:hover{background:#17305c}
+  .chip{display:inline-flex;align-items:center;gap:6px;padding:3px 10px;border-radius:999px;font-size:12px;font-weight:500;border:1px solid var(--line);background:#fff;color:var(--muted)}
+  .chip .dot{width:7px;height:7px;border-radius:50%}
+</style>
 </head>
 <body>
-<div class="max-w-[1400px] mx-auto my-4 bg-slate-100 shadow-2xl rounded-lg overflow-hidden flex flex-col" style="min-height:820px">
-  <div class="h-12 bg-slate-800 flex items-center px-4 text-slate-100 text-sm gap-6">
-    <span class="font-semibold tracking-wide">PathView</span>
-    <span class="text-slate-400">Worklist</span><span class="text-white border-b-2 border-sky-400 pb-1" id="caseName">Upload a slide</span>
-    <span class="ml-auto text-slate-300">Hackathon demo · baseline model · not for clinical use</span>
-  </div>
-  <div class="flex flex-1 min-h-0">
-    <div class="w-14 bg-slate-700 flex flex-col items-center py-3 gap-5"><div class="w-8 h-8 rounded bg-slate-600"></div><div class="w-8 h-8 rounded bg-sky-500"></div><div class="w-8 h-8 rounded bg-slate-600"></div></div>
-    <div class="flex-1 relative bg-black overflow-hidden flex items-center justify-center" id="viewer">
+<div class="min-h-screen flex flex-col">
+  <header class="h-14 bg-[var(--navy)] text-white flex items-center px-6 gap-8">
+    <div class="flex items-center gap-2"><div class="w-7 h-7 rounded-md bg-white/10 flex items-center justify-center"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M8 12h8M12 8v8"/></svg></div><span class="font-semibold tracking-tight">SarcomaTriage</span><span class="text-white/50 text-sm">H&amp;E decision support</span></div>
+    <nav class="flex gap-6 text-sm text-white/60"><span>Worklist</span><span class="text-white border-b-2 border-white/80 pb-0.5" id="caseName">New case</span><span>Reports</span><span>Audit</span></nav>
+    <div class="ml-auto flex items-center gap-3 text-sm text-white/70"><span class="chip" style="background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.15);color:#fff"><span class="dot" style="background:#f5b942"></span>Research prototype · not for clinical use</span><span>Dr A. Patel</span></div>
+  </header>
+
+  <main class="flex-1 grid" style="grid-template-columns: 1fr 440px; gap:16px; padding:16px">
+    <section class="panel relative overflow-hidden flex items-center justify-center" id="viewer" style="min-height:720px;background:#0b0f16">
       <img id="slide" class="max-w-full max-h-full hidden" alt="slide">
-      <div id="dropzone" class="text-center text-slate-300 p-10">
-        <div class="text-lg mb-2">Drop an H&amp;E overview image here, or</div>
-        <label class="inline-block bg-sky-600 text-white px-4 py-2 rounded cursor-pointer">Choose image<input id="file" type="file" accept="image/*" class="hidden"></label>
-        <div class="mt-6 text-sm text-slate-400">or try a real TCGA-SARC slide</div>
-        <div class="mt-2 flex gap-2 justify-center flex-wrap" id="samples"></div>
-      </div>
       <canvas id="tiles" class="absolute inset-0 pointer-events-none"></canvas>
-      <div class="absolute top-3 left-3 bg-black/60 text-white text-xs px-2 py-1 rounded" id="meta">H&amp;E · overview</div>
-    </div>
-    <div class="w-[420px] bg-white border-l border-slate-200 flex flex-col">
-      <div class="px-4 py-3 bg-sky-600 text-white flex items-center"><span class="font-semibold">AI triage</span><span class="ml-2 text-xs bg-sky-500 px-2 py-0.5 rounded">baseline</span><span class="ml-auto text-xs text-sky-100" id="timing">ResNet50 int8 · in browser</span></div>
-      <div class="p-4 space-y-4 text-sm text-slate-700">
-        <div class="rounded-lg border border-amber-300 bg-amber-50 p-3 text-amber-800 text-xs">This is the hackathon baseline: frozen ImageNet ResNet50 on slide overviews, trained on 60 open TCGA-SARC patients. It separates two subtypes only. It does not yet answer "is this a sarcoma". CV AUC 0.82 (notebook 01).</div>
-        <div>
-          <div class="flex items-center justify-between"><span class="font-medium">Progress</span><span id="progressText" class="text-xs text-slate-500">idle</span></div>
-          <div class="mt-2 h-2.5 w-full bg-slate-200 rounded-full overflow-hidden"><div id="progress" class="h-2.5 bg-sky-500" style="width:0%"></div></div>
-        </div>
-        <div>
-          <div class="font-medium">Which subtype</div>
-          <div class="mt-2 space-y-2">
-            <div class="flex items-center gap-2"><span class="w-40">Dediff. liposarcoma</span><div class="flex-1 h-2.5 bg-slate-200 rounded-full overflow-hidden"><div id="barD" class="h-2.5 bg-violet-500" style="width:0%"></div></div><span class="w-12 text-right" id="pD">–</span></div>
-            <div class="flex items-center gap-2"><span class="w-40">Leiomyosarcoma</span><div class="flex-1 h-2.5 bg-slate-200 rounded-full overflow-hidden"><div id="barL" class="h-2.5 bg-violet-500" style="width:0%"></div></div><span class="w-12 text-right" id="pL">–</span></div>
-          </div>
-        </div>
-        <div id="orderBox" class="rounded-lg border border-slate-300 bg-slate-50 p-3 hidden">
-          <div class="font-semibold text-slate-800">Order first</div>
-          <div id="orderText" class="text-slate-700"></div>
-          <div id="orderNote" class="text-xs text-slate-500 mt-1"></div>
-        </div>
-        <div id="abstainBox" class="rounded-lg border border-amber-300 bg-amber-50 p-3 text-amber-800 text-xs hidden">Low confidence: the model would abstain and send this case down the standard pathway.</div>
-        <div class="rounded-lg bg-slate-50 border border-slate-200 p-3 text-xs text-slate-600 space-y-1">
-          <div>Runs entirely in your browser. The image never leaves this page.</div>
-          <div id="tileInfo">Tiles: –</div>
-          <div>Model: ResNet50 (ImageNet) int8 + logistic regression · <a class="underline" href="https://github.com/Iressa8655/ai-ortho-msk-hackathon-2026">repo</a></div>
-        </div>
+      <div id="dropzone" class="text-center p-12">
+        <div class="mx-auto w-14 h-14 rounded-full border border-white/15 flex items-center justify-center text-white/60 mb-4"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 16V4m0 0l-4 4m4-4l4 4"/><path d="M4 16v3a1 1 0 001 1h14a1 1 0 001-1v-3"/></svg></div>
+        <div class="text-white/90 font-medium">Drop an H&amp;E overview image</div>
+        <div class="text-white/50 text-sm mt-1">PNG or JPEG, any size. Processed on this device only.</div>
+        <label class="btn btn-primary inline-block mt-5 cursor-pointer">Select image<input id="file" type="file" accept="image/*" class="hidden"></label>
+        <div class="label mt-8 mb-3" style="color:rgba(255,255,255,.45)">Or open a TCGA-SARC reference slide</div>
+        <div class="flex gap-2 justify-center flex-wrap" id="samples"></div>
       </div>
-    </div>
-  </div>
+      <div class="absolute top-3 left-3 flex gap-2"><span class="chip" id="meta"><span class="dot" style="background:#1f5fbf"></span>H&amp;E · overview</span></div>
+    </section>
+
+    <aside class="flex flex-col gap-4">
+      <div class="panel p-5">
+        <div class="flex items-center justify-between"><div><div class="label">AI triage</div><div class="text-lg font-semibold mt-1">Subtype assessment</div></div><span class="chip" id="timing"><span class="dot" style="background:#9aa7ba"></span>idle</span></div>
+        <div class="mt-4"><div class="flex items-center justify-between text-xs text-[var(--muted)]"><span>Analysis</span><span id="progressText">waiting for a slide</span></div><div class="bar mt-2"><div id="progress" style="width:0%"></div></div></div>
+      </div>
+
+      <div class="panel p-5">
+        <div class="label">Probability by subtype</div>
+        <div class="mt-4 space-y-4">
+          <div><div class="flex justify-between text-sm"><span class="font-medium">Dedifferentiated liposarcoma</span><span id="pD" class="tabular-nums text-[var(--muted)]">–</span></div><div class="bar mt-2"><div id="barD" style="width:0%"></div></div></div>
+          <div><div class="flex justify-between text-sm"><span class="font-medium">Leiomyosarcoma</span><span id="pL" class="tabular-nums text-[var(--muted)]">–</span></div><div class="bar mt-2"><div id="barL" style="width:0%"></div></div></div>
+        </div>
+        <div class="mt-4 text-xs text-[var(--muted)]">Baseline model, two subtypes. "Is this a sarcoma" and fusion-defined subtypes are in the production scope.</div>
+      </div>
+
+      <div class="panel p-5 hidden" id="orderBox">
+        <div class="label">Recommended first test</div>
+        <div id="orderText" class="mt-2 font-semibold"></div>
+        <div id="orderNote" class="text-sm text-[var(--muted)] mt-1"></div>
+        <div class="flex gap-3 mt-4"><button class="btn btn-primary flex-1">Write to LIS</button><button class="btn flex-1">Disagree</button></div>
+      </div>
+
+      <div class="panel p-4 hidden" id="abstainBox" style="border-color:#f0d9a3;background:#fff9ec"><div class="label" style="color:var(--warn)">Low confidence</div><div class="text-sm mt-1" style="color:#6b4a00">The model would abstain and route this case down the standard pathway.</div></div>
+
+      <div class="panel p-4 text-xs text-[var(--muted)] space-y-1.5">
+        <div class="flex justify-between"><span>Processing</span><span class="text-[var(--ink)]">on device, image never uploaded</span></div>
+        <div class="flex justify-between"><span>Tiles</span><span class="text-[var(--ink)]" id="tileInfo">–</span></div>
+        <div class="flex justify-between"><span>Backbone</span><span class="text-[var(--ink)]">ResNet50 ImageNet · int8</span></div>
+        <div class="flex justify-between"><span>Head</span><span class="text-[var(--ink)]">logistic regression · 60 patients · CV AUC 0.82</span></div>
+        <div class="flex justify-between"><span>Source</span><a class="underline text-[var(--accent)]" href="https://github.com/Iressa8655/ai-ortho-msk-hackathon-2026">repository</a></div>
+      </div>
+    </aside>
+  </main>
 </div>
 <script src="app.js"></script>
 </body></html>

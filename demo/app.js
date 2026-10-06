@@ -82,7 +82,7 @@ function drawTiles(img, tiles) {
   const oy = rect.top - parent.top;
   const ctx = cv.getContext("2d");
   ctx.clearRect(0, 0, cv.width, cv.height);
-  ctx.strokeStyle = "rgba(56,138,221,0.9)";
+  ctx.strokeStyle = "rgba(31,95,191,0.85)";
   ctx.lineWidth = 1;
   tiles.forEach((t) => ctx.strokeRect(ox + t.x * sx, oy + t.y * sy, TILE * sx, TILE * sy));
 }
@@ -92,7 +92,7 @@ function sigmoid(z) { return 1 / (1 + Math.exp(-z)); }
 async function run(img, label) {
   await loadModel();
   const tiles = tileImage(img);
-  $("tileInfo").textContent = `Tiles: ${tiles.length} tissue tiles of ${TILE} px`;
+  $("tileInfo").textContent = `${tiles.length} tissue tiles · ${TILE} px`;
   drawTiles(img, tiles);
   if (tiles.length < 3) { setProgress(1, "too little tissue"); return; }
 
@@ -121,7 +121,7 @@ async function run(img, label) {
   $("pD").textContent = pD.toFixed(2);
   $("pL").textContent = pL.toFixed(2);
   const secs = ((performance.now() - t0) / 1000).toFixed(1);
-  $("timing").textContent = `${secs} s in browser`;
+  $("timing").innerHTML = `<span class="dot" style="background:#1b7f5a"></span>${secs} s on device`;
   setProgress(1, "done");
 
   const top = pD >= 0.5 ? "DDLPS" : "LMS";
@@ -150,7 +150,7 @@ viewer.addEventListener("drop", (e) => { e.preventDefault(); const f = e.dataTra
 
 SAMPLES.forEach(([c, l]) => {
   const b = document.createElement("button");
-  b.className = "bg-slate-700 text-slate-100 text-xs px-3 py-1 rounded hover:bg-slate-600";
+  b.className = "btn"; b.style.background = "rgba(255,255,255,.06)"; b.style.color = "#e6ebf2"; b.style.borderColor = "rgba(255,255,255,.15)";
   b.textContent = `${c} (${l})`;
   b.onclick = () => showImage(`samples/${c}_${l}.jpg`, `${c} · ${l}`, l);
   $("samples").appendChild(b);
