@@ -1,3 +1,14 @@
+---
+title: Sarcoma H&E triage demo
+emoji: 🔬
+colorFrom: blue
+colorTo: gray
+sdk: static
+app_file: index.html
+pinned: false
+license: mit
+---
+
 # Sarcoma H&E triage demo
 
 A browser-only demo of the hackathon baseline model. Upload an H&E overview image, or click one of six real TCGA-SARC slides, and the model runs on your machine and returns a subtype probability in a few seconds.

@@ -134,9 +134,15 @@ async function run(img, label) {
   $("abstainBox").classList.toggle("hidden", conf >= 0.60);
 }
 
-function showImage(src, name, label) {
+async function showImage(src, name, label) {
   const img = $("slide");
   img.onload = () => { img.classList.remove("hidden"); $("dropzone").classList.add("hidden"); $("caseName").textContent = name; run(img, label); };
+  // Bundled samples may be served through a CDN redirect; fetching them as a blob keeps the canvas same-origin.
+  if (!src.startsWith("blob:")) {
+    setProgress(0.02, "loading slide");
+    const blob = await fetch(src).then((r) => r.blob());
+    src = URL.createObjectURL(blob);
+  }
   img.src = src;
 }
 
