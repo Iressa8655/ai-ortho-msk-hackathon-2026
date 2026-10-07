@@ -155,7 +155,7 @@ FIVE_CASES = [
      "UKCA-marked Class IIa decision support that a pathologist confirms. Performance is reported "
      "by laboratory, scanner and population, and the single largest risk, a model that learns "
      "stain colour instead of biology, has a measured gate before any clinical use."),
-     ["B13", "B14", "B15", "B16", "B17", "B18"]),
+     ["B13", "B14", "B15", "B16", "B17"]),
 ]
 
 

@@ -18,7 +18,7 @@ The five parts follow the five-case model used for NHS and HM Treasury business 
 | B. Economic | What the payer saves and what one slide costs to run | 4, 5 |
 | C. Commercial | Who pays, how the money flows, how big the market is, who else sells | 6 to 9 |
 | D. Financial | What three years cost and who funds them | 10 to 12 |
-| E. Management | How it is rolled out, by when, under which regulation, with patients involved how, by whom, and what could go wrong | 13 to 18 |
+| E. Management | By when, under which regulation, with patients involved how, by whom, and what could go wrong | 13 to 17 |
 
 Key performance indicators: misroute rate, days to molecular result, abstention rate and per-site AUC, listed in notebook 02 section 5 and notebook 01 section 9.
 
@@ -43,7 +43,7 @@ External validation: Taiwanese slides from the National Biobank Consortium ([NBC
 
 **How many slides, and which are used for training and which for validation.** This submission: 60 TCGA-SARC patients, one diagnostic slide each, 30 leiomyosarcoma and 30 dedifferentiated liposarcoma, chosen from the 600 diagnostic slides of 254 patients that TCGA-SARC holds. They are used in 5-fold cross-validation, so in each fold 48 slides train the model and 12 are scored, and every patient is scored exactly once by a model that never saw them (Technical part, sections 2 and 5). The production model: all usable TCGA-SARC slides for training, Royal National Orthopaedic Hospital biobank slides for training and internal validation, the 30-hospital, 3-scanner set of one tissue block held out entirely as the robustness test, and the Taiwan NBCT material held out entirely as the external validation set. NBCT currently lists 10 osteosarcoma and 9 chondrosarcoma tissue samples (1 paraffin block and 8 or 9 frozen each) with images and reports; the soft tissue sarcoma count is being requested. Slide counts for the RNOH biobank are confirmed once the access letter is signed, so no number is quoted here.
 
-**Aim.** The first genomic request is the right one for every sarcoma patient. Conservatively, about 2,900 patient-days of waiting removed a year in England and about 20 once-only reimbursed tests protected a year in Taiwan (`technical/02_savings_model.ipynb`). Payer and pricing are in sections 4, 5 and 6.
+**Aim.** The first genomic request is the right one for every sarcoma patient. What that is worth, in patient-days and in protected tests, is calculated in section 4; who pays for it is in section 6.
 
 Efficiency lever: **one H&E slide plus one model call replaces up to three weeks of waiting and one avoidable round of testing per misrouted case.**
 
@@ -69,12 +69,7 @@ The arithmetic is in `technical/02_savings_model.ipynb`, with every input labell
 
 With those conservative assumptions the UK direct laboratory saving is about £70,000 a year and about 2,900 patient-days of waiting are removed. The direct saving is small because the test is cheap. The value is in the days, and in Taiwan in protecting a test that can only be reimbursed once.
 
-Why the payer is the government and not the hospital:
-
-1. In England cancer genomic tests are funded centrally by NHS England, so the avoided repeat and the triage licence sit on the same budget ([BWC genomics](https://bwc.nhs.uk/genomic-testing-in-adult-solid-tumours/)).
-2. The 21-day target is a national performance measure for the Genomic Laboratory Hubs, so a tool that removes second cycles is bought to protect a target.
-3. Taiwan NHI pays once per lifetime, so a wrong first order is an unrecoverable public cost.
-4. Sarcoma is rare and referral is centralised, so one national licence covers the whole pathway.
+**Why the payer is the government, not the hospital.** In England cancer genomic tests are funded centrally by NHS England ([BWC genomics](https://bwc.nhs.uk/genomic-testing-in-adult-solid-tumours/)), and the 21-day panel target is a national performance measure for the hubs, so the avoided repeat, the protected target and the triage licence all sit on one budget. In Taiwan the National Health Insurance Administration pays for sequencing once per lifetime, so a wrong first order is an unrecoverable public cost. Sarcoma is rare and referral is centralised, so one national licence covers the whole pathway. Each buyer and what it gets is listed in section 6.
 
 The two assumptions a pilot must measure first are the misroute rate and the catch rate. The sensitivity plot in the notebook shows every input moves the result proportionally.
 
@@ -109,7 +104,7 @@ One payer in each country, two kinds of user, and one channel. Figure 28 shows t
 | **District and regional hospitals** (both countries) | User | Nothing extra; the score appears in the viewer they already use | They cannot run genomic tests themselves. The score tells them whether to refer, and stops the lump being removed before anyone knows it is a sarcoma. |
 | **Digital pathology marketplaces** (Sectra Amplifier, Leica) | Channel | A listed module, paid by revenue share | Scanner vendors do not buy rare-cancer models outright. They list them and take a share, which is how third-party pathology AI already reaches hospitals ([Sectra Amplifier listing](https://amplifiermarketplace.sectra.com/vendor/panakeia/)). |
 
-**Price against cost.** Compute is under £0.10 a slide (section 5). One repeat genomic panel is about £339 ([2017 NHS figure](http://enseqlopedia.com/2017/03/cost-ngs-cancer-test-nhs-339/)). One unplanned excision followed by re-operation costs the system far more than that; management after an unplanned excision cost 64 per cent more than after a planned one in a Scandinavian series ([EJSO 2020](https://pubmed.ncbi.nlm.nih.gov/32037016/)). A per-slide fee in the tens of pounds therefore pays for itself on the first avoided repeat test, and many times over on the first avoided re-operation. The fee used in the financial projections is £40 a slide; it is an assumption until a hub quotes.
+**Price against cost.** Against the per-slide compute cost in section 5 and the repeat-panel cost in section 4, one unplanned excision followed by re-operation costs the system far more than that; management after an unplanned excision cost 64 per cent more than after a planned one in a Scandinavian series ([EJSO 2020](https://pubmed.ncbi.nlm.nih.gov/32037016/)). A per-slide fee in the tens of pounds therefore pays for itself on the first avoided repeat test, and many times over on the first avoided re-operation. The fee used in the financial projections is £40 a slide; it is an assumption until a hub quotes.
 
 ![Business model: who pays (green, money in), who uses (grey, result out), and the marketplace channel](business/fig_business_model_biorender.jpg)
 
@@ -168,13 +163,13 @@ Figure 31 puts the six stages on one timeline; the table gives the deliverable, 
 | Stage | When | What is delivered | Gate to the next stage | Funding route |
 |---|---|---|---|---|
 | 0. Research prototype | Done, October 2026 | Baseline on open TCGA-SARC data, this submission | AUC above chance with its interval reported (Technical part, section 10) | None, hackathon |
-| 1. Research funding and patient involvement | 2026 Q4 to 2027 Q2 | Cancer Research UK Early Detection and Diagnosis Primer Award applied for first ([CRUK](https://www.cancerresearchuk.org/for-researchers/apply-for-and-manage-your-funding/our-funding-schemes/early-detection-diagnosis-primer-award)), Sarcoma UK and Bone Cancer Research Trust calls in parallel ([Sarcoma UK](https://sarcoma.org.uk/our-research/apply-for-research-funding/), [BCRT](https://www.bcrt.org.uk/research/for-researchers/)); patient advisory panel formed (section 16); RNOH biobank access letter | Award in hand; panel meets; access signed | Research grants, up to about £100,000 |
+| 1. Research funding and patient involvement | 2026 Q4 to 2027 Q2 | Cancer Research UK Early Detection and Diagnosis Primer Award applied for first ([CRUK](https://www.cancerresearchuk.org/for-researchers/apply-for-and-manage-your-funding/our-funding-schemes/early-detection-diagnosis-primer-award)), Sarcoma UK and Bone Cancer Research Trust calls in parallel ([Sarcoma UK](https://sarcoma.org.uk/our-research/apply-for-research-funding/), [BCRT](https://www.bcrt.org.uk/research/for-researchers/)); patient advisory panel formed (section 15); RNOH biobank access letter | Award in hand; panel meets; access signed | Research grants, up to about £100,000 |
 | 2. Retrospective validation | 2027 Q1 to Q4 | Production model on RNOH and TCGA slides; fusion subtypes; robustness on the 30-hospital, 3-scanner set; Taiwan NBCT request through a Taiwan co-investigator; first manuscript | Per-subtype AUC with intervals; drift across laboratories below a pre-registered threshold | Same research grants; NIHR i4i Product Development Award applied for at the end of this stage ([NIHR i4i](https://www.nihr.ac.uk/funding/i4i-product-development-awards-pda-nice-early-use-april-2026/2026400)) |
 | 3. Shadow deployment, early clinical evaluation | 2028 Q1 to Q2 | Model scores live cases at one Genomic Laboratory Hub, output recorded, not shown; pathologist interaction and patient-reported experience measured; DTAC evidence | Misroute rate measured with and without the model; protocol registered before the first case | NIHR i4i; SBRI Healthcare phase 1 for the business case ([SBRI Healthcare](https://sbrihealthcare.co.uk/competitions/sbri-healthcare-cancer-programme)) |
 | 4. Advisory use and Taiwan external validation | 2028 Q3 to Q4 | Score shown to the specialist pathologist at the point of ordering; Taiwan external validation; NICE Evidence Standards Framework economic case | Days to molecular result and repeat-test rate improve on the shadow baseline | Innovate UK Biomedical Catalyst ([Innovate UK](https://grantedai.com/grants/biomedical-catalyst-industry-led-r-d-small-projects-innovate-uk-part-of-ukri-c8835f70)); NSTC smart-healthcare programme for Taiwan ([NSTC](https://www.nstc.gov.tw/folksonomy/detail/fddf1cb6-469b-4c41-a9dc-dc93ba4170db?l=ch)) |
 | 5. Regulated use and monitoring | 2029 | UKCA technical file, Class IIa; first paid licence; per-site drift monitoring under a change-control plan | Approved Body audit passed | Licence revenue; SBRI Healthcare phase 2 |
 
-The quarter-by-quarter deliverables are in section 14, the budget line by line in section 11, and the funders ranked by fit in section 12.
+Roll-out follows the same stages: research use in year 1, shadow deployment at one Genomic Laboratory Hub in year 2, regulated use with a parallel Taiwan pilot in year 3; the clinical stages inside each year, who owns them and how success is measured, are in the Medical part, section 6. The quarter-by-quarter gates are in section 13, the budget line by line in section 11, and the funders ranked by fit in section 12.
 
 ### 11. How much money, line by line
 
@@ -223,24 +218,15 @@ Ranked by fit, with the next deadline where it is published.
 
 Deliverability. Research use, then shadow deployment at one hub, then regulated use as UKCA-marked Class IIa decision support that a pathologist confirms. Performance is reported by laboratory, scanner and population, and the single largest risk, a model that learns stain colour instead of biology, has a measured gate before any clinical use.
 
-### 13. Adoption and roll-out
+### 13. Development timeline, how fast and what is delivered when
 
 
-1. **Year 1, research use.** Validate on the Royal National Orthopaedic Hospital biobank and on the 30-hospital stain-variation dataset released by the UCL sarcoma group, which shows whether the model survives the change of laboratory and scanner ([Chai, Chen and colleagues, J Pathol Clin Res 2026](https://pmc.ncbi.nlm.nih.gov/articles/PMC12932120/)).
-2. **Year 2, shadow deployment** at one Genomic Laboratory Hub, model output recorded but not acted on, measuring how often it would have changed the ordered test.
-3. **Year 3, regulated deployment** as a UKCA-marked decision support tool, and a parallel Taiwan pilot at one medical centre with NHI Administration as the reimbursement partner.
-
-The clinical stages inside each year, with who owns each and how success is measured, are in the Medical part, section 6.
-
-### 14. Development timeline, how fast and what is delivered when
-
-
-Three years from research prototype to first paid licence. Each quarter has one deliverable that can be checked.
+Section 10 gives the stages and who pays for each; this table is the one checkable deliverable per quarter, so a funder can see on any date whether the plan is on track.
 
 | Quarter | Deliverable | Gate to pass |
 |---|---|---|
 | 2026 Q4 | Hackathon baseline on open data (this submission); **first grant application submitted, Cancer Research UK Early Detection and Diagnosis Primer Award** | AUC above chance on open data, done (0.82); primer application submitted |
-| 2027 Q1 | Ethics amendment at the Royal National Orthopaedic Hospital biobank; TCGA full-resolution pipeline with a pathology foundation model | Access letter signed; feature extraction runs on 261 TCGA cases |
+| 2027 Q1 | Ethics amendment at the Royal National Orthopaedic Hospital biobank; TCGA full-resolution pipeline with a pathology foundation model | Access letter signed; feature extraction runs on all 254 TCGA-SARC patients |
 | 2027 Q2 | First fusion-subtype model (Ewing, synovial, myxoid liposarcoma) on RNOH plus TCGA | Per-subtype AUC reported with confidence intervals |
 | 2027 Q3 | Robustness gate on the 30-hospital, 3-scanner dataset; stain normalisation on and off | Prediction drift across laboratories below a pre-registered threshold |
 | 2027 Q4 | Manuscript submitted; Taiwan cohort request through the National Biobank Consortium; shadow-deployment protocol registered | Protocol on a public registry before first case |
@@ -249,7 +235,7 @@ Three years from research prototype to first paid licence. Each quarter has one 
 | 2029 Q1 to Q2 | Approved Body audit; MHRA registration; TFDA submission | Certificate issued |
 | 2029 Q3 onward | First paid licence to a hub; advisory-mode deployment | Contract signed |
 
-### 15. Ethics and regulation, the path we will follow
+### 14. Ethics and regulation, the path we will follow
 
 
 **What the tool is in law.** Software that triages patient data to influence a diagnostic decision is a medical device in the UK, UKCA-marked under the Medical Devices Regulations 2002, with a UK Approved Body audit for Class IIa and above ([MHRA view, clinician's guide](https://www.iatrox.com/blog/is-this-ai-tool-a-medical-device-uk-mhra-guide)). We plan for Class IIa, decision support that a pathologist confirms, never an autonomous result.
@@ -263,26 +249,20 @@ Three years from research prototype to first paid licence. Each quarter has one 
 5. **Shadow deployment** at one Genomic Laboratory Hub, output recorded, not acted on, with a prospective protocol registered before the first case.
 6. **UKCA technical file** and Approved Body audit, then a Taiwan TFDA submission in parallel using the same clinical evidence.
 
-**Ethics commitments written into the design.**
+**Ethics commitments written into the design** are stated once each where they belong: the pathologist-first workflow and the abstain option in the Medical part, section 3; performance reported by laboratory, scanner, sex, age and population, and data that never crosses a border, in the Medical part, section 5; patient and public involvement before shadow deployment in section 15.
 
-- Performance reported by staining laboratory, scanner, sex, age group and ancestry, never as one pooled number. The 30-hospital dataset exists to make the laboratory split possible.
-- A pathologist sees the H&E first and the model second, so automation bias is limited by workflow, not by a warning label.
-- The model can abstain. Low-confidence cases are routed to the full panel, not to a guess.
-- No patient-level data crosses a border. The Taiwan arm trains and validates inside Taiwan.
-- Patient and public involvement before the shadow deployment, with the sarcoma patient charity as the first contact.
-
-### 16. Patient and public involvement
+### 15. Patient and public involvement
 
 Patients are involved from the first year, not after the device exists.
 
 1. **A patient advisory panel in year 1**, formed with Sarcoma UK and the Bone Cancer Research Trust, both of which fund and support patient involvement in sarcoma research ([Sarcoma UK, Improving Sarcoma Diagnosis](https://sarcoma.org.uk/our-research/apply-for-research-funding/improving-sarcoma-diagnosis-funding-round/), [BCRT for researchers](https://www.bcrt.org.uk/research/for-researchers/)). The panel co-writes the patient-facing explanation of what the tool does and does not do: it does not diagnose, it makes the first genomic order the right one.
 2. **What patients feel during the wait is measured, not assumed.** During the year 2 shadow deployment the panel helps design a short patient-reported experience measure on the wait between biopsy and molecular result, so that the days saved in section 4 can be paired with what those days mean to a patient.
 3. **The panel reads the fairness reporting.** Performance by sex, age, laboratory, scanner and population (Medical part, section 5) is written up in a plain public summary that the panel approves before it is published.
-4. **The panel sits on the advisory board** named in section 17, so the patient voice is in the room when the roll-out decisions in section 13 are made.
+4. **The panel sits on the advisory board** named in section 16, so the patient voice is in the room when the roll-out decisions in section 10 are made.
 
 This is the patient and public involvement that the NHS Digital Technology Assessment Criteria and the NICE Evidence Standards Framework expect for a tool of this class ([NICE ESF](https://www.nice.org.uk/corporate/ecd7/resources/evidence-standards-framework-for-digital-health-technologies-pdf-1124017457605)). The partnerships with the two charities are planned, not yet agreed.
 
-### 17. Team, roles needed and who is in place
+### 16. Team, roles needed and who is in place
 
 
 | Role | Needed for | Status |
@@ -297,17 +277,13 @@ This is the patient and public involvement that the NHS Digital Technology Asses
 
 Contributions for this submission are recorded in `group-member-contact/README.md`.
 
-I-Han Cheng, team lead and sole member. Problem definition, data selection, model design, both notebooks, clinical implementation strategy, business case. Partners approached for the production phase, not authors of this submission: UCL sarcoma pathology group.
-
-The clinical implementation strategy and the business case follow on the next pages.
-
-### 18. Risks and mitigations
+### 17. Risks and mitigations
 
 
 | Risk | Likelihood | Mitigation |
 |---|---|---|
-| Model learns stain colour, not biology, and fails at new sites | High, the published sarcoma foundation-model study shows accuracy falling from 0.94 to as low as 0.47 across institutions ([Chai and colleagues 2026](https://pmc.ncbi.nlm.nih.gov/articles/PMC12932120/)) | Stain-variation dataset as a gate, stain normalisation, per-site reporting, abstention |
-| Too few open slides for fusion subtypes | Certain today | Start with the two common subtypes, add RNOH and Taiwan biobank material under ethics |
+| Model learns stain colour, not biology, and fails at new sites | High, the published sarcoma foundation-model study shows accuracy falling from 0.94 to as low as 0.47 across institutions ([Chai and colleagues 2026](https://pmc.ncbi.nlm.nih.gov/articles/PMC12932120/)) | Stain-variation dataset as a gate; Macenko normalisation, which already gives the highest point estimate on the baseline (Technical part, section 10); per-site reporting; abstention |
+| Too few open slides for fusion subtypes | Certain today | Start with the common subtypes (two, then four, Technical part, section 10), add RNOH and Taiwan biobank material under ethics |
 | Regulatory timeline slips | Medium | Enter as Class IIa decision support, apply to the MHRA AI Airlock phase 3 from April 2026 ([GOV.UK AI Airlock](https://www.gov.uk/government/collections/ai-airlock-the-regulatory-sandbox-for-aiamd)) |
 | Hubs do not adopt | Medium | Shadow deployment with a measured misroute rate before any purchase decision |
 | Reimbursement not created in Taiwan | Medium | Pilot under NSTC smart-healthcare funding first, NHI code later |
