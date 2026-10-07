@@ -134,9 +134,28 @@ async function run(img, label) {
   $("abstainBox").classList.toggle("hidden", conf >= 0.60);
 }
 
+let current = null;   // { img, label } waiting for Start analysis
+
+function resetPanel() {
+  ["barD", "barL"].forEach((id) => { $(id).style.width = "0%"; });
+  $("pD").textContent = "–"; $("pL").textContent = "–";
+  $("orderBox").classList.add("hidden"); $("abstainBox").classList.add("hidden");
+  $("tileInfo").textContent = "–";
+  $("timing").innerHTML = '<span class="dot" style="background:#9aa7ba"></span>idle';
+  const cv = $("tiles"); cv.getContext("2d").clearRect(0, 0, cv.width, cv.height);
+}
+
 async function showImage(src, name, label) {
   const img = $("slide");
-  img.onload = () => { img.classList.remove("hidden"); $("dropzone").classList.add("hidden"); $("caseName").textContent = name; run(img, label); };
+  img.onload = () => {
+    img.classList.remove("hidden"); $("dropzone").classList.add("hidden"); $("caseName").textContent = name;
+    current = { img, label };
+    resetPanel();
+    setProgress(0, "slide loaded, press Start analysis");
+    const b = $("startBtn"); b.disabled = false; b.style.opacity = "1";
+    $("changeBtn").classList.remove("hidden");
+    if (new URLSearchParams(location.search).get("auto") === "1") startAnalysis();
+  };
   // Bundled samples may be served through a CDN redirect; fetching them as a blob keeps the canvas same-origin.
   if (!src.startsWith("blob:")) {
     setProgress(0.02, "loading slide");
@@ -145,6 +164,19 @@ async function showImage(src, name, label) {
   }
   img.src = src;
 }
+
+async function startAnalysis() {
+  if (!current) return;
+  const b = $("startBtn"); b.disabled = true; b.style.opacity = ".5"; b.textContent = "Analysing…";
+  try { await run(current.img, current.label); }
+  finally { b.textContent = "Run again"; b.disabled = false; b.style.opacity = "1"; }
+}
+$("startBtn").addEventListener("click", startAnalysis);
+$("changeBtn").addEventListener("click", () => {
+  current = null; $("slide").classList.add("hidden"); $("dropzone").classList.remove("hidden");
+  $("caseName").textContent = "New case"; resetPanel(); setProgress(0, "waiting for a slide");
+  const b = $("startBtn"); b.disabled = true; b.style.opacity = ".5"; b.textContent = "Start analysis"; $("changeBtn").classList.add("hidden");
+});
 
 $("file").addEventListener("change", (e) => {
   const f = e.target.files[0];

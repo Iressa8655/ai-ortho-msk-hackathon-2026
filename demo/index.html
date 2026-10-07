@@ -45,6 +45,7 @@
     <aside class="flex flex-col gap-4">
       <div class="panel p-5">
         <div class="flex items-center justify-between"><div><div class="label">AI triage</div><div class="text-lg font-semibold mt-1">Subtype assessment</div></div><span class="chip" id="timing"><span class="dot" style="background:#9aa7ba"></span>idle</span></div>
+        <div class="flex gap-3 mt-4"><button id="startBtn" class="btn btn-primary flex-1" disabled style="opacity:.5">Start analysis</button><button id="changeBtn" class="btn hidden">Change slide</button></div>
         <div class="mt-4"><div class="flex items-center justify-between text-xs text-[var(--muted)]"><span>Analysis</span><span id="progressText">waiting for a slide</span></div><div class="bar mt-2"><div id="progress" style="width:0%"></div></div></div>
       </div>
 
