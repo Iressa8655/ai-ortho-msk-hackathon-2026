@@ -116,7 +116,7 @@ print("diagnostic slides:", len(slides), " patients:", slides["case"].nunique())
 slides["diagnosis"].value_counts().head(8)
 """)
 md(r"""
-**Output.** About 600 slides from 261 patients. Leiomyosarcoma and
+**Output.** About 600 slides from 254 patients. Leiomyosarcoma and
 dedifferentiated liposarcoma are the two largest well-defined groups, so they
 become the two classes.
 """)
