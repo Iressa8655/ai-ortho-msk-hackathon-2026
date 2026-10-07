@@ -11,6 +11,8 @@ license: mit
 
 # Sarcoma H&E triage demo
 
+**Live:** <https://iressa-sarcoma-triage-demo.static.hf.space/> (Hugging Face Space, runs in your browser).
+
 A browser-only demo of the hackathon baseline model. Upload an H&E overview image, or click one of six real TCGA-SARC slides, and the model runs on your machine and returns a subtype probability in a few seconds.
 
 What runs: the exact pipeline of `technical/01_sarcoma_hne_triage.ipynb`. The overview is cut into 224 px tiles, tiles with at least 40 per cent tissue go through a frozen ImageNet ResNet50 (exported to ONNX, int8), tile features are averaged, and a logistic regression head fitted on the 60 TCGA-SARC patients gives p(dedifferentiated liposarcoma) versus leiomyosarcoma. The int8 export shifts probabilities by a few hundredths compared with the notebook.

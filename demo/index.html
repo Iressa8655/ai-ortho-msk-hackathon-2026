@@ -21,14 +21,14 @@
 </head>
 <body>
 <div class="min-h-screen flex flex-col">
-  <header class="h-14 bg-[var(--navy)] text-white flex items-center px-6 gap-8">
+  <header class="min-h-14 bg-[var(--navy)] text-white flex flex-wrap items-center px-4 md:px-6 gap-x-8 gap-y-2 py-2">
     <div class="flex items-center gap-2"><div class="w-7 h-7 rounded-md bg-white/10 flex items-center justify-center"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M8 12h8M12 8v8"/></svg></div><span class="font-semibold tracking-tight">SarcomaTriage</span><span class="text-white/50 text-sm">H&amp;E decision support</span></div>
-    <nav class="flex gap-6 text-sm text-white/60"><span>Worklist</span><span class="text-white border-b-2 border-white/80 pb-0.5" id="caseName">New case</span><span>Reports</span><span>Audit</span></nav>
-    <div class="ml-auto flex items-center gap-3 text-sm text-white/70"><span class="chip" style="background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.15);color:#fff"><span class="dot" style="background:#f5b942"></span>Research prototype · not for clinical use</span><span>Dr A. Patel</span></div>
+    <nav class="hidden md:flex gap-6 text-sm text-white/60"><span>Worklist</span><span class="text-white border-b-2 border-white/80 pb-0.5" id="caseName">New case</span><span>Reports</span><span>Audit</span></nav>
+    <div class="ml-auto flex items-center gap-3 text-sm text-white/70 whitespace-nowrap"><span class="chip" style="background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.15);color:#fff"><span class="dot" style="background:#f5b942"></span><span class="hidden sm:inline">Research prototype · </span>not for clinical use</span><span>Dr A. Patel</span></div>
   </header>
 
-  <main class="flex-1 grid" style="grid-template-columns: 1fr 440px; gap:16px; padding:16px">
-    <section class="panel relative overflow-hidden flex items-center justify-center" id="viewer" style="min-height:720px;background:#0b0f16">
+  <main class="flex-1 grid grid-cols-1 lg:grid-cols-[1fr_440px] gap-4 p-4">
+    <section class="panel relative overflow-hidden flex items-center justify-center min-h-[420px] lg:min-h-[720px]" id="viewer" style="background:#0b0f16">
       <img id="slide" class="max-w-full max-h-full hidden" alt="slide">
       <canvas id="tiles" class="absolute inset-0 pointer-events-none"></canvas>
       <div id="dropzone" class="text-center p-12">

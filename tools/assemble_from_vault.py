@@ -168,10 +168,7 @@ def build_zip(pdf):
         "business/sba_business_plan.md",
         "group-member-contact/README.md",
     ]
-    for sub in ("", "model", "samples"):
-        folder = REPO / "demo" / sub
-        files += [f"demo/{sub + '/' if sub else ''}{f}" for f in os.listdir(folder)
-                  if (folder / f).is_file() and not f.startswith("_")]
+    files += ["demo/README.md"]  # demo itself is live on Hugging Face; README carries the URL
     out = REPO / "submission_attachments_v2.zip"
     with zipfile.ZipFile(out, "w", zipfile.ZIP_DEFLATED) as archive:
         archive.write(pdf, "submission_document.pdf")
