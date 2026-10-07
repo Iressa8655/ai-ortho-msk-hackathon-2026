@@ -1,8 +1,8 @@
 ---
 title: "H&E-first molecular triage for sarcoma: a reproducible proof of concept on open data"
-subtitle: "AI in Orthopaedics and MSK 2026 Hackathon, submission document"
+subtitle: "AI in Orthopaedics and MSK 2026 Hackathon submission. Executive summary, medical part, technical part, business case"
 author: "I-Han Cheng, MD, DPhil student, NDORMS, University of Oxford (team lead, sole member)"
-date: "1 October 2026"
+date: "8 October 2026"
 geometry: margin=2cm
 fontsize: 10pt
 colorlinks: true
