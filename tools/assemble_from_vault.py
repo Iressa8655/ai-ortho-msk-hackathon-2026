@@ -130,32 +130,32 @@ FIVE_CASES = [
      "decision support that reads the H&E slide already in hand and makes the first "
      "genomic order the right one. This part states the problem, the solution, and what the "
      "submitted prototype does and does not prove.",
-     ["B10", "B01", "B02", "B07"]),
+     ["B01", "B02", "B03", "B04"]),
     ("Part B. Economic case: what it saves and what it costs to run",
      "Value for money. The direct laboratory saving is modest because the test is cheap; the "
      "value is in patient-days of waiting removed and operations planned with the subtype known. "
      "Inference cost per slide is negligible, so the cost of the service is validation, "
      "regulation and support. Every input is labelled sourced or assumption and can be changed "
      "in the savings notebook.",
-     ["B08", "B13"]),
+     ["B05", "B06"]),
     ("Part C. Commercial case: who buys, how they pay, and who else sells",
      "The buyer and the deal. One payer in each country, NHS England through the Genomic "
      "Laboratory Hubs and the National Health Insurance Administration in Taiwan, and two kinds "
      "of user who pay nothing extra. The product reaches them inside the digital pathology "
      "viewer they already use. No company sells an H&E-to-fusion product for sarcoma today.",
-     ["B03", "B04", "B11", "B12"]),
+     ["B07", "B08", "B09", "B10"]),
     ("Part D. Financial case: budget and funders",
      "Affordability. Three years from prototype to first licence, grant-funded so that the "
      "first contract is signed with evidence rather than a price guess. The budget is itemised "
      "line by line and each line is marked sourced or assumption. The first application is the "
      "Cancer Research UK Early Detection and Diagnosis Primer Award.",
-     ["B16", "B18", "B19"]),
+     ["B11", "B12", "B13"]),
     ("Part E. Management case: delivery, regulation, team and risks",
      "Deliverability. Research use, then shadow deployment at one hub, then regulated use as "
      "UKCA-marked Class IIa decision support that a pathologist confirms. Performance is reported "
      "by laboratory, scanner and population, and the single largest risk, a model that learns "
      "stain colour instead of biology, has a measured gate before any clinical use.",
-     ["B05", "B17", "B09", "B06", "B14", "B15"]),
+     ["B14", "B15", "B16", "B17", "B18", "B19"]),
 ]
 
 
@@ -167,12 +167,7 @@ def page_for(key):
 
 
 # 內文裡提到的節號是 vault 頁的舊號，組 PDF 時換成新號。只列有出現的。
-REF_FIXES = [
-    ("B02", "sections 3, 8 and 13", "sections 5, 6 and 7"),
-    ("B03", "(section 13)", "(section 6)"),
-    ("B06", "section 9 below", "section 16 below"),
-    ("B13", "| §8 |", "| §5 |"),
-]
+REF_FIXES = []  # 2026-10-07 B 頁已改名重編，不再需要
 
 
 def assemble_business_case():
@@ -187,7 +182,7 @@ def assemble_business_case():
         for key in keys:
             number += 1
             english = extract_english(page_for(key))
-            # 「## 13. Title」→「### 6. Title」，號碼照 A–E 的順序重編
+            # 「## 6. Title」→「### 6. Title」，頁名已經照 PDF 編號
             english = re.sub(r"^## \d+\. ", f"### {number}. ", english, count=1, flags=re.M)
             for page, old, new in REF_FIXES:
                 if page == key:
