@@ -22,9 +22,8 @@ TARGETS = {
     "T": REPO / "technical" / "technical_report.md",
     "C": REPO / "medicine" / "clinical_implementation.md",
     "B": REPO / "business" / "business_case.md",
-    "P": REPO / "business" / "sba_business_plan.md",
 }
-MARKERS = {"S": "# ", "T": "## ", "C": "## ", "B": "## ", "P": "## "}
+MARKERS = {"S": "# ", "T": "## ", "C": "## ", "B": "## "}
 
 
 def read_head(path, marker):
@@ -121,16 +120,57 @@ def number_figures(texts):
     return [re.sub(r"\{fig:([^}]+)\}", repl, text) for text in texts]
 
 
+# Business case 照 HM Treasury Green Book 的五格排，每格一個 Part 標題，
+# 節號不改（內文的 section N 互相參照才不會壞），節標題降成 ###。
+FIVE_CASES = [
+    ("Part A. Strategic case: the problem, the solution, and why now",
+     ["B10", "B01", "B02", "B07", "B06"]),
+    ("Part B. Economic case: what it saves and what it costs to run",
+     ["B08", "B13"]),
+    ("Part C. Commercial case: who buys, how they pay, and who else sells",
+     ["B03", "B04", "B11", "B12"]),
+    ("Part D. Financial case: budget and funders",
+     ["B16", "B18", "B19"]),
+    ("Part E. Management case: delivery, regulation, team and risks",
+     ["B05", "B17", "B09", "B14", "B15"]),
+]
+
+
+def page_for(key):
+    hits = sorted(VAULT.glob(f"{key} *.md"))
+    if not hits:
+        raise SystemExit(f"missing page for {key}")
+    return hits[0]
+
+
+def assemble_business_case():
+    parts = []
+    listed = {k for _, keys in FIVE_CASES for k in keys}
+    unlisted = [p.name for p in VAULT.glob("B[0-9][0-9] *.md") if p.name[:3] not in listed]
+    if unlisted:
+        print("warning: B pages not placed in any case:", unlisted)
+    for title, keys in FIVE_CASES:
+        parts.append(f"## {title}\n\n")
+        for key in keys:
+            english = extract_english(page_for(key))
+            english = re.sub(r"^## ", "### ", english, count=1, flags=re.M)
+            parts.append(english)
+    return "".join(parts)
+
+
 def assemble():
     assembled = {}
     for prefix, target in TARGETS.items():
         pages = sorted(VAULT.glob(f"{prefix}[0-9][0-9] *.md"))
         if not pages:
             continue
-        body = "".join(extract_english(p) for p in pages)
+        if prefix == "B":
+            body = assemble_business_case()
+        else:
+            body = "".join(extract_english(p) for p in pages)
         assembled[prefix] = read_head(target, MARKERS[prefix]) + body
         print(f"{target.relative_to(REPO)}: {len(pages)} sections")
-    # 圖號照 pandoc 讀檔順序 S → T → C → B → P
+    # 圖號照 pandoc 讀檔順序 S → T → C → B
     keys = [k for k in TARGETS if k in assembled]
     numbered = number_figures([assembled[k] for k in keys])
     for key, text in zip(keys, numbered):
@@ -143,7 +183,7 @@ def build_pdf():
     out = REPO / "submission_document_v2.pdf"
     cmd = [
         PANDOC, str(TARGETS["S"]), str(TARGETS["T"]), str(TARGETS["C"]),
-        str(TARGETS["B"]), str(TARGETS["P"]),
+        str(TARGETS["B"]),
         "-o", str(out), "--pdf-engine=xelatex",
         "-V", "mainfont=Segoe UI", "-V", "geometry:margin=2cm", "--toc",
     ]
@@ -167,7 +207,6 @@ def build_zip(pdf):
         "technical/data/cohort_with_predictions.csv",
         "medicine/clinical_implementation.md",
         "business/business_case.md",
-        "business/sba_business_plan.md",
         "group-member-contact/README.md",
     ]
     files += ["demo/README.md"]  # demo itself is live on Hugging Face; README carries the URL
