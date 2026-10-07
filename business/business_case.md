@@ -118,7 +118,7 @@ One payer in each country, two kinds of user, and one channel. Figure 22 shows t
 
 Figure 23 shows who pays whom along the diagnostic pathway. Grey arrows carry the sample and the report, green arrows carry money. The source file is `business/payment_pathway_biorender.jpg` ([editable BioRender version](https://app.biorender.com/illustrations/639f48d72cfd34c4f14311b2)). 
 
-Flow: patient biopsy at a local hospital → H&E slide scanned → model call (charged per slide to the laboratory or hub) → triage report → correct genomic test ordered once → result reaches the sarcoma multidisciplinary team.
+The flow in words: the patient is biopsied at a local hospital; the H&E slide is scanned; the model is called, and that call is what is charged per slide to the laboratory or hub; the triage report names the panel; the correct genomic test is ordered once; the result reaches the sarcoma multidisciplinary team.
 
 ![Payment pathway: sample and report in grey, money in green](business/payment_pathway_biorender.jpg)
 
@@ -126,7 +126,7 @@ Flow: patient biopsy at a local hospital → H&E slide scanned → model call (c
 
 
 | Market | Cases per year | Source |
-|---|---|---|
+| --------------------------- | ------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | UK, all sarcoma | about 5,900 (700 bone, 5,200 soft tissue) | [Sarcoma UK statistics](https://sarcoma.org.uk/about-us/stay-connected/sarcoma-incidence-and-survival-statistics-in-the-uk/) |
 | Taiwan, primary bone cancer | 1,238 cases in 2003 to 2010, about 155 a year, age-standardised rate 6.70 per million | [Hung and colleagues, Ann Surg Oncol 2014](https://pmc.ncbi.nlm.nih.gov/articles/PMC4082651/) |
 | Taiwan, soft tissue sarcoma | 3,843 cases in 2003 to 2011, about 430 a year, age-standardised rate 1.63 per 100,000 | [Medicine (Baltimore) 2015, Taiwan Cancer Registry](https://journals.lww.com/md-journal/fulltext/2015/10020/incidences_of_primary_soft_tissue_sarcoma.18.aspx) |
@@ -135,11 +135,11 @@ The Taiwan figures are a decade old and are used as a floor. The current annual 
 
 ### 9. Competition
 
-
-Nobody markets an H&E-to-fusion-gene product for sarcoma today. The category exists in other cancers, which proves the regulatory route and the buyer, and leaves sarcoma open.
+Bottom line :
+**Nobody markets an H&E-to-fusion-gene product for sarcoma today. The category exists in other cancers, which proves the regulatory route and the buyer, and leaves sarcoma open.**
 
 | Company | Product | What it predicts from H&E | Regulatory status | Relevance |
-|---|---|---|---|---|
+| ---------------------- | --------------------------------------- | ---------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------- |
 | Owkin | MSIntuit CRC | Microsatellite instability in colorectal cancer, rules out about half of MSS patients at 96 per cent sensitivity | CE-marked ([EurekAlert, Nature Communications validation](https://www.eurekalert.org/news-releases/1007027)) | Closest business model, a pre-screen that reduces molecular tests |
 | Panakeia | PANProfiler Breast | ER, PR, HER2 status | UKCA and CE ([Panakeia](https://www.panakeia.ai/post/ai-breast-cancer-diagnosis-technology-approved-for-uk-and-eu)) | UK company, same regulatory path we plan |
 | Paige | Prostate Biomarker Suite, Paige Predict | AR amplification, TP53, RB1, PTEN in prostate; 123 biomarkers across 16 tumour types | CE-IVD and UKCA for prostate ([Business Wire 2022](https://www.businesswire.com/news/home/20220512005278/en/Paige-AI-Solution-for-Prostate-Cancer-Biomarker-Detection-Receives-CE-IVD-and-UKCA-Marks)); Predict launched under Tempus ([Stock Titan](https://www.stocktitan.net/news/TEM/tempus-announces-the-launch-of-paige-hh82yy4lw2gd.html)) | Largest player, no sarcoma model listed |
@@ -155,16 +155,20 @@ Academic literature on sarcoma AI is prognosis-first, not fusion-first, for exam
 
 Affordability. Three years from prototype to first licence, grant-funded so that the first contract is signed with evidence rather than a price guess. The budget is itemised line by line and each line is marked sourced or assumption. The first application is the Cancer Research UK Early Detection and Diagnosis Primer Award.
 
-### 10. Milestones and funding
+### 10. Milestones and funding, by stage
 
+The milestones follow the stages that early clinical evaluation of an AI tool is expected to pass through, from a research prototype to monitored use, as set out in the DECIDE-AI guideline for early-stage clinical evaluation of decision support ([Vasey and colleagues, Nature Medicine 2022](https://doi.org/10.1038/s41591-022-01772-9)) and reported throughout against TRIPOD+AI ([Collins and colleagues, BMJ 2024](https://doi.org/10.1136/bmj-2023-078378)). Research funding comes first and is small; the larger product-development award is applied for only once the retrospective evidence exists.
 
-| Year | Milestone | Funding route | Amount and source |
-|---|---|---|---|
-| 1, 2026 to 2027 | Production model on RNOH and TCGA slides, robustness on the 30-hospital set, first manuscript | NIHR i4i Product Development Award | No upper limit, typical £0.5 to £1.5 million ([NIHR i4i PDA](https://www.nihr.ac.uk/funding/i4i-product-development-awards-pda-nice-early-use-april-2026/2026400)); next round October 2026 ([RedKnight note](https://redknightconsultancy.co.uk/2026/09/09/nihr-i4i-product-development-awards-open-in-october-2026/)) |
-| 1, parallel | Feasibility and business case | SBRI Healthcare phase 1 | Up to £100,000 for six months ([SBRI Healthcare cancer programme](https://sbrihealthcare.co.uk/competitions/sbri-healthcare-cancer-programme)) |
-| 2, 2027 to 2028 | Shadow deployment at one hub, DTAC, NICE ESF evidence | Innovate UK Biomedical Catalyst | £25 million pool for industry-led small projects ([Innovate UK](https://grantedai.com/grants/biomedical-catalyst-industry-led-r-d-small-projects-innovate-uk-part-of-ukri-c8835f70)) |
-| 2, parallel | Taiwan validation cohort | NSTC smart-healthcare innovation programme 2024 to 2027 ([NSTC](https://www.nstc.gov.tw/folksonomy/detail/fddf1cb6-469b-4c41-a9dc-dc93ba4170db?l=ch)) | Submission under the TFDA AI/ML software guidance ([TFDA guidance](https://www.fda.gov.tw/tc/includes/GetFile.ashx?id=f637354438894278725)) |
-| 3, 2028 to 2029 | UKCA technical file, first paid licence | Licence revenue, SBRI phase 2 | |
+| Stage | When | What is delivered | Gate to the next stage | Funding route |
+|---|---|---|---|---|
+| 0. Research prototype | Done, October 2026 | Baseline on open TCGA-SARC data, this submission | AUC above chance with its interval reported (Technical part, section 10) | None, hackathon |
+| 1. Research funding and patient involvement | 2026 Q4 to 2027 Q2 | Cancer Research UK Early Detection and Diagnosis Primer Award applied for first ([CRUK](https://www.cancerresearchuk.org/for-researchers/apply-for-and-manage-your-funding/our-funding-schemes/early-detection-diagnosis-primer-award)), Sarcoma UK and Bone Cancer Research Trust calls in parallel ([Sarcoma UK](https://sarcoma.org.uk/our-research/apply-for-research-funding/), [BCRT](https://www.bcrt.org.uk/research/for-researchers/)); patient advisory panel formed (section 16); RNOH biobank access letter | Award in hand; panel meets; access signed | Research grants, up to about £100,000 |
+| 2. Retrospective validation | 2027 Q1 to Q4 | Production model on RNOH and TCGA slides; fusion subtypes; robustness on the 30-hospital, 3-scanner set; Taiwan NBCT request through a Taiwan co-investigator; first manuscript | Per-subtype AUC with intervals; drift across laboratories below a pre-registered threshold | Same research grants; NIHR i4i Product Development Award applied for at the end of this stage ([NIHR i4i](https://www.nihr.ac.uk/funding/i4i-product-development-awards-pda-nice-early-use-april-2026/2026400)) |
+| 3. Shadow deployment, early clinical evaluation | 2028 Q1 to Q2 | Model scores live cases at one Genomic Laboratory Hub, output recorded, not shown; pathologist interaction and patient-reported experience measured; DTAC evidence | Misroute rate measured with and without the model; protocol registered before the first case | NIHR i4i; SBRI Healthcare phase 1 for the business case ([SBRI Healthcare](https://sbrihealthcare.co.uk/competitions/sbri-healthcare-cancer-programme)) |
+| 4. Advisory use and Taiwan external validation | 2028 Q3 to Q4 | Score shown to the specialist pathologist at the point of ordering; Taiwan external validation; NICE Evidence Standards Framework economic case | Days to molecular result and repeat-test rate improve on the shadow baseline | Innovate UK Biomedical Catalyst ([Innovate UK](https://grantedai.com/grants/biomedical-catalyst-industry-led-r-d-small-projects-innovate-uk-part-of-ukri-c8835f70)); NSTC smart-healthcare programme for Taiwan ([NSTC](https://www.nstc.gov.tw/folksonomy/detail/fddf1cb6-469b-4c41-a9dc-dc93ba4170db?l=ch)) |
+| 5. Regulated use and monitoring | 2029 | UKCA technical file, Class IIa; first paid licence; per-site drift monitoring under a change-control plan | Approved Body audit passed | Licence revenue; SBRI Healthcare phase 2 |
+
+The quarter-by-quarter deliverables are in section 14, the budget line by line in section 11, and the funders ranked by fit in section 12.
 
 ### 11. How much money, line by line
 
@@ -172,7 +176,7 @@ Affordability. Three years from prototype to first licence, grant-funded so that
 Three-year budget. Sourced lines carry a link; the rest are labelled assumptions and should be replaced by quotes before any grant is submitted.
 
 | Line | Year 1 | Year 2 | Year 3 | Basis |
-|---|---|---|---|---|
+| ---------------------------------------------- | ------------ | ------------ | ------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Machine learning researcher, 1.0 FTE | £60,000 | £62,000 | £64,000 | Oxford research grade 7, £39,424 to £47,779 salary ([Oxford salary scales](https://www.ox.ac.uk/about/jobs/working-here/pay-and-reward/salary-scales)), plus about 30 per cent on-costs, assumption |
 | Clinical lead time, 0.2 FTE | £15,000 | £15,000 | £15,000 | Assumption, buy-out of clinical sessions |
 | Pathology annotation and slide scanning | £20,000 | £10,000 | £5,000 | Assumption, scanning and pathologist time at RNOH |
