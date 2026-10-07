@@ -121,7 +121,7 @@ Moving from the prototype to the production model changes the data and the model
 
 ## 10. Robustness checks
 
-One number, AUC 0.82 on 60 patients, invites eight questions. Notebook `technical/03_robustness_checks.ipynb` answers the first six with the cached features from notebook 01 and runs in minutes on a CPU; notebook `05_more_data_checks.ipynb` downloads 59 more overviews for the last two. All numbers below are from that run (seed 42).
+One number, AUC 0.82 on 60 patients, invites eight questions about the data and five about the modelling. Notebook `technical/03_robustness_checks.ipynb` answers the first six with the cached features from notebook 01 and runs in minutes on a CPU; notebook `05_more_data_checks.ipynb` downloads 59 more overviews for the last two. All numbers below are from that run (seed 42).
 
 | Question | Method | Result |
 |---|---|---|
@@ -156,6 +156,29 @@ One number, AUC 0.82 on 60 patients, invites eight questions. Notebook `technica
 
 **A third class.** With UPS added, a diagnosis of exclusion with no defining molecular event, the three-class model keeps a macro one-versus-rest AUC of 0.83 on 90 patients and two thirds of patients are called correctly at the top probability (Figure 20). The overview carries subtype signal beyond the easiest pair. Fusion-defined subtypes remain out of reach on open data because too few slides exist, which is the reason for the RNOH and Taiwan cohorts.
 
+**Modelling variants on the same 60 overviews.** Notebook `06_second_round_checks.ipynb` asks whether the modelling choices were the right ones. Every row is out-of-fold on the same folds with a bootstrap interval (Figure 21).
+
+| Variant | AUC | 95 per cent interval | Reading |
+|---|---|---|---|
+| Mean pool + logistic regression (baseline) | 0.82 | 0.70 to 0.92 | reference |
+| k-nearest neighbours, k = 7 | 0.82 | 0.70 to 0.92 | same |
+| Random forest, 500 trees | 0.76 | 0.62 to 0.88 | lower |
+| Linear SVM | 0.75 | 0.61 to 0.87 | lower |
+| RBF SVM | 0.71 | 0.57 to 0.84 | lower |
+| Gated attention MIL over tiles | 0.70 | 0.56 to 0.83 | lower; 48 training slides are too few to learn attention weights, so this does not test the production design, which rests on far more slides |
+| Phikon pathology foundation model features + logistic | 0.80 | 0.67 to 0.90 | same; at overview resolution the pathology-pretrained features ([Filiot and colleagues 2023](https://doi.org/10.1101/2023.07.21.23292757)) do not beat ImageNet, which is expected because Phikon was trained on 20x tiles, not overviews |
+| Macenko stain normalisation + baseline | 0.86 | 0.75 to 0.96 | highest point estimate, interval overlaps the baseline |
+
+![Every modelling variant with its interval; the baseline was not a careless choice](technical/figures/fig14_variants.png)
+
+**Learning curve.** Training on 16, 24, 32 and 40 patients gives mean AUCs of 0.77, 0.80, 0.82 and 0.83 over 30 random draws (Figure 22); at 48 the held-out set is only 12 patients and the estimate becomes too noisy to read. The curve is still rising at 40. More patients are worth more than any change of classifier, which is the case for the RNOH and Taiwan cohorts.
+
+![Learning curve, mean AUC over 30 random draws per training size](technical/figures/fig12_learning_curve.png)
+
+**Stain normalisation.** Macenko normalisation ([Macenko and colleagues 2009](https://doi.org/10.1109/ISBI.2009.5193250)) applied to every overview before feature extraction gives the highest point estimate of any variant, 0.86, with an interval that overlaps the baseline (Figure 23 shows one overview before and after). It costs nothing at inference and addresses the first risk in the business case directly, so it goes into the production pipeline; the 30-hospital dataset will say whether the gain is real.
+
+![One overview before and after Macenko normalisation](technical/figures/fig13_macenko_example.png)
+
 ## 11. How to run
 
 
@@ -167,7 +190,9 @@ jupyter lab 01_sarcoma_hne_triage.ipynb # run all, first run downloads ~60 overv
 jupyter lab 02_savings_model.ipynb
 jupyter lab 03_robustness_checks.ipynb # uses the cache from 01, minutes on CPU
 jupyter lab 04_competitor_landscape.ipynb # live PubMed counts, about one minute
-jupyter lab 05_more_data_checks.ipynb # downloads about 90 more overviews
+jupyter lab 05_more_data_checks.ipynb # downloads about 60 more overviews
+jupyter lab 06_second_round_checks.ipynb # learning curve, heads, attention MIL, Phikon, Macenko; Phikon weights download once
+jupyter lab 07_fourth_class_and_resolution.ipynb # 30 MFS overviews and the 60 level-1 images, about two hours of download
 
 # or everything in one go, with MD5 checksums of every output at the end
 python run_all.py

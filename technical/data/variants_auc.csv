@@ -1,0 +1,9 @@
+,AUC,CI low,CI high
+Mean pool + logistic (baseline),0.822,0.7,0.92
+Linear SVM,0.75,0.61,0.87
+RBF SVM,0.711,0.57,0.84
+k-nearest neighbours (k=7),0.817,0.7,0.92
+Random forest (500 trees),0.762,0.62,0.88
+Attention MIL (gated),0.704,0.56,0.83
+Phikon features + logistic,0.801,0.67,0.9
+Macenko-normalised + logistic,0.86,0.75,0.96

@@ -2,7 +2,7 @@
 
 用法，在 technical/ 裡：
 
-    python run_all.py            # 依序執行 01 到 05，輸出留在 notebook 裡
+    python run_all.py            # 依序執行 01 到 07，輸出留在 notebook 裡
     python run_all.py --check    # 不執行，只印現有輸出的 MD5
 
 第一次執行會下載約 150 張切片縮圖，之後走快取。
@@ -23,6 +23,8 @@ NOTEBOOKS = [
     "03_robustness_checks.ipynb",
     "04_competitor_landscape.ipynb",
     "05_more_data_checks.ipynb",
+    "06_second_round_checks.ipynb",
+    "07_fourth_class_and_resolution.ipynb",
 ]
 CHECKED = [
     "figures/*.png",
@@ -30,6 +32,8 @@ CHECKED = [
     "data/cohort_with_predictions.csv",
     "data/cohort_random.csv",
     "data/landscape_*.csv",
+    "data/variants_auc.csv",
+    "data/cohort_level1.csv",
 ]
 
 

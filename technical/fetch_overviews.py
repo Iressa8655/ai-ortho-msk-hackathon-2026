@@ -90,24 +90,31 @@ def pick_cohort(slides, per_class=30, seed=0):
     return cohort
 
 
-def read_lowest_level(file_id, block_size=2 * 1024 * 1024):
-    """用 HTTP Range 只讀 SVS 金字塔的最低解析度層。
+def read_level(file_id, level_from_end=1, block_size=2 * 1024 * 1024):
+    """用 HTTP Range 只讀 SVS 金字塔的某一層，從最低解析度往上數。
 
     :param file_id: GDC file uuid
+    :param level_from_end: 1 是最低層（幾 MB），2 是上一層（約 16 倍像素）
     :return: RGB numpy array
     """
     filesystem = fsspec.filesystem("http", block_size=block_size)
     with filesystem.open(GDC_DATA + file_id, "rb") as handle:
         tiff = tifffile.TiffFile(handle)
-        lowest = tiff.series[0].levels[-1]
-        return lowest.asarray()
+        level = tiff.series[0].levels[-level_from_end]
+        return level.asarray()
 
 
-def fetch_cohort(cohort, out_dir):
-    """把 cohort 每張切片的 overview 存成 PNG，已存在的跳過。
+def read_lowest_level(file_id, block_size=2 * 1024 * 1024):
+    """最低解析度層，notebook 01 用的，等於 read_level(..., 1)。"""
+    return read_level(file_id, 1, block_size)
+
+
+def fetch_cohort(cohort, out_dir, level_from_end=1):
+    """把 cohort 每張切片的某一層存成 PNG，已存在的跳過。
 
     :param cohort: pick_cohort() 的輸出
     :param out_dir: PNG 存放資料夾
+    :param level_from_end: 1 最低層，2 上一層
     :return: 多一欄 png 路徑的 DataFrame
     """
     out_dir = Path(out_dir)
@@ -120,7 +127,7 @@ def fetch_cohort(cohort, out_dir):
             # 網路偶爾斷線（DNS 失敗），最多重試 5 次再放棄
             for attempt in range(5):
                 try:
-                    array = read_lowest_level(row["file_id"])
+                    array = read_level(row["file_id"], level_from_end)
                     Image.fromarray(array).save(target)
                     break
                 except Exception as error:      # noqa: BLE001

@@ -342,11 +342,28 @@ def macenko_normalise(img, Io=240, alpha=1, beta=0.15,
     return Image.fromarray(out)
 
 
+def tissue_coords(img):
+    # 組織格子在「原圖」上決定，標準化後用同一組格子，免得白底門檻被顏色映射改掉
+    arr = np.asarray(img.convert("RGB")); h, w, _ = arr.shape; grey = arr.mean(axis=2)
+    return [(yy, xx) for yy in range(0, h - TILE + 1, TILE) for xx in range(0, w - TILE + 1, TILE)
+            if (grey[yy:yy + TILE, xx:xx + TILE] < 220).mean() >= MIN_TISSUE]
+
+
+@torch.no_grad()
+def tile_features_at(img, coords, batch=32):
+    arr = np.asarray(img.convert("RGB")); out = []
+    tiles = [arr[yy:yy + TILE, xx:xx + TILE] for yy, xx in coords]
+    for s in range(0, len(tiles), batch):
+        out.append(backbone(torch.stack([preprocess(Image.fromarray(t)) for t in tiles[s:s + batch]])))
+    return torch.cat(out).numpy()
+
+
 X_macenko = []
 for row in tqdm(cohort.itertuples(), total=len(cohort), desc="Macenko + ResNet"):
     cache = TILE_DIR / f"{row.case}_macenko_resnet.npy"
     if not cache.exists():
-        np.save(cache, tile_features_resnet(macenko_normalise(Image.open(row.png))))
+        original = Image.open(row.png)
+        np.save(cache, tile_features_at(macenko_normalise(original), tissue_coords(original)))
     X_macenko.append(np.load(cache).mean(0))
 X_macenko = np.stack(X_macenko)
 results["Macenko-normalised + logistic"] = auc_ci(y, oof_with(make_lr, X_macenko, y))

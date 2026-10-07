@@ -32,6 +32,7 @@ colorlinks: true
 | `technical/02_savings_model.ipynb` | Transparent savings arithmetic, every input labelled sourced or assumption |
 | `technical/03_robustness_checks.ipynb` | Bootstrap interval, repeated splits, permutation null, calibration, stain perturbation, tile maps |
 | `technical/04_competitor_landscape.ipynb` | PubMed counts behind the competition figure, queries printed |
+| `technical/05_more_data_checks.ipynb`, `06_second_round_checks.ipynb`, `07_fourth_class_and_resolution.ipynb` | Random cohort, third and fourth class, learning curve, other heads, attention pooling, pathology foundation model, stain normalisation, one level more resolution |
 | `medicine/clinical_implementation.md` | Medical part: the clinical problem, where the AI sits, integration and safety, Taiwan, diversity, implementation stages |
 | `business/business_case.md` | Business part on the NHS five-case model: strategic, economic, commercial, financial, management, including business model, competition, milestones, funding and patient involvement |
 | `technical/requirements.txt`, `technical/fetch_overviews.py` | Environment and download helper |
