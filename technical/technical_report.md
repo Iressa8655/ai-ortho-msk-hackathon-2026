@@ -132,6 +132,7 @@ One number, AUC 0.82 on 60 patients, invites eight questions about the data and 
 | Colour or tissue | Hue, saturation and brightness perturbation, out-of-fold scoring | 2 to 4 of 60 calls flip; AUC 0.78 to 0.83 against 0.82 unperturbed |
 | Did the smallest-file shortcut make the result | 30 + 30 patients drawn at random instead of the 30 smallest files per class, notebook 05 | AUC **0.81** (0.69 to 0.91) against 0.82 (0.70 to 0.92); 36 of the 60 patients overlap, because many patients only have one small slide |
 | Does a third, harder class break it | 30 undifferentiated pleomorphic sarcoma (UPS) patients added, three-class logistic regression, notebook 05 | macro one-versus-rest AUC **0.83** on 90 patients (LMS 0.82, DDLPS 0.83, UPS 0.83), accuracy 0.67 against 0.33 chance (Figure 20) |
+| Does a fourth class break it | 20 myxofibrosarcoma (MFS) patients added (10 of the 30 smallest files had too little tissue), four-class logistic regression, notebook 07 | macro one-versus-rest AUC **0.77** on 110 patients (LMS 0.81, DDLPS 0.82, UPS 0.73, MFS 0.73), accuracy 0.52 against 0.25 chance (Figure 24) |
 | Where does it look | Tile-level probability maps, leave-one-patient-out head | the four worst DDLPS slides are a mix of red and blue tiles; the mean dilutes the DDLPS signal (Figure 18) |
 
 ![Permutation null from 500 label shuffles; the real AUC sits outside it](technical/figures/fig6_permutation_null.png)
@@ -178,6 +179,10 @@ One number, AUC 0.82 on 60 patients, invites eight questions about the data and 
 **Stain normalisation.** Macenko normalisation ([Macenko and colleagues 2009](https://doi.org/10.1109/ISBI.2009.5193250)) applied to every overview before feature extraction gives the highest point estimate of any variant, 0.86, with an interval that overlaps the baseline (Figure 23 shows one overview before and after). It costs nothing at inference and addresses the first risk in the business case directly, so it goes into the production pipeline; the 30-hospital dataset will say whether the gain is real.
 
 ![One overview before and after Macenko normalisation](technical/figures/fig13_macenko_example.png)
+
+![Four classes, out-of-fold confusion matrix, 110 patients](technical/figures/fig15_four_class_confusion.png)
+
+**A fourth class.** Adding myxofibrosarcoma lowers the macro AUC from 0.83 to 0.77 and the accuracy from 0.67 to 0.52 (Figure 24). The two fusion-free, pleomorphic subtypes, UPS and MFS, are the ones confused, each at 0.73 one-versus-rest, while LMS and DDLPS hold at 0.81 and 0.82. That is the expected shape: the subtypes without a defining molecular event are also the ones without a defining low-resolution appearance. Only 20 of the 30 smallest MFS files had three or more tissue tiles at overview resolution, which is itself a limit of the overview shortcut.
 
 ## 11. How to run
 

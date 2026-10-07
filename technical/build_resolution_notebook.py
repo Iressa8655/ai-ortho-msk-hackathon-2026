@@ -84,7 +84,10 @@ def tissue_tiles(png_path):
 def slide_feature(png_path, tag="", batch=32):
     cache = FEAT_DIR / (Path(png_path).stem + tag + ".npy")
     if cache.exists():
-        return np.load(cache)
+        vec = np.load(cache)
+        if vec.shape[0] == 2048:              # notebook 05 存的舊格式沒有 tile 數
+            vec = np.concatenate([vec, [np.nan]])
+        return vec
     tiles = tissue_tiles(png_path)
     if len(tiles) < 3:
         return None
@@ -105,7 +108,7 @@ def features_for(cohort, tag=""):
     for row in tqdm(cohort.itertuples(), total=len(cohort), desc="features" + tag):
         vec = slide_feature(row.png, tag)
         if vec is not None:
-            X.append(vec[:-1]); n_tiles.append(int(vec[-1])); keep.append(row.Index)
+            X.append(vec[:-1]); n_tiles.append(int(vec[-1]) if np.isfinite(vec[-1]) else -1); keep.append(row.Index)
     out = cohort.loc[keep].reset_index(drop=True); out["n_tiles"] = n_tiles
     return np.stack(X), out
 
