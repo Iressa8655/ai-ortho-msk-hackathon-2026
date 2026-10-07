@@ -240,7 +240,7 @@ ax.set_xlim(0, order.max() * 1.2)
 
 # D 產品矩陣
 ax = axes[1, 1]
-ax.set_xlim(0, PRODUCTS.shape[1]); ax.set_ylim(0, PRODUCTS.shape[0])
+ax.set_xlim(0, PRODUCTS.shape[1]); ax.set_ylim(-0.6, PRODUCTS.shape[0] + 0.6)
 for i, (prod, row) in enumerate(PRODUCTS.iterrows()):
     for j, col in enumerate(PRODUCTS.columns):
         face = BLUE if row[col] else "#f3f5f8"
@@ -253,7 +253,7 @@ for j, col in enumerate(PRODUCTS.columns):
             color=RED if col == "Sarcoma" else "black", weight="bold" if col == "Sarcoma" else "normal")
 ax.text(PRODUCTS.shape[1] - 0.5, -0.4, "no product", ha="center", va="top", fontsize=10, color=RED)
 ax.axis("off")
-ax.set_title("D. Regulated H&E-to-molecular products by tumour type (business case, section 9)", loc="left", fontsize=11)
+ax.set_title("D. Regulated H&E-to-molecular products (business case, section 9)", loc="left", fontsize=11, pad=26)
 
 plt.suptitle("Where the competition is, and where it is not: sarcoma H&E-to-molecular is open", fontsize=13)
 plt.figtext(0.5, 0.005, "PubMed E-utilities counts on titles and abstracts, queried on the run date; keyword categories overlap. Red = the gap this submission targets.",
