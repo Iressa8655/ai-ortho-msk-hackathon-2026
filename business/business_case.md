@@ -1,4 +1,4 @@
-# Business part: business case
+# Business part: business case and business plan
 
 Structured on the five-case model that NHS and HM Treasury business cases use ([HM Treasury Green Book, five-case model](https://www.gov.uk/government/publications/the-green-book-appraisal-and-evaluation-in-central-government)): strategic, economic, commercial, financial, management. Sections are numbered in reading order; the map in section 1 shows the five parts on one page.
 
