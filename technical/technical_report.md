@@ -157,6 +157,11 @@ jupyter lab 01_sarcoma_hne_triage.ipynb # run all, first run downloads ~60 overv
 jupyter lab 02_savings_model.ipynb
 jupyter lab 03_robustness_checks.ipynb # uses the cache from 01, minutes on CPU
 jupyter lab 04_competitor_landscape.ipynb # live PubMed counts, about one minute
+jupyter lab 05_more_data_checks.ipynb # downloads about 90 more overviews
+
+# or everything in one go, with MD5 checksums of every output at the end
+python run_all.py
+python run_all.py --check # checksums only, no execution
 ```
 
 To see the trained baseline run on a slide, open the live demo at <https://iressa-sarcoma-triage-demo.static.hf.space/> (hosted as a Hugging Face Space; the model runs in your browser and the image never leaves your machine), or run it locally:
@@ -168,5 +173,5 @@ python -m http.server 8765
 
 Then open <http://localhost:8765/>, drop an H&E overview image or click one of the six bundled TCGA-SARC slides. The model runs in the browser in a few seconds and shows the subtype probabilities and the panel it would order first. `demo/README.md` explains the files.
 
-Seed 42 is fixed in both notebooks. Features and overviews are cached under `technical/data/` after the first run.
+Seed 42 is fixed in every notebook. `requirements-lock.txt` lists the exact package versions of the submitted run, and `run_all.py --check` prints the MD5 of every figure and data file so a rerun can be compared line by line. Features and overviews are cached under `technical/data/` after the first run.
 

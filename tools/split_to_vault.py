@@ -85,7 +85,7 @@ def split_sections(text, marker):
     :param marker: "# " 或 "## "
     """
     pattern = r"^(?=" + re.escape(marker) + r"(?!#))"
-    parts = re.split(pattern, text, flags=re.M)
+    parts = re.split(pattern, text, flags=re.MULTILINE)
     head = parts[0]
     sections = []
     for part in parts[1:]:
@@ -130,11 +130,11 @@ def write_index(rows):
         "date: 2026-10-01", "---", "",
         "# 00 Review index，一節一頁，改完組回 PDF",
         "",
-        "**Next action.** 從 S01 開始，一頁一頁看，每頁三個 callout 填完打勾。/ "
-        "全部打勾後說一聲，我跑 `assemble_from_vault.py` 出 v2 PDF 和 zip。",
+        ("**Next action.** 從 S01 開始，一頁一頁看，每頁三個 callout 填完打勾。/ "
+        "全部打勾後說一聲，我跑 `assemble_from_vault.py` 出 v2 PDF 和 zip。"),
         "",
-        "新截止 **2026-10-08**。/ 英文原文夾在每頁的 `<!-- EN START -->` 到 "
-        "`<!-- EN END -->` 之間，改那一段就會進 PDF，callout 不會。",
+        ("新截止 **2026-10-08**。/ 英文原文夾在每頁的 `<!-- EN START -->` 到 "
+        "`<!-- EN END -->` 之間，改那一段就會進 PDF，callout 不會。"),
         "",
         "| # | 頁 | 來源檔 | 看過 |",
         "|---|---|---|---|",
@@ -146,8 +146,8 @@ def write_index(rows):
         "## 怎麼組回去",
         "",
         "```bash",
-        "C:/Users/User/miniconda3/envs/spatial/python.exe "
-        "C:/Users/User/Documents/GitHub/ai-ortho-msk-hackathon-2026/tools/assemble_from_vault.py",
+        ("C:/Users/User/miniconda3/envs/spatial/python.exe "
+        "C:/Users/User/Documents/GitHub/ai-ortho-msk-hackathon-2026/tools/assemble_from_vault.py"),
         "```",
         "",
         "產出 `submission_document_v2.pdf` 和 `submission_attachments_v2.zip`。",

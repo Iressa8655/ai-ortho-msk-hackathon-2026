@@ -44,7 +44,7 @@ def export_head():
         "intercept": float(clf.intercept_[0]),
         "positive_label": "DDLPS",
         "negative_label": "LMS",
-        "n_train": int(len(y)),
+        "n_train": len(y),
         "note": "fit on all 60 TCGA-SARC patients; CV AUC 0.82 in notebook 01",
     }
     (OUT / "head.json").write_text(json.dumps(head))
@@ -66,7 +66,7 @@ def export_backbone():
         dynamic_axes={"input": {0: "batch"}, "features": {0: "batch"}},
         opset_version=17, dynamo=False,
     )
-    from onnxruntime.quantization import quantize_dynamic, QuantType
+    from onnxruntime.quantization import QuantType, quantize_dynamic
     int8 = OUT / "resnet50_int8.onnx"
     quantize_dynamic(str(fp32), str(int8), weight_type=QuantType.QUInt8)
     print("onnx sizes MB:", round(fp32.stat().st_size / 1e6, 1),
