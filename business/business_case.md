@@ -157,7 +157,13 @@ Affordability. Three years from prototype to first licence, grant-funded so that
 
 ### 10. Milestones and funding, by stage
 
-The milestones follow the stages that early clinical evaluation of an AI tool is expected to pass through, from a research prototype to monitored use, as set out in the DECIDE-AI guideline for early-stage clinical evaluation of decision support ([Vasey and colleagues, Nature Medicine 2022](https://doi.org/10.1038/s41591-022-01772-9)) and reported throughout against TRIPOD+AI ([Collins and colleagues, BMJ 2024](https://doi.org/10.1136/bmj-2023-078378)). Research funding comes first and is small; the larger product-development award is applied for only once the retrospective evidence exists.
+The milestones follow the stages that early clinical evaluation of an AI tool is expected to pass through, from a research prototype to monitored use, as set out in the DECIDE-AI guideline for early-stage clinical evaluation of decision support ([Vasey and colleagues, Nature Medicine 2022](https://doi.org/10.1038/s41591-022-01772-9)) and reported throughout against TRIPOD+AI ([Collins and colleagues, BMJ 2024](https://doi.org/10.1136/bmj-2023-078378)). 
+
+Research funding comes first and is small; the larger product-development award is applied for only once the retrospective evidence exists.
+
+![Six stages on one timeline, 2026 Q4 to 2029; green text is who pays for each stage](business/fig_milestones_timeline.png)
+
+Figure 31 puts the six stages on one timeline; the table gives the deliverable, the gate and the funder for each.
 
 | Stage | When | What is delivered | Gate to the next stage | Funding route |
 |---|---|---|---|---|
