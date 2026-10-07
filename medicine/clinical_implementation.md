@@ -82,6 +82,8 @@ Figure 9 is a mock-up of that screen. The numbered parts are the only additions 
 
 The same tool at a Taiwan medical centre. National Health Insurance reimburses next-generation sequencing once per lifetime, capped at NT$30,000, and only regional hospitals and above may perform it ([Health Promotion Administration](https://www.twhealth.org.tw/journalView.php?cat=70&sid=1190)). District hospitals therefore refer without a molecular result. An H&E triage score tells them whether and where to refer, and protects the single reimbursed test from being spent on the wrong panel.
 
+**The Taiwan data source is confirmed, and it is not public.** The National Biobank Consortium of Taiwan (NBCT) answered our enquiry on 2 October 2026 ([NBCT](https://nbct.nhri.org.tw/)): for bone sarcoma it holds osteosarcoma (5 blood, 9 frozen tissue, 1 paraffin block) and chondrosarcoma (6 blood, 8 frozen tissue, 1 paraffin block) collected 2010 to 2025, matching images and pathology reports can be released, and an application must be made through a Taiwan-based investigator. Because these data are held under NBCT governance they cannot be used in this open-data submission; they are the Taiwan validation set for the production model, in the same role as the Royal National Orthopaedic Hospital biobank for the UK. A second enquiry for soft tissue sarcoma subtypes and a Taiwan co-investigator are the next two steps.
+
 ## 5. Diversity and equity
 
 
