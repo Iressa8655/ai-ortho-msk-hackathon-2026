@@ -32,6 +32,10 @@ Figure 20 marks the three failures on the pathway. The bottleneck is not surgica
 
 A decision-support module inside the digital pathology viewer the laboratory already uses. It reads the routine H&E slide and returns two probabilities, is this a sarcoma and which subtype, with the genomic panel to order first. Where it sits in the pathway, what the pathologist sees, and how it is integrated and kept safe are in the Medical part, sections 2 and 3.
 
+![The solution in one picture: today versus with AI triage, the three outputs, the four data sources in the order they are used, and the two numbers the aim is measured by](business/fig_solution_detail_biorender.png)
+
+Figure 21 summarises this section: the three outputs of the module, the four data sources in the order they are used, and the two numbers the aim is measured by.
+
 **How it is built, and why the data meet the diversity and ethics criteria.** Training: open TCGA-SARC slides, then Royal National Orthopaedic Hospital slides under the biobank's existing ethics approval. Robustness: a UK dataset in which one tissue block was stained in 30 hospitals and scanned on 3 scanners. External validation: Taiwanese slides from the National Biobank Consortium, the first Asian cohort in any sarcoma AI. NBCT confirmed on 2 October 2026 that bone sarcoma tissue with images and pathology reports is available to a Taiwan-based co-investigator (Medical part, section 4); it is not public data, so it is not used in this submission. Results are reported by laboratory, scanner, sex, age and population. Patient data never crosses a border; only the model moves.
 
 **Aim.** The first genomic request is the right one for every sarcoma patient. Conservatively, about 2,900 patient-days of waiting removed a year in England and about 20 once-only reimbursed tests protected a year in Taiwan (`technical/02_savings_model.ipynb`). Payer and pricing are in sections 4, 5 and 6.
@@ -48,7 +52,7 @@ Value for money. The direct laboratory saving is modest because the test is chea
 The arithmetic is in `technical/02_savings_model.ipynb`, with every input labelled SOURCED or ASSUMPTION so a reviewer can change any number and re-run.
 
 | Input | Value | Status |
-|---|---|---|
+| ------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------ | -------------- |
 | New sarcoma cases, UK, per year | about 5,900 ([Sarcoma UK](https://sarcoma.org.uk/about-us/stay-connected/sarcoma-incidence-and-survival-statistics-in-the-uk/)) | sourced |
 | Cost of one NHS NGS cancer panel | £339 ([2017 figure](http://enseqlopedia.com/2017/03/cost-ngs-cancer-test-nhs-339/), historic) | sourced, dated |
 | Urgent solid tumour panel target | 90 per cent within 21 days ([East Genomics](https://www.eastgenomics.nhs.uk/about-us/quality/nhse-test-directory-turnaround-times/)) | sourced |
@@ -90,7 +94,7 @@ The buyer and the deal. One payer in each country, NHS England through the Genom
 
 ### 6. Who pays, and why they would
 
-One payer in each country, two kinds of user, and one channel. Figure 21 shows the money and the use separately.
+One payer in each country, two kinds of user, and one channel. Figure 22 shows the money and the use separately.
 
 | Who | Role | What they buy | Why it is worth it to them |
 |---|---|---|---|
@@ -107,7 +111,7 @@ One payer in each country, two kinds of user, and one channel. Figure 21 shows t
 ### 7. Payment pathway
 
 
-Figure 22 shows who pays whom along the diagnostic pathway. Grey arrows carry the sample and the report, green arrows carry money. The source file is `business/payment_pathway_biorender.jpg` ([editable BioRender version](https://app.biorender.com/illustrations/639f48d72cfd34c4f14311b2)). 
+Figure 23 shows who pays whom along the diagnostic pathway. Grey arrows carry the sample and the report, green arrows carry money. The source file is `business/payment_pathway_biorender.jpg` ([editable BioRender version](https://app.biorender.com/illustrations/639f48d72cfd34c4f14311b2)). 
 
 Flow: patient biopsy at a local hospital → H&E slide scanned → model call (charged per slide to the laboratory or hub) → triage report → correct genomic test ordered once → result reaches the sarcoma multidisciplinary team.
 
@@ -138,7 +142,7 @@ Nobody markets an H&E-to-fusion-gene product for sarcoma today. The category exi
 
 Academic literature on sarcoma AI is prognosis-first, not fusion-first, for example survival prediction from H&E with reported AUC 0.97 in one cohort ([PMC review](https://pmc.ncbi.nlm.nih.gov/articles/PMC11129162/)) and margin-aware prognosis in 2025 ([Scientific Reports 2025](https://www.nature.com/articles/s41598-025-20804-1)). A 2025 review frames fusion detection as the next AI target in soft tissue sarcoma genomics ([PubMed 41497157](https://pubmed.ncbi.nlm.nih.gov/41497157/)).
 
-**Where the effort is, counted.** Figure 23 puts numbers on the two claims above, from PubMed counts run in `technical/04_competitor_landscape.ipynb` on 7 October 2026 with the queries printed in that notebook. Sarcoma AI publishing grew from 20 records in 2018 to 270 in 2025 but stayed at about 1.1 to 1.5 per cent of all cancer AI records (panel A). Within sarcoma AI, prognosis (537 records) and histology diagnosis (400) lead; molecular or biomarker prediction from H&E is at most 251 on a broad keyword match, and few of those predict a fusion gene (panel B). Deep-learning H&E-to-molecular work is an order of magnitude larger in breast (1,692), lung (1,620) and colorectal cancer (1,098) than in sarcoma (182) (panel C), and the regulated products follow the same pattern: colorectal, breast and prostate have one each, sarcoma has none (panel D). Keyword counts overlap and overcount; the figure is a map of effort, not a systematic review.
+**Where the effort is, counted.** Figure 24 puts numbers on the two claims above, from PubMed counts run in `technical/04_competitor_landscape.ipynb` on 7 October 2026 with the queries printed in that notebook. Sarcoma AI publishing grew from 20 records in 2018 to 270 in 2025 but stayed at about 1.1 to 1.5 per cent of all cancer AI records (panel A). Within sarcoma AI, prognosis (537 records) and histology diagnosis (400) lead; molecular or biomarker prediction from H&E is at most 251 on a broad keyword match, and few of those predict a fusion gene (panel B). Deep-learning H&E-to-molecular work is an order of magnitude larger in breast (1,692), lung (1,620) and colorectal cancer (1,098) than in sarcoma (182) (panel C), and the regulated products follow the same pattern: colorectal, breast and prostate have one each, sarcoma has none (panel D). Keyword counts overlap and overcount; the figure is a map of effort, not a systematic review.
 
 ![Where the competition is, and where it is not: PubMed counts by year, task and tumour type, and the regulated products by tumour type](business/fig_competitor_landscape.png)
 
