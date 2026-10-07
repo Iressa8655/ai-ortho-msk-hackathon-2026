@@ -94,9 +94,9 @@ Figure 15 is the demo after one bundled TCGA-SARC slide has been analysed.
 
 **Limitations, stated plainly.**
 
-1. Sixty patients and two subtypes. This proves the pipeline runs end to end on open data. It is not a clinical result.
+1. Sixty patients and two subtypes in the headline model, ninety and three in the extension (section 10). This proves the pipeline runs end to end on open data. It is not a clinical result.
 2. Overview resolution only, roughly 16 times downsampled from the scan. Nuclear detail is invisible.
-3. Smallest-file selection bias. The sixty slides are the smallest per class, which may favour smaller or less complex tumours.
+3. Smallest-file selection bias. The sixty slides are the smallest per class. A random cohort of the same size gives the same AUC within its interval (section 10), so the bias did not make the result, but it is still a bias in which tumours were seen.
 4. A single scanning programme (TCGA). Stain and scanner variation between hospitals is untested.
 5. Mean pooling. Informative regions are averaged with uninformative ones, which is exactly what section 6 shows.
 
@@ -121,7 +121,7 @@ Moving from the prototype to the production model changes the data and the model
 
 ## 10. Robustness checks
 
-One number, AUC 0.82 on 60 patients, invites six questions. Notebook `technical/03_robustness_checks.ipynb` answers each with the cached features from notebook 01 and runs in minutes on a CPU. All numbers below are from that run (seed 42).
+One number, AUC 0.82 on 60 patients, invites eight questions. Notebook `technical/03_robustness_checks.ipynb` answers the first six with the cached features from notebook 01 and runs in minutes on a CPU; notebook `05_more_data_checks.ipynb` downloads 59 more overviews for the last two. All numbers below are from that run (seed 42).
 
 | Question | Method | Result |
 |---|---|---|
@@ -130,6 +130,8 @@ One number, AUC 0.82 on 60 patients, invites six questions. Notebook `technical/
 | Could 60 patients give 0.8 by chance | Permutation null, 500 label shuffles | null mean 0.50, 95th percentile 0.65; real 0.82, **p = 0.002** |
 | Are the probabilities calibrated | Reliability diagram, 5 bins, Brier score | Brier **0.21**; mild under-confidence in the middle bins (Figure 17) |
 | Colour or tissue | Hue, saturation and brightness perturbation, out-of-fold scoring | 2 to 4 of 60 calls flip; AUC 0.78 to 0.83 against 0.82 unperturbed |
+| Did the smallest-file shortcut make the result | 30 + 30 patients drawn at random instead of the 30 smallest files per class, notebook 05 | AUC **0.81** (0.69 to 0.91) against 0.82 (0.70 to 0.92); 36 of the 60 patients overlap, because many patients only have one small slide |
+| Does a third, harder class break it | 30 undifferentiated pleomorphic sarcoma (UPS) patients added, three-class logistic regression, notebook 05 | macro one-versus-rest AUC **0.83** on 90 patients (LMS 0.82, DDLPS 0.83, UPS 0.83), accuracy 0.67 against 0.33 chance (Figure 20) |
 | Where does it look | Tile-level probability maps, leave-one-patient-out head | the four worst DDLPS slides are a mix of red and blue tiles; the mean dilutes the DDLPS signal (Figure 18) |
 
 ![Permutation null from 500 label shuffles; the real AUC sits outside it](technical/figures/fig6_permutation_null.png)
@@ -145,6 +147,14 @@ One number, AUC 0.82 on 60 patients, invites six questions. Notebook `technical/
 ![The four most confident errors, overview above and tile-level p(DDLPS) below, scored by a head that never saw that patient](technical/figures/fig8_tile_maps.png)
 
 **Where it looks.** Scored tile by tile, the four worst DDLPS slides contain many DDLPS-like tiles (17 to 47 of 31 to 86 tiles above 0.5) next to large LMS-like regions. Averaging the features before classification lets the larger region win. This is the mean-pooling failure named in section 6 and the reason the production model uses attention pooling.
+
+![Selection bias check: the smallest-file cohort and a random cohort give overlapping intervals](technical/figures/fig10_random_vs_smallest.png)
+
+**Random patients instead of the smallest files.** The random cohort's files are 10 to 20 times larger on average (LMS mean 1,147 MB, DDLPS 1,559 MB, against 72 to 250 MB for the smallest), yet the out-of-fold AUC is 0.81 (0.69 to 0.91) against 0.82 (0.70 to 0.92) (Figure 19). The shortcut did not make the result. The overlap of 36 patients is a property of TCGA-SARC, where most patients have a single slide, so the two cohorts cannot be fully disjoint at 30 per class.
+
+![Three classes, out-of-fold confusion matrix, 90 patients](technical/figures/fig11_three_class_confusion.png)
+
+**A third class.** With UPS added, a diagnosis of exclusion with no defining molecular event, the three-class model keeps a macro one-versus-rest AUC of 0.83 on 90 patients and two thirds of patients are called correctly at the top probability (Figure 20). The overview carries subtype signal beyond the easiest pair. Fusion-defined subtypes remain out of reach on open data because too few slides exist, which is the reason for the RNOH and Taiwan cohorts.
 
 ## 11. How to run
 
