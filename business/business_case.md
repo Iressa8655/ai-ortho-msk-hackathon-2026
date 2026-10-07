@@ -90,8 +90,7 @@ Flow: patient biopsy at a local hospital → H&E slide scanned → model call (c
 
 ## 6. Diversity and ethics
 
-
-Performance is reported separately by staining laboratory, scanner and population. The Taiwan arm exists because published sarcoma AI has been trained almost entirely on European and North American slides. Patient-level data are never moved. Only the model moves.
+Covered once, in the clinical implementation strategy, section 7 (diversity and equity) and in section 9 below (ethics and regulation). The one point that belongs here: patient-level data are never moved. Only the model moves.
 
 ## 7. Scope of the prototype, and what the production model adds
 
