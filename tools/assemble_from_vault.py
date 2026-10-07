@@ -166,8 +166,18 @@ def page_for(key):
     return hits[0]
 
 
+# 內文裡提到的節號是 vault 頁的舊號，組 PDF 時換成新號。只列有出現的。
+REF_FIXES = [
+    ("B02", "sections 3, 8 and 13", "sections 5, 6 and 7"),
+    ("B03", "(section 13)", "(section 6)"),
+    ("B06", "section 9 below", "section 16 below"),
+    ("B13", "| §8 |", "| §5 |"),
+]
+
+
 def assemble_business_case():
     parts = []
+    number = 0
     listed = {k for _, _, keys in FIVE_CASES for k in keys}
     unlisted = [p.name for p in VAULT.glob("B[0-9][0-9] *.md") if p.name[:3] not in listed]
     if unlisted:
@@ -175,8 +185,15 @@ def assemble_business_case():
     for title, lead, keys in FIVE_CASES:
         parts.append(f"## {title}\n\n{lead}\n\n")
         for key in keys:
+            number += 1
             english = extract_english(page_for(key))
-            english = re.sub(r"^## ", "### ", english, count=1, flags=re.M)
+            # 「## 13. Title」→「### 6. Title」，號碼照 A–E 的順序重編
+            english = re.sub(r"^## \d+\. ", f"### {number}. ", english, count=1, flags=re.M)
+            for page, old, new in REF_FIXES:
+                if page == key:
+                    if old not in english:
+                        print(f"warning: ref fix not found in {key}: {old}")
+                    english = english.replace(old, new)
             parts.append(english)
     return "".join(parts)
 
