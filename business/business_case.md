@@ -93,10 +93,19 @@ Flow: patient biopsy at a local hospital → H&E slide scanned → model call (c
 
 Performance is reported separately by staining laboratory, scanner and population. The Taiwan arm exists because published sarcoma AI has been trained almost entirely on European and North American slides. Patient-level data are never moved. Only the model moves.
 
-## 7. What this submission is and is not
+## 7. Scope of the prototype, and what the production model adds
 
+The code in `technical/` is a proof of concept on open TCGA-SARC data, built so that any reviewer can rerun it on a laptop and get the same numbers. It shows that the H&E image alone separates two common sarcoma subtypes. The production model is a larger version of the same pipeline, not a different product. The table sets the two side by side; the Technical report, sections 1 to 8, gives the detail.
 
-The notebook in `technical/` is a proof of concept on open TCGA-SARC data. It distinguishes two common subtypes from slide overviews. It is not the production model. The production model uses a pathology foundation model on full-resolution tiles and is validated on the multi-hospital dataset above.
+| | Prototype in this submission | Production model |
+|---|---|---|
+| Data | Open TCGA-SARC, 60 patients, LMS and DDLPS | Royal National Orthopaedic Hospital biobank, the UCL 30-hospital stain-variation set, Taiwan Biobank |
+| Input | Slide overview, lowest resolution | Full-resolution tiles from the whole slide |
+| Model | Frozen ImageNet ResNet50, tile features averaged | Pathology foundation model with attention pooling |
+| Task | Two subtypes, out-of-fold AUC 0.82 | Sarcoma or not, then subtype including fusion-defined ones, with an abstain option |
+| Runs as | Jupyter notebook and browser demo, CPU, seed 42 | Module inside the digital pathology viewer, output written to the laboratory system |
+
+Moving from the prototype to the production model changes the data and the model. It does not change where the tool sits in the pathway or who acts on its output.
 
 ## 8. How much money it saves, and why a government payer pays
 
