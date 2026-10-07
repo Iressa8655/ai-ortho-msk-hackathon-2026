@@ -156,6 +156,7 @@ cd technical
 jupyter lab 01_sarcoma_hne_triage.ipynb # run all, first run downloads ~60 overviews
 jupyter lab 02_savings_model.ipynb
 jupyter lab 03_robustness_checks.ipynb # uses the cache from 01, minutes on CPU
+jupyter lab 04_competitor_landscape.ipynb # live PubMed counts, about one minute
 ```
 
 To see the trained baseline run on a slide, open the live demo at <https://iressa-sarcoma-triage-demo.static.hf.space/> (hosted as a Hugging Face Space; the model runs in your browser and the image never leaves your machine), or run it locally:

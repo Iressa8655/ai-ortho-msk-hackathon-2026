@@ -136,6 +136,10 @@ Nobody markets an H&E-to-fusion-gene product for sarcoma today. The category exi
 
 Academic literature on sarcoma AI is prognosis-first, not fusion-first, for example survival prediction from H&E with reported AUC 0.97 in one cohort ([PMC review](https://pmc.ncbi.nlm.nih.gov/articles/PMC11129162/)) and margin-aware prognosis in 2025 ([Scientific Reports 2025](https://www.nature.com/articles/s41598-025-20804-1)). A 2025 review frames fusion detection as the next AI target in soft tissue sarcoma genomics ([PubMed 41497157](https://pubmed.ncbi.nlm.nih.gov/41497157/)).
 
+**Where the effort is, counted.** Figure 22 puts numbers on the two claims above, from PubMed counts run in `technical/04_competitor_landscape.ipynb` on 7 October 2026 with the queries printed in that notebook. Sarcoma AI publishing grew from 20 records in 2018 to 270 in 2025 but stayed at about 1.1 to 1.5 per cent of all cancer AI records (panel A). Within sarcoma AI, prognosis (537 records) and histology diagnosis (400) lead; molecular or biomarker prediction from H&E is at most 251 on a broad keyword match, and few of those predict a fusion gene (panel B). Deep-learning H&E-to-molecular work is an order of magnitude larger in breast (1,692), lung (1,620) and colorectal cancer (1,098) than in sarcoma (182) (panel C), and the regulated products follow the same pattern: colorectal, breast and prostate have one each, sarcoma has none (panel D). Keyword counts overlap and overcount; the figure is a map of effort, not a systematic review.
+
+![Where the competition is, and where it is not: PubMed counts by year, task and tumour type, and the regulated products by tumour type](business/fig_competitor_landscape.png)
+
 ## Part D. Financial case: budget and funders
 
 Affordability. Three years from prototype to first licence, grant-funded so that the first contract is signed with evidence rather than a price guess. The budget is itemised line by line and each line is marked sourced or assumption. The first application is the Cancer Research UK Early Detection and Diagnosis Primer Award.
