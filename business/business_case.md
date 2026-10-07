@@ -53,10 +53,10 @@ The arithmetic is in `technical/02_savings_model.ipynb`, with every input labell
 
 | Input | Value | Status |
 | ------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------ | -------------- |
-| New sarcoma cases, UK, per year | about 5,900 ([Sarcoma UK](https://sarcoma.org.uk/about-us/stay-connected/sarcoma-incidence-and-survival-statistics-in-the-uk/)) | sourced |
-| Cost of one NHS NGS cancer panel | £339 ([2017 figure](http://enseqlopedia.com/2017/03/cost-ngs-cancer-test-nhs-339/), historic) | sourced, dated |
-| Urgent solid tumour panel target | 90 per cent within 21 days ([East Genomics](https://www.eastgenomics.nhs.uk/about-us/quality/nhse-test-directory-turnaround-times/)) | sourced |
-| Taiwan NHI NGS reimbursement | once per lifetime, cap NT$30,000 ([HPA summary](https://www.twhealth.org.tw/journalView.php?cat=70&sid=1190)) | sourced |
+| New sarcoma cases, UK, per year | about 5,900 ([Sarcoma UK](https://sarcoma.org.uk/about-us/stay-connected/sarcoma-incidence-and-survival-statistics-in-the-uk/)) | [sourced](https://sarcoma.org.uk/about-us/stay-connected/sarcoma-incidence-and-survival-statistics-in-the-uk/) |
+| Cost of one NHS NGS cancer panel | £339 ([2017 figure](http://enseqlopedia.com/2017/03/cost-ngs-cancer-test-nhs-339/), historic) | [sourced, dated](http://enseqlopedia.com/2017/03/cost-ngs-cancer-test-nhs-339/) |
+| Urgent solid tumour panel target | 90 per cent within 21 days ([East Genomics](https://www.eastgenomics.nhs.uk/about-us/quality/nhse-test-directory-turnaround-times/)) | [sourced](https://www.eastgenomics.nhs.uk/about-us/quality/nhse-test-directory-turnaround-times/) |
+| Taiwan NHI NGS reimbursement | once per lifetime, cap NT$30,000 ([HPA summary](https://www.twhealth.org.tw/journalView.php?cat=70&sid=1190)) | [sourced](https://www.twhealth.org.tw/journalView.php?cat=70&sid=1190) |
 | Share of cases needing a molecular test | 0.50 | assumption |
 | Share of those tests misrouted or repeated | 0.10 | assumption |
 | Share of misroutes the triage catches | 0.70 | assumption |
