@@ -4,7 +4,7 @@ The notebook `01_sarcoma_hne_triage.ipynb` section by section: data, tiling, fea
 
 ## 1. Pipeline at a glance
 
-Everything in this section is in one notebook, `technical/01_sarcoma_hne_triage.ipynb`, which runs end to end on a laptop CPU in about an hour, most of it download time. Figure 11 shows the six steps. Each step is one notebook section, with the story above the code, a comment on every line, and the output explained below it.
+Everything in this section is in one notebook, `technical/01_sarcoma_hne_triage.ipynb`, which runs end to end on a laptop CPU in about an hour, most of it download time. Figure 12 shows the six steps. Each step is one notebook section, with the story above the code, a comment on every line, and the output explained below it.
 
 ![The six steps of the baseline, one notebook section each](technical/figures/fig0_pipeline.png)
 
@@ -25,7 +25,7 @@ The design choice behind every step is the same: the smallest thing that proves 
 
 **Cohort.** One slide per patient, so no patient can appear in both the training and the test fold. Thirty patients per class. We took the thirty smallest files per class because the lowest pyramid level scales with file size and reads faster. This is a selection bias and it is stated as such in section 8.
 
-**What is read.** Only the lowest pyramid level of each slide, fetched over HTTP range requests with `fetch_overviews.py`, about 30 seconds per slide. The whole dataset is sixty small PNG files instead of sixty gigabytes, which is why anyone can rerun the notebook. Figure 12 shows two overviews per class.
+**What is read.** Only the lowest pyramid level of each slide, fetched over HTTP range requests with `fetch_overviews.py`, about 30 seconds per slide. The whole dataset is sixty small PNG files instead of sixty gigabytes, which is why anyone can rerun the notebook. Figure 13 shows two overviews per class.
 
 ![Slide overviews, lowest pyramid level, two per class](technical/figures/fig1_example_overviews.png)
 
@@ -38,7 +38,7 @@ ResNet50 expects 224 px squares, so notebook section 5 slides a 224 px window wi
 | DDLPS | 30 | 70.5 | 3 | 129 |
 | LMS | 30 | 48.1 | 6 | 105 |
 
-DDLPS slides give more tiles because the tumours are larger and fattier. The count itself cannot leak into the classifier, because the next step averages all tiles into one vector per slide (Figure 13).
+DDLPS slides give more tiles because the tumours are larger and fattier. The count itself cannot leak into the classifier, because the next step averages all tiles into one vector per slide (Figure 14).
 
 ![Tissue tiles per slide by class](technical/figures/fig2_tiles_per_slide.png)
 

@@ -8,7 +8,7 @@ The case for change. Sarcoma subtype decides the operation and the oncology plan
 
 ### 1. Map of this business case
 
-The five parts follow the five-case model used for NHS and HM Treasury business cases ([Green Book](https://www.gov.uk/government/publications/the-green-book-appraisal-and-evaluation-in-central-government)). Each part answers one question, and the sections under it are read in order (Figure 14).
+The five parts follow the five-case model used for NHS and HM Treasury business cases ([Green Book](https://www.gov.uk/government/publications/the-green-book-appraisal-and-evaluation-in-central-government)). Each part answers one question, and the sections under it are read in order (Figure 15).
 
 ![The five parts and the sections under each](business/fig_five_case_map.png)
 
@@ -88,13 +88,13 @@ The buyer and the deal. One payer in each country, NHS England through the Genom
 
 ### 6. Who pays, and why they would
 
-One payer in each country, two kinds of user, and one channel. Figure 15 shows the money and the use separately.
+One payer in each country, two kinds of user, and one channel. Figure 16 shows the money and the use separately.
 
 | Who | Role | What they buy | Why it is worth it to them |
 |---|---|---|---|
 | **NHS England, through the Genomic Laboratory Hubs** | Primary payer, England | Per-slide licence, or an annual regional subscription, delivered inside the hub's existing digital pathology feed | The hub pays for every genomic test from a central budget. Each misrouted request costs a repeat panel and a second three-week cycle against a 21-day national target. One licence replaces both. |
 | **Taiwan National Health Insurance Administration** | Primary payer, Taiwan | A reimbursement code for AI-assisted pathology triage | NGS is paid once per patient per lifetime, capped at NT$30,000. A wrong first panel spends it. Triage protects it. |
-| **Specialist sarcoma centres** (Royal National Orthopaedic Hospital, Birmingham, Oxford, Newcastle) | User, and the clinicians who ask the hub to buy | Nothing extra; the result arrives with the referral | The orthopaedic team has the subtype before the first multidisciplinary meeting, so the theatre booking, the margin and the limb-salvage decision are made three weeks earlier. |
+| **Specialist sarcoma centres** (Royal National Orthopaedic Hospital, Birmingham, Oxford where the team lead is based, Newcastle) | User, and the clinicians who ask the hub to buy | Nothing extra; the result arrives with the referral | The orthopaedic team has the subtype before the first multidisciplinary meeting, so the theatre booking, the margin and the limb-salvage decision are made three weeks earlier. |
 | **District and regional hospitals** (both countries) | User | Nothing extra; the score appears in the viewer they already use | They cannot run genomic tests themselves. The score tells them whether to refer, and stops the lump being removed before anyone knows it is a sarcoma. |
 | **Digital pathology marketplaces** (Sectra Amplifier, Leica) | Channel | A listed module, paid by revenue share | Scanner vendors do not buy rare-cancer models outright. They list them and take a share, which is how third-party pathology AI already reaches hospitals ([Sectra Amplifier listing](https://amplifiermarketplace.sectra.com/vendor/panakeia/)). |
 
