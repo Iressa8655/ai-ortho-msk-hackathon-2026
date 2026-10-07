@@ -4,17 +4,19 @@ Structured on the five-case model that NHS and HM Treasury business cases use ([
 
 ## Part A. Strategic case: the problem, the solution, and why now
 
+The case for change. Sarcoma subtype decides the operation and the oncology plan, the confirming genomic test is centralised and slow, and a wrong first order costs a full test cycle in England and the single reimbursed test in Taiwan. We propose decision support that reads the H&E slide already in hand and makes the first genomic order the right one. This part states the problem, the solution, and what the submitted prototype does and does not prove.
+
 ### 10. Map of this business case
 
 The five parts follow the five-case model used for NHS and HM Treasury business cases ([Green Book](https://www.gov.uk/government/publications/the-green-book-appraisal-and-evaluation-in-central-government)). Section numbers are from the working draft and are kept so that cross-references stay valid.
 
 | Part | Question it answers | Sections |
 |---|---|---|
-| A. Strategic | What is wrong today, what we propose, what this submission proves | 1, 2, 7, 6 |
+| A. Strategic | What is wrong today, what we propose, what this submission proves | 1, 2, 7 |
 | B. Economic | What the payer saves and what one slide costs to run | 8, 13 |
 | C. Commercial | Who pays, how the money flows, how big the market is, who else sells | 3, 4, 11, 12 |
 | D. Financial | What three years cost and who funds them | 16, 18, 19 |
-| E. Management | How it is rolled out, by when, under which regulation, by whom, and what could go wrong | 5, 17, 9, 14, 15 |
+| E. Management | How it is rolled out, by when, under which regulation, with what diversity reporting, by whom, and what could go wrong | 5, 17, 9, 6, 14, 15 |
 
 Key performance indicators: misroute rate, days to molecular result, abstention rate and per-site AUC, listed in notebook 02 section 5 and notebook 01 section 9.
 
@@ -88,11 +90,9 @@ The code in `technical/` is a proof of concept on open TCGA-SARC data, built so 
 
 Moving from the prototype to the production model changes the data and the model. It does not change where the tool sits in the pathway or who acts on its output.
 
-### 6. Diversity and ethics
-
-Covered once, in the clinical implementation strategy, section 7 (diversity and equity) and in section 9 below (ethics and regulation). The one point that belongs here: patient-level data are never moved. Only the model moves.
-
 ## Part B. Economic case: what it saves and what it costs to run
+
+Value for money. The direct laboratory saving is modest because the test is cheap; the value is in patient-days of waiting removed and operations planned with the subtype known. Inference cost per slide is negligible, so the cost of the service is validation, regulation and support. Every input is labelled sourced or assumption and can be changed in the savings notebook.
 
 ### 8. How much money it saves, and why a government payer pays
 
@@ -137,6 +137,8 @@ Per-slide inference cost, computed from public prices. Feature extraction with a
 At that volume compute is under US$300 a year. The cost of the product is regulatory, clinical validation and support, not inference. A per-slide price in the tens of pounds is therefore almost pure margin once the device is certified, and a national licence should be priced against the days saved, not against compute.
 
 ## Part C. Commercial case: who buys, how they pay, and who else sells
+
+The buyer and the deal. One payer in each country, NHS England through the Genomic Laboratory Hubs and the National Health Insurance Administration in Taiwan, and two kinds of user who pay nothing extra. The product reaches them inside the digital pathology viewer they already use. No company sells an H&E-to-fusion product for sarcoma today.
 
 ### 3. Who pays, and why they would
 
@@ -187,6 +189,8 @@ Nobody markets an H&E-to-fusion-gene product for sarcoma today. The category exi
 Academic literature on sarcoma AI is prognosis-first, not fusion-first, for example survival prediction from H&E with reported AUC 0.97 in one cohort ([PMC review](https://pmc.ncbi.nlm.nih.gov/articles/PMC11129162/)) and margin-aware prognosis in 2025 ([Scientific Reports 2025](https://www.nature.com/articles/s41598-025-20804-1)). A 2025 review frames fusion detection as the next AI target in soft tissue sarcoma genomics ([PubMed 41497157](https://pubmed.ncbi.nlm.nih.gov/41497157/)).
 
 ## Part D. Financial case: budget and funders
+
+Affordability. Three years from prototype to first licence, grant-funded so that the first contract is signed with evidence rather than a price guess. The budget is itemised line by line and each line is marked sourced or assumption. The first application is the Cancer Research UK Early Detection and Diagnosis Primer Award.
 
 ### 16. Milestones and funding
 
@@ -244,6 +248,8 @@ Ranked by fit, with the next deadline where it is published.
 
 ## Part E. Management case: delivery, regulation, team and risks
 
+Deliverability. Research use, then shadow deployment at one hub, then regulated use as UKCA-marked Class IIa decision support that a pathologist confirms. Performance is reported by laboratory, scanner and population, and the single largest risk, a model that learns stain colour instead of biology, has a measured gate before any clinical use.
+
 ### 5. Adoption and roll-out
 
 
@@ -289,6 +295,10 @@ Three years from research prototype to first paid licence. Each quarter has one 
 - The model can abstain. Low-confidence cases are routed to the full panel, not to a guess.
 - No patient-level data crosses a border. The Taiwan arm trains and validates inside Taiwan.
 - Patient and public involvement before the shadow deployment, with the sarcoma patient charity as the first contact.
+
+### 6. Diversity and ethics
+
+Covered once, in the clinical implementation strategy, section 7 (diversity and equity) and in section 9 below (ethics and regulation). The one point that belongs here: patient-level data are never moved. Only the model moves.
 
 ### 14. Team, roles needed and who is in place
 

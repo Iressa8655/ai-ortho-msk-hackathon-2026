@@ -107,4 +107,5 @@ The demo shows what the surgeon or pathologist sees: the two subtype probabiliti
 | Cross-validation only | External validation on held-out hospitals, calibration, subgroup audit |
 
 The multi-hospital validation set and the robustness gate before any clinical use are described in the business case.
+**Reporting standard.** The baseline is reported against the items of TRIPOD+AI, the 2024 reporting guideline for prediction models that use machine learning ([Collins and colleagues, BMJ 2024](https://doi.org/10.1136/bmj-2023-078378)): data source and eligibility (section 2), predictors and outcome (sections 3 to 5), sample size and its limits (section 8), model building and internal validation (section 5), performance with calibration not yet assessed, and the fairness items not yet assessable on sixty TCGA patients. A completed TRIPOD+AI checklist will accompany the production model, not this prototype.
 

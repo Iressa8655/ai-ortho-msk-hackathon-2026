@@ -124,15 +124,38 @@ def number_figures(texts):
 # 節號不改（內文的 section N 互相參照才不會壞），節標題降成 ###。
 FIVE_CASES = [
     ("Part A. Strategic case: the problem, the solution, and why now",
-     ["B10", "B01", "B02", "B07", "B06"]),
+     "The case for change. Sarcoma subtype decides the operation and the oncology plan, "
+     "the confirming genomic test is centralised and slow, and a wrong first order costs a "
+     "full test cycle in England and the single reimbursed test in Taiwan. We propose "
+     "decision support that reads the H&E slide already in hand and makes the first "
+     "genomic order the right one. This part states the problem, the solution, and what the "
+     "submitted prototype does and does not prove.",
+     ["B10", "B01", "B02", "B07"]),
     ("Part B. Economic case: what it saves and what it costs to run",
+     "Value for money. The direct laboratory saving is modest because the test is cheap; the "
+     "value is in patient-days of waiting removed and operations planned with the subtype known. "
+     "Inference cost per slide is negligible, so the cost of the service is validation, "
+     "regulation and support. Every input is labelled sourced or assumption and can be changed "
+     "in the savings notebook.",
      ["B08", "B13"]),
     ("Part C. Commercial case: who buys, how they pay, and who else sells",
+     "The buyer and the deal. One payer in each country, NHS England through the Genomic "
+     "Laboratory Hubs and the National Health Insurance Administration in Taiwan, and two kinds "
+     "of user who pay nothing extra. The product reaches them inside the digital pathology "
+     "viewer they already use. No company sells an H&E-to-fusion product for sarcoma today.",
      ["B03", "B04", "B11", "B12"]),
     ("Part D. Financial case: budget and funders",
+     "Affordability. Three years from prototype to first licence, grant-funded so that the "
+     "first contract is signed with evidence rather than a price guess. The budget is itemised "
+     "line by line and each line is marked sourced or assumption. The first application is the "
+     "Cancer Research UK Early Detection and Diagnosis Primer Award.",
      ["B16", "B18", "B19"]),
     ("Part E. Management case: delivery, regulation, team and risks",
-     ["B05", "B17", "B09", "B14", "B15"]),
+     "Deliverability. Research use, then shadow deployment at one hub, then regulated use as "
+     "UKCA-marked Class IIa decision support that a pathologist confirms. Performance is reported "
+     "by laboratory, scanner and population, and the single largest risk, a model that learns "
+     "stain colour instead of biology, has a measured gate before any clinical use.",
+     ["B05", "B17", "B09", "B06", "B14", "B15"]),
 ]
 
 
@@ -145,12 +168,12 @@ def page_for(key):
 
 def assemble_business_case():
     parts = []
-    listed = {k for _, keys in FIVE_CASES for k in keys}
+    listed = {k for _, _, keys in FIVE_CASES for k in keys}
     unlisted = [p.name for p in VAULT.glob("B[0-9][0-9] *.md") if p.name[:3] not in listed]
     if unlisted:
         print("warning: B pages not placed in any case:", unlisted)
-    for title, keys in FIVE_CASES:
-        parts.append(f"## {title}\n\n")
+    for title, lead, keys in FIVE_CASES:
+        parts.append(f"## {title}\n\n{lead}\n\n")
         for key in keys:
             english = extract_english(page_for(key))
             english = re.sub(r"^## ", "### ", english, count=1, flags=re.M)
