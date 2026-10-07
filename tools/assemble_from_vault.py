@@ -160,7 +160,7 @@ FIVE_CASES = [
 
 
 def page_for(key):
-    hits = sorted(VAULT.glob(f"{key} *.md"))
+    hits = sorted(VAULT.glob(f"{key} [A-E]. *.md")) or sorted(VAULT.glob(f"{key} *.md"))
     if not hits:
         raise SystemExit(f"missing page for {key}")
     return hits[0]
@@ -232,6 +232,8 @@ def build_zip(pdf):
         "SUBMISSION.md",
         "technical/01_sarcoma_hne_triage.ipynb",
         "technical/02_savings_model.ipynb",
+        "technical/03_robustness_checks.ipynb",
+        "technical/build_robustness_notebook.py",
         "technical/technical_report.md",
         "technical/requirements.txt",
         "technical/fetch_overviews.py",

@@ -30,6 +30,7 @@ colorlinks: true
 | `technical/01_sarcoma_hne_triage.ipynb` | Working baseline on open TCGA-SARC data, 60 patients, out-of-fold AUC 0.82 |
 | `technical/technical_report.md` | Section-by-section write-up of how the baseline model was built, trained and evaluated (Technical report, sections 1 to 10) |
 | `technical/02_savings_model.ipynb` | Transparent savings arithmetic, every input labelled sourced or assumption |
+| `technical/03_robustness_checks.ipynb` | Bootstrap interval, repeated splits, permutation null, calibration, stain perturbation, tile maps |
 | `medicine/clinical_implementation.md` | Medical part: the clinical problem, where the AI sits, integration and safety, Taiwan, diversity, implementation stages |
 | `business/business_case.md` | Business part on the NHS five-case model: strategic, economic, commercial, financial, management, including business model, competition, milestones, funding and patient involvement |
 | `technical/requirements.txt`, `technical/fetch_overviews.py` | Environment and download helper |

@@ -61,7 +61,7 @@ Sixty patients cannot support anything bigger than a linear model. Notebook sect
 | 4 | 0.611 |
 | **Out-of-fold, all 60** | **0.822** |
 
-At a 0.5 threshold 42 of 60 patients are correct, nine errors in each class (Figure 13). The spread between folds, 0.61 to 1.00, is what twelve-patient test folds look like. It is a limit of the cohort size, not a bug.
+The 95 per cent bootstrap interval on the out-of-fold AUC is 0.70 to 0.92, and the AUC across 20 different fold assignments ranges from 0.77 to 0.88 (section 10). At a 0.5 threshold 42 of 60 patients are correct, nine errors in each class (Figure 13). The spread between folds, 0.61 to 1.00, is what twelve-patient test folds look like. It is a limit of the cohort size, not a bug.
 
 ![ROC curve and confusion matrix, out-of-fold](technical/figures/fig3_roc_confusion.png)
 
@@ -111,7 +111,7 @@ Figure 15 is the demo after one bundled TCGA-SARC slide has been analysed.
 | Cross-validation only | External validation on held-out hospitals, calibration, subgroup audit |
 
 The multi-hospital validation set and the robustness gate before any clinical use are described in the business case.
-**Reporting standard.** The baseline is reported against the items of TRIPOD+AI, the 2024 reporting guideline for prediction models that use machine learning ([Collins and colleagues, BMJ 2024](https://doi.org/10.1136/bmj-2023-078378)): data source and eligibility (section 2), predictors and outcome (sections 3 to 5), sample size and its limits (section 8), model building and internal validation (section 5), performance with calibration not yet assessed, and the fairness items not yet assessable on sixty TCGA patients. A completed TRIPOD+AI checklist will accompany the production model, not this prototype.
+**Reporting standard.** The baseline is reported against the items of TRIPOD+AI, the 2024 reporting guideline for prediction models that use machine learning ([Collins and colleagues, BMJ 2024](https://doi.org/10.1136/bmj-2023-078378)): data source and eligibility (section 2), predictors and outcome (sections 3 to 5), sample size and its limits (section 8), model building and internal validation (section 5), performance, uncertainty, calibration and robustness (section 10), and the fairness items not yet assessable on sixty TCGA patients. A completed TRIPOD+AI checklist will accompany the production model, not this prototype.
 
 ## 9. Scope of the prototype, and what the production model adds
 
@@ -119,7 +119,34 @@ The code in `technical/` is a proof of concept on open TCGA-SARC data, built so 
 
 Moving from the prototype to the production model changes the data and the model. It does not change where the tool sits in the pathway or who acts on its output.
 
-## 10. How to run
+## 10. Robustness checks
+
+One number, AUC 0.82 on 60 patients, invites six questions. Notebook `technical/03_robustness_checks.ipynb` answers each with the cached features from notebook 01 and runs in minutes on a CPU. All numbers below are from that run (seed 42).
+
+| Question | Method | Result |
+|---|---|---|
+| How wide is the error on 0.82 | Bootstrap, 2,000 resamples of the 60 patients | 95 per cent interval **0.70 to 0.92** |
+| Was the split lucky | 5-fold cross-validation repeated with 20 seeds | mean 0.81, range 0.77 to 0.88; seed 42 is typical |
+| Could 60 patients give 0.8 by chance | Permutation null, 500 label shuffles | null mean 0.50, 95th percentile 0.65; real 0.82, **p = 0.002** |
+| Are the probabilities calibrated | Reliability diagram, 5 bins, Brier score | Brier **0.21**; mild under-confidence in the middle bins (Figure 17) |
+| Colour or tissue | Hue, saturation and brightness perturbation, out-of-fold scoring | 2 to 4 of 60 calls flip; AUC 0.78 to 0.83 against 0.82 unperturbed |
+| Where does it look | Tile-level probability maps, leave-one-patient-out head | the four worst DDLPS slides are a mix of red and blue tiles; the mean dilutes the DDLPS signal (Figure 18) |
+
+![Permutation null from 500 label shuffles; the real AUC sits outside it](technical/figures/fig6_permutation_null.png)
+
+**What the interval means.** The data support "clearly above chance", not "0.82". The honest headline is 0.82 (95 per cent interval 0.70 to 0.92), and the permutation test (Figure 16) rules out a chance result with 60 patients and 2,048 features.
+
+![Reliability diagram, five quantile bins, Brier score 0.21](technical/figures/fig7_calibration.png)
+
+**Calibration.** The head is strongly regularised (C = 0.1), so probabilities are pulled toward 0.5 and the curve is slightly under-confident in the middle. For triage this is the safer direction: a 0.6 means at least 0.6. Calibration will be refitted on the production cohort, where the abstain threshold is set.
+
+**Stain and scanner.** The synthetic perturbations shift the mean probability by 0.03 to 0.07 and flip at most 4 of 60 calls; brightening is the most damaging (AUC 0.78). At overview resolution the features are mostly tissue-driven, but this is a synthetic test, not real inter-laboratory variation. The 30-hospital, 3-scanner dataset in the business case is the real gate, and the published sarcoma foundation-model result that falls from 0.94 to 0.47 across institutions is why that gate exists.
+
+![The four most confident errors, overview above and tile-level p(DDLPS) below, scored by a head that never saw that patient](technical/figures/fig8_tile_maps.png)
+
+**Where it looks.** Scored tile by tile, the four worst DDLPS slides contain many DDLPS-like tiles (17 to 47 of 31 to 86 tiles above 0.5) next to large LMS-like regions. Averaging the features before classification lets the larger region win. This is the mean-pooling failure named in section 6 and the reason the production model uses attention pooling.
+
+## 11. How to run
 
 
 ```
@@ -128,6 +155,7 @@ pip install -r technical/requirements.txt
 cd technical
 jupyter lab 01_sarcoma_hne_triage.ipynb # run all, first run downloads ~60 overviews
 jupyter lab 02_savings_model.ipynb
+jupyter lab 03_robustness_checks.ipynb # uses the cache from 01, minutes on CPU
 ```
 
 To see the trained baseline run on a slide, open the live demo at <https://iressa-sarcoma-triage-demo.static.hf.space/> (hosted as a Hugging Face Space; the model runs in your browser and the image never leaves your machine), or run it locally:

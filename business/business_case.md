@@ -8,12 +8,12 @@ The case for change. Sarcoma subtype decides the operation and the oncology plan
 
 ### 1. Map of this business case
 
-The five parts follow the five-case model used for NHS and HM Treasury business cases ([Green Book](https://www.gov.uk/government/publications/the-green-book-appraisal-and-evaluation-in-central-government)). Each part answers one question, and the sections under it are read in order (Figure 16).
+The five parts follow the five-case model used for NHS and HM Treasury business cases ([Green Book](https://www.gov.uk/government/publications/the-green-book-appraisal-and-evaluation-in-central-government)). Each part answers one question, and the sections under it are read in order (Figure 19).
 
 ![The five parts and the sections under each](business/fig_five_case_map.png)
 
 | Part | Question it answers | Sections |
-|---|---|---|
+| ------------- | ------------------------------------------------------------------------------------------------------------------- | -------- |
 | A. Strategic | What is wrong today and what we propose; the clinical evidence is in the Medical part | 1 to 3 |
 | B. Economic | What the payer saves and what one slide costs to run | 4, 5 |
 | C. Commercial | Who pays, how the money flows, how big the market is, who else sells | 6 to 9 |
@@ -88,7 +88,7 @@ The buyer and the deal. One payer in each country, NHS England through the Genom
 
 ### 6. Who pays, and why they would
 
-One payer in each country, two kinds of user, and one channel. Figure 17 shows the money and the use separately.
+One payer in each country, two kinds of user, and one channel. Figure 20 shows the money and the use separately.
 
 | Who | Role | What they buy | Why it is worth it to them |
 |---|---|---|---|
@@ -105,7 +105,7 @@ One payer in each country, two kinds of user, and one channel. Figure 17 shows t
 ### 7. Payment pathway
 
 
-Figure 18 shows who pays whom along the diagnostic pathway. Grey arrows carry the sample and the report, green arrows carry money. The source file is `business/payment_pathway_biorender.jpg` ([editable BioRender version](https://app.biorender.com/illustrations/639f48d72cfd34c4f14311b2)). 
+Figure 21 shows who pays whom along the diagnostic pathway. Grey arrows carry the sample and the report, green arrows carry money. The source file is `business/payment_pathway_biorender.jpg` ([editable BioRender version](https://app.biorender.com/illustrations/639f48d72cfd34c4f14311b2)). 
 
 Flow: patient biopsy at a local hospital → H&E slide scanned → model call (charged per slide to the laboratory or hub) → triage report → correct genomic test ordered once → result reaches the sarcoma multidisciplinary team.
 

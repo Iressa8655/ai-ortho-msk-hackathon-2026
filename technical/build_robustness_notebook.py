@@ -239,22 +239,25 @@ backbone = backbone.eval()
 preprocess = weights.transforms()
 
 
-def tile_overview(img):
-    # 跟 notebook 01 相同的切法，輸入已是 PIL 影像
+def tissue_coords(img):
+    # 在「原圖」上決定哪些 224 px 格子是組織，擾動後用同一組格子，
+    # 這樣比較的是顏色變了模型怎麼反應，不是格子變了
     arr = np.asarray(img.convert("RGB"))
     h, w, _ = arr.shape
     grey = arr.mean(axis=2)
-    tiles = []
+    coords = []
     for yy in range(0, h - TILE + 1, TILE):
         for xx in range(0, w - TILE + 1, TILE):
             if (grey[yy:yy + TILE, xx:xx + TILE] < 220).mean() >= MIN_TISSUE:
-                tiles.append(arr[yy:yy + TILE, xx:xx + TILE])
-    return tiles
+                coords.append((yy, xx))
+    return coords
 
 
 @torch.no_grad()
-def slide_feature_from_image(img, batch=32):
-    tiles = tile_overview(img)
+def feature_at(img, coords, batch=32):
+    # 指定格子位置抽特徵，取平均
+    arr = np.asarray(img.convert("RGB"))
+    tiles = [arr[yy:yy + TILE, xx:xx + TILE] for yy, xx in coords]
     feats = []
     for start in range(0, len(tiles), batch):
         chunk = tiles[start:start + batch]
@@ -282,39 +285,67 @@ PERTURBATIONS = {
     "brightness 1.15": (0, 1.0, 1.15),
 }
 
-# 用全部 60 人擬合的 head 來打分（跟 demo 的 head.json 同一個）
+def cross_val_oof_perturbed(X_train_src, X_test_src, y, seed):
+    # 每一折用「沒擾動」的訓練特徵擬合，用「擾動過」的測試特徵打分
+    # 這樣每個人都是被沒看過他的模型評的，跟 notebook 01 的 0.82 可以直接比
+    cv = StratifiedKFold(n_splits=5, shuffle=True, random_state=seed)
+    out = np.zeros(len(y))
+    for tr, te in cv.split(X_train_src, y):
+        model = make_model().fit(X_train_src[tr], y[tr])
+        out[te] = model.predict_proba(X_test_src[te])[:, 1]
+    return out
+
+
+# 全部 60 人擬合的 head，給 §7 的熱圖用（跟 demo 的 head.json 同一個）
 head = make_model().fit(X, y)
-base_pred = (head.predict_proba(X)[:, 1] >= 0.5).astype(int)
+
+base_oof = cross_val_oof(X, y, SEED)                 # 沒擾動的 out-of-fold 機率
+base_pred = (base_oof >= 0.5).astype(int)
+print(f"unperturbed out-of-fold AUC {roc_auc_score(y, base_oof):.3f}")
+
+coords_per_slide = [tissue_coords(Image.open(row.png)) for row in cohort.itertuples()]
 
 flips = {}
 for name, (hs, sat, br) in PERTURBATIONS.items():
-    Xp = np.zeros_like(X)
-    for i, row in enumerate(tqdm(cohort.itertuples(), total=len(cohort), desc=name, leave=False)):
-        img = perturb(Image.open(row.png), hs, sat, br)
-        Xp[i] = slide_feature_from_image(img)
-    pred = (head.predict_proba(Xp)[:, 1] >= 0.5).astype(int)
-    auc_p = roc_auc_score(y, head.predict_proba(Xp)[:, 1])
-    flips[name] = (int((pred != base_pred).sum()), auc_p)
-    print(f"{name:18s} flipped {flips[name][0]:2d} / 60   AUC on perturbed {auc_p:.3f}")
+    cache = DATA / f"robustness_{name.replace(' ', '_').replace('+', 'p').replace('-', 'm')}.npy"
+    if cache.exists():                                   # 跑過就直接讀
+        Xp = np.load(cache)
+    else:
+        Xp = np.zeros_like(X)
+        for i, row in enumerate(tqdm(cohort.itertuples(), total=len(cohort), desc=name, leave=False)):
+            img = perturb(Image.open(row.png), hs, sat, br)
+            Xp[i] = feature_at(img, coords_per_slide[i])
+        np.save(cache, Xp)
+    oof_p = cross_val_oof_perturbed(X, Xp, y, SEED)
+    pred = (oof_p >= 0.5).astype(int)
+    auc_p = roc_auc_score(y, oof_p)
+    flips[name] = (int((pred != base_pred).sum()), auc_p, float(np.abs(oof_p - base_oof).mean()))
+    print(f"{name:18s} flipped {flips[name][0]:2d} / 60   out-of-fold AUC {auc_p:.3f}   mean |dp| {flips[name][2]:.3f}")
 
-flip_table = pd.DataFrame(flips, index=["flipped of 60", "AUC"]).T
+flip_table = pd.DataFrame(flips, index=["flipped of 60", "out-of-fold AUC", "mean |delta p|"]).T
 flip_table
 """)
 md(r"""
-**Output.** One row per perturbation. The AUC here is in-sample (the head saw
-these 60 patients), so only the *change* under perturbation is informative,
-not the absolute value. Few flips and a small AUC drop mean the features are
-mostly tissue-driven at this resolution; many flips would confirm the stain
-risk and argue for stain normalisation before anything else.
+**Output.** One row per perturbation, all out-of-fold, so the AUC column is
+directly comparable with the unperturbed 0.82. "Flipped" counts patients whose
+0.5-threshold call changed; "mean |delta p|" is the average shift in
+probability. Few flips and a small AUC change mean the features are mostly
+tissue-driven at this resolution; many flips would confirm the stain risk and
+argue for stain normalisation before anything else. This is a synthetic
+perturbation, not real inter-laboratory variation; the 30-hospital dataset in
+the business case is the real test.
 """)
 
 md(r"""
 ## 7 · Where the model looks, tile-level maps
 
 **Story.** Each tile can be scored on its own by passing its single feature
-vector through the same head. Painting p(DDLPS) back onto the overview shows
-which regions drive the slide-level average. For the four most confident
-errors from notebook 01 this is the picture to show a pathologist.
+vector through the logistic head. Painting p(DDLPS) back onto the overview
+shows which regions drive the slide-level average. For the four most
+confident errors from notebook 01 this is the picture to show a pathologist.
+The head used for each slide is fitted on the other 59 patients, so the map
+shows what a model that never saw this patient thinks of each tile; a head
+fitted on all 60 would have seen the answer.
 """)
 code(r"""
 worst = cohort.assign(error=np.abs(cohort["oof_prob_ddlps"] - y)).sort_values("error", ascending=False).head(4)
@@ -325,18 +356,15 @@ for col, row in enumerate(worst.itertuples()):
     arr = np.asarray(img)
     h, w, _ = arr.shape
     heat = np.full((h // TILE, w // TILE), np.nan)
-    tiles, coords = [], []
-    for yy in range(0, h - TILE + 1, TILE):
-        for xx in range(0, w - TILE + 1, TILE):
-            patch = arr[yy:yy + TILE, xx:xx + TILE]
-            if (patch.mean(axis=2) < 220).mean() >= MIN_TISSUE:
-                tiles.append(patch)
-                coords.append((yy // TILE, xx // TILE))
+    coords = tissue_coords(img)
     with torch.no_grad():
-        f = backbone(torch.stack([preprocess(Image.fromarray(t)) for t in tiles])).numpy()
-    p_tile = head.predict_proba(f)[:, 1]
-    for (r, c), p in zip(coords, p_tile):
-        heat[r, c] = p
+        f = backbone(torch.stack([preprocess(Image.fromarray(arr[yy:yy + TILE, xx:xx + TILE])) for yy, xx in coords])).numpy()
+    others = np.arange(len(y)) != row.Index               # 留一法，這個病人不在訓練集
+    head_loo = make_model().fit(X[others], y[others])
+    p_tile = head_loo.predict_proba(f)[:, 1]
+    print(f"{row.case}: {len(coords)} tiles, mean tile p(DDLPS) {p_tile.mean():.2f}, tiles above 0.5: {(p_tile >= 0.5).sum()}")
+    for (yy, xx), p in zip(coords, p_tile):
+        heat[yy // TILE, xx // TILE] = p
     axes[0, col].imshow(img)
     axes[0, col].set_title(f"{row.case}  true {row.label}  slide p={row.oof_prob_ddlps:.2f}", fontsize=9)
     axes[0, col].axis("off")
@@ -350,7 +378,7 @@ plt.show()
 """)
 md(r"""
 **Output.** Figure 8. Blue tiles pull the slide toward LMS, red toward DDLPS.
-On a DDLPS slide scored as LMS, a sea of blue with a few red tiles is exactly
+On a DDLPS slide scored as LMS, mostly blue with a few red tiles is exactly
 the failure of mean pooling that notebook 01 §8 describes: the informative
 tiles are outvoted. Attention pooling in the production model is the fix.
 
