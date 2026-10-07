@@ -95,7 +95,7 @@ Figure 15 is the demo after one bundled TCGA-SARC slide has been analysed.
 **Limitations, stated plainly.**
 
 1. Sixty patients and two subtypes in the headline model, ninety and three in the extension (section 10). This proves the pipeline runs end to end on open data. It is not a clinical result.
-2. Overview resolution only, roughly 16 times downsampled from the scan. Nuclear detail is invisible.
+2. Overview resolution only, roughly 16 times downsampled from the scan. Nuclear detail is invisible. One level up changes nothing with the present pooling (section 10), so resolution must be raised together with attention pooling and pathology-trained features, not alone.
 3. Smallest-file selection bias. The sixty slides are the smallest per class. A random cohort of the same size gives the same AUC within its interval (section 10), so the bias did not make the result, but it is still a bias in which tumours were seen.
 4. A single scanning programme (TCGA). Stain and scanner variation between hospitals is untested.
 5. Mean pooling. Informative regions are averaged with uninformative ones, which is exactly what section 6 shows.
@@ -121,7 +121,7 @@ Moving from the prototype to the production model changes the data and the model
 
 ## 10. Robustness checks
 
-One number, AUC 0.82 on 60 patients, invites eight questions about the data and five about the modelling. Notebook `technical/03_robustness_checks.ipynb` answers the first six with the cached features from notebook 01 and runs in minutes on a CPU; notebook `05_more_data_checks.ipynb` downloads 59 more overviews for the last two. All numbers below are from that run (seed 42).
+One number, AUC 0.82 on 60 patients, invites eight questions about the data and five about the modelling. Notebook `technical/03_robustness_checks.ipynb` answers the first six with the cached features from notebook 01 and runs in minutes on a CPU; notebooks `05_more_data_checks.ipynb` and `07_fourth_class_and_resolution.ipynb` download more slides for the rest. All numbers below are from that run (seed 42).
 
 | Question | Method | Result |
 |---|---|---|
@@ -133,6 +133,7 @@ One number, AUC 0.82 on 60 patients, invites eight questions about the data and 
 | Did the smallest-file shortcut make the result | 30 + 30 patients drawn at random instead of the 30 smallest files per class, notebook 05 | AUC **0.81** (0.69 to 0.91) against 0.82 (0.70 to 0.92); 36 of the 60 patients overlap, because many patients only have one small slide |
 | Does a third, harder class break it | 30 undifferentiated pleomorphic sarcoma (UPS) patients added, three-class logistic regression, notebook 05 | macro one-versus-rest AUC **0.83** on 90 patients (LMS 0.82, DDLPS 0.83, UPS 0.83), accuracy 0.67 against 0.33 chance (Figure 20) |
 | Does a fourth class break it | 20 myxofibrosarcoma (MFS) patients added (10 of the 30 smallest files had too little tissue), four-class logistic regression, notebook 07 | macro one-versus-rest AUC **0.77** on 110 patients (LMS 0.81, DDLPS 0.82, UPS 0.73, MFS 0.73), accuracy 0.52 against 0.25 chance (Figure 24) |
+| Does one level more resolution help | The same 60 patients read one pyramid level up, 16 times the pixels, median 276 tiles per slide instead of 57, notebook 07 | AUC **0.83** (0.72 to 0.93) against 0.82 (0.70 to 0.92): no measurable gain at this scale (Figure 25) |
 | Where does it look | Tile-level probability maps, leave-one-patient-out head | the four worst DDLPS slides are a mix of red and blue tiles; the mean dilutes the DDLPS signal (Figure 18) |
 
 ![Permutation null from 500 label shuffles; the real AUC sits outside it](technical/figures/fig6_permutation_null.png)
@@ -183,6 +184,10 @@ One number, AUC 0.82 on 60 patients, invites eight questions about the data and 
 ![Four classes, out-of-fold confusion matrix, 110 patients](technical/figures/fig15_four_class_confusion.png)
 
 **A fourth class.** Adding myxofibrosarcoma lowers the macro AUC from 0.83 to 0.77 and the accuracy from 0.67 to 0.52 (Figure 24). The two fusion-free, pleomorphic subtypes, UPS and MFS, are the ones confused, each at 0.73 one-versus-rest, while LMS and DDLPS hold at 0.81 and 0.82. That is the expected shape: the subtypes without a defining molecular event are also the ones without a defining low-resolution appearance. Only 20 of the 30 smallest MFS files had three or more tissue tiles at overview resolution, which is itself a limit of the overview shortcut.
+
+![Resolution check: the same 60 patients at the overview level and one level up](technical/figures/fig16_resolution.png)
+
+**One level up in resolution.** Reading the pyramid level above the overview gives sixteen times the pixels and a median of 276 tissue tiles per slide instead of 57, yet the out-of-fold AUC moves from 0.82 to 0.83 with overlapping intervals (Figure 25). With mean pooling and a frozen ImageNet backbone, more tiles of the same kind add little; the gain from resolution is expected to come only when the pooling can weight tiles and the features are pathology-trained, which is why the production plan changes those two things together rather than resolution alone. The 60 level-1 images total 4 GB and took about half an hour to fetch, against a few megabytes for the overviews, which is why the baseline reads overviews.
 
 ## 11. How to run
 

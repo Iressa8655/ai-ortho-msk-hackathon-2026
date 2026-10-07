@@ -8,7 +8,7 @@ The case for change. Sarcoma subtype decides the operation and the oncology plan
 
 ### 1. Map of this business case
 
-The five parts follow the five-case model used for NHS and HM Treasury business cases ([Green Book](https://www.gov.uk/government/publications/the-green-book-appraisal-and-evaluation-in-central-government)). Each part answers one question, and the sections under it are read in order (Figure 25).
+The five parts follow the five-case model used for NHS and HM Treasury business cases ([Green Book](https://www.gov.uk/government/publications/the-green-book-appraisal-and-evaluation-in-central-government)). Each part answers one question, and the sections under it are read in order (Figure 26).
 
 ![The five parts and the sections under each](business/fig_five_case_map.png)
 
@@ -26,7 +26,7 @@ Key performance indicators: misroute rate, days to molecular result, abstention 
 
 ![Three target problems on the diagnostic pathway, all starting at the first H&E slide](business/fig_three_target_problems.png)
 
-Figure 26 marks the three failures on the pathway. The bottleneck is not surgical capacity. It is three things that go wrong before the right operation. (1) A lump is removed before anyone knows it is a sarcoma. (2) A patient is referred to the specialist pathway who did not need it. (3) The surgical plan waits for weeks between the biopsy and the molecular answer. All three start at the same place, the first H&E slide at the referring hospital. The clinical evidence, the pathway and the costs of each failure are set out in the Medical part, section 1.
+Figure 27 marks the three failures on the pathway. The bottleneck is not surgical capacity. It is three things that go wrong before the right operation. (1) A lump is removed before anyone knows it is a sarcoma. (2) A patient is referred to the specialist pathway who did not need it. (3) The surgical plan waits for weeks between the biopsy and the molecular answer. All three start at the same place, the first H&E slide at the referring hospital. The clinical evidence, the pathway and the costs of each failure are set out in the Medical part, section 1.
 
 ### 3. The solution, as a product
 
@@ -34,7 +34,7 @@ A decision-support module inside the digital pathology viewer the laboratory alr
 
 ![The solution in one picture: today versus with AI triage, the three outputs, the four data sources in the order they are used, and the two numbers the aim is measured by](business/fig_solution_detail_biorender.png)
 
-Figure 27 summarises this section: the three outputs of the module, the four data sources in the order they are used, and the two numbers the aim is measured by.
+Figure 28 summarises this section: the three outputs of the module, the four data sources in the order they are used, and the two numbers the aim is measured by.
 
 **How it is built, and why the data meet the diversity and ethics criteria.** 
 Training: open TCGA-SARC slides ([GDC TCGA-SARC](https://portal.gdc.cancer.gov/projects/TCGA-SARC)), then Royal National Orthopaedic Hospital slides under the biobank's existing ethics approval ([RNOH biobank](https://www.rnoh.nhs.uk/services/cellular-and-molecular-pathology/rnoh-biobank-and-research-programme)). 
@@ -76,17 +76,20 @@ The two assumptions a pilot must measure first are the misroute rate and the cat
 ### 5. Unit economics
 
 
-Per-slide inference cost, computed from public prices. Feature extraction with a pathology foundation model such as UNI takes about 2 to 5 minutes per whole slide on one GPU ([Scientific Reports 2025 retrieval study](https://www.nature.com/articles/s41598-025-88545-9), [ensemble study, PMC](https://pmc.ncbi.nlm.nih.gov/articles/PMC13564370)). An AWS g5.xlarge with one A10G costs about US$1.01 an hour on demand ([g5.xlarge pricing](https://calculator.holori.com/aws/ec2/g5.xlarge)).
+Per-slide inference cost, computed from public prices.
+ Feature extraction with a pathology foundation model such as UNI takes about 2 to 5 minutes per whole slide on one GPU ([Scientific Reports 2025 retrieval study](https://www.nature.com/articles/s41598-025-88545-9), [ensemble study, PMC](https://pmc.ncbi.nlm.nih.gov/articles/PMC13564370)). 
+ An AWS g5.xlarge with one A10G costs about US$1.01 an hour on demand ([g5.xlarge pricing](https://calculator.holori.com/aws/ec2/g5.xlarge)).
 
 | Item | Value | Basis |
-|---|---|---|
+| ------------------ | --------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------- |
 | GPU time per slide | 5 minutes, upper bound | UNI extraction time above |
 | GPU cost per slide | about US$0.08 | 5/60 × $1.01 |
 | Storage per slide | 1 to 8 GB, about 2 GB compressed | [MDPI review of WSI](https://www.mdpi.com/2673-5261/7/1/2) |
 | Storage cost | a 250,000-slide-a-year laboratory spends about US$90,000 a year | [Digital Pathology Association](https://digitalpathologyassociation.org/blog/dont-be-afraid-of-storage-costs) |
 | Volume, UK | about 3,000 slides a year if half of new cases are triaged | §4 |
 
-At that volume compute is under US$300 a year. The cost of the product is regulatory, clinical validation and support, not inference. A per-slide price in the tens of pounds is therefore almost pure margin once the device is certified, and a national licence should be priced against the days saved, not against compute.
+At that volume compute is under US$300 a year. The cost of the product is regulatory, clinical validation and support, not inference. 
+A per-slide price in the tens of pounds is therefore almost pure margin once the device is certified, and a national licence should be priced against the days saved, not against compute.
 
 ## Part C. Commercial case: who buys, how they pay, and who else sells
 
@@ -94,7 +97,7 @@ The buyer and the deal. One payer in each country, NHS England through the Genom
 
 ### 6. Who pays, and why they would
 
-One payer in each country, two kinds of user, and one channel. Figure 28 shows the money and the use separately.
+One payer in each country, two kinds of user, and one channel. Figure 29 shows the money and the use separately.
 
 | Who | Role | What they buy | Why it is worth it to them |
 |---|---|---|---|
@@ -111,7 +114,7 @@ One payer in each country, two kinds of user, and one channel. Figure 28 shows t
 ### 7. Payment pathway
 
 
-Figure 29 shows who pays whom along the diagnostic pathway. Grey arrows carry the sample and the report, green arrows carry money. The source file is `business/payment_pathway_biorender.jpg` ([editable BioRender version](https://app.biorender.com/illustrations/639f48d72cfd34c4f14311b2)). 
+Figure 30 shows who pays whom along the diagnostic pathway. Grey arrows carry the sample and the report, green arrows carry money. The source file is `business/payment_pathway_biorender.jpg` ([editable BioRender version](https://app.biorender.com/illustrations/639f48d72cfd34c4f14311b2)). 
 
 The flow in words: the patient is biopsied at a local hospital; the H&E slide is scanned; the model is called, and that call is what is charged per slide to the laboratory or hub; the triage report names the panel; the correct genomic test is ordered once; the result reaches the sarcoma multidisciplinary team.
 
@@ -142,7 +145,7 @@ Bottom line :
 
 Academic literature on sarcoma AI is prognosis-first, not fusion-first, for example survival prediction from H&E with reported AUC 0.97 in one cohort ([PMC review](https://pmc.ncbi.nlm.nih.gov/articles/PMC11129162/)) and margin-aware prognosis in 2025 ([Scientific Reports 2025](https://www.nature.com/articles/s41598-025-20804-1)). A 2025 review frames fusion detection as the next AI target in soft tissue sarcoma genomics ([PubMed 41497157](https://pubmed.ncbi.nlm.nih.gov/41497157/)).
 
-**Where the effort is, counted.** Figure 30 puts numbers on the two claims above, from PubMed counts run in `technical/04_competitor_landscape.ipynb` on 7 October 2026 with the queries printed in that notebook. Sarcoma AI publishing grew from 20 records in 2018 to 270 in 2025 but stayed at about 1.1 to 1.5 per cent of all cancer AI records (panel A). Within sarcoma AI, prognosis (537 records) and histology diagnosis (400) lead; molecular or biomarker prediction from H&E is at most 251 on a broad keyword match, and few of those predict a fusion gene (panel B). Deep-learning H&E-to-molecular work is an order of magnitude larger in breast (1,692), lung (1,620) and colorectal cancer (1,098) than in sarcoma (182) (panel C), and the regulated products follow the same pattern: colorectal, breast and prostate have one each, sarcoma has none (panel D). Keyword counts overlap and overcount; the figure is a map of effort, not a systematic review.
+**Where the effort is, counted.** Figure 31 puts numbers on the two claims above, from PubMed counts run in `technical/04_competitor_landscape.ipynb` on 7 October 2026 with the queries printed in that notebook. Sarcoma AI publishing grew from 20 records in 2018 to 270 in 2025 but stayed at about 1.1 to 1.5 per cent of all cancer AI records (panel A). Within sarcoma AI, prognosis (537 records) and histology diagnosis (400) lead; molecular or biomarker prediction from H&E is at most 251 on a broad keyword match, and few of those predict a fusion gene (panel B). Deep-learning H&E-to-molecular work is an order of magnitude larger in breast (1,692), lung (1,620) and colorectal cancer (1,098) than in sarcoma (182) (panel C), and the regulated products follow the same pattern: colorectal, breast and prostate have one each, sarcoma has none (panel D). Keyword counts overlap and overcount; the figure is a map of effort, not a systematic review.
 
 ![Where the competition is, and where it is not: PubMed counts by year, task and tumour type, and the regulated products by tumour type](business/fig_competitor_landscape.png)
 
@@ -158,7 +161,7 @@ Research funding comes first and is small; the larger product-development award 
 
 ![Six stages on one timeline, 2026 Q4 to 2029; green text is who pays for each stage](business/fig_milestones_timeline.png)
 
-Figure 31 puts the six stages on one timeline; the table gives the deliverable, the gate and the funder for each.
+Figure 32 puts the six stages on one timeline; the table gives the deliverable, the gate and the funder for each.
 
 | Stage | When | What is delivered | Gate to the next stage | Funding route |
 |---|---|---|---|---|
