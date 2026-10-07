@@ -22,6 +22,7 @@ colorlinks: true
 | File | Content |
 |---|---|
 | `technical/01_sarcoma_hne_triage.ipynb` | Working baseline on open TCGA-SARC data, 60 patients, out-of-fold AUC 0.82 |
+| `technical/technical_report.md` | Section-by-section write-up of how the baseline model was built, trained and evaluated (Technical report, sections 1 to 8) |
 | `technical/02_savings_model.ipynb` | Transparent savings arithmetic, every input labelled sourced or assumption |
 | `medicine/clinical_implementation.md` | Clinical background and four-stage implementation strategy |
 | `business/business_case.md` | Payer, payment pathway, adoption, ethics and regulation, market, competition, unit economics, team, risks, milestones |
@@ -63,7 +64,7 @@ jupyter lab 01_sarcoma_hne_triage.ipynb # run all, first run downloads ~60 overv
 jupyter lab 02_savings_model.ipynb
 ```
 
-To see the trained baseline run on a slide, open the browser demo (no GPU, no server beyond a static file server):
+To see the trained baseline run on a slide, open the live demo at <https://iressa-sarcoma-triage-demo.static.hf.space/> (hosted as a Hugging Face Space; the model runs in your browser and the image never leaves your machine), or run it locally:
 
 ```
 cd demo

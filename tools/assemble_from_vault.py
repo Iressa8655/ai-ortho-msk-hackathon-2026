@@ -19,11 +19,12 @@ XELATEX_DIR = r"C:\Users\User\AppData\Local\Programs\MiKTeX\miktex\bin\x64"
 
 TARGETS = {
     "S": REPO / "SUBMISSION.md",
+    "T": REPO / "technical" / "technical_report.md",
     "C": REPO / "medicine" / "clinical_implementation.md",
     "B": REPO / "business" / "business_case.md",
     "P": REPO / "business" / "sba_business_plan.md",
 }
-MARKERS = {"S": "# ", "C": "## ", "B": "## ", "P": "## "}
+MARKERS = {"S": "# ", "T": "## ", "C": "## ", "B": "## ", "P": "## "}
 
 
 def read_head(path, marker):
@@ -129,7 +130,7 @@ def assemble():
         body = "".join(extract_english(p) for p in pages)
         assembled[prefix] = read_head(target, MARKERS[prefix]) + body
         print(f"{target.relative_to(REPO)}: {len(pages)} sections")
-    # 圖號照 pandoc 讀檔順序 S → C → B → P
+    # 圖號照 pandoc 讀檔順序 S → T → C → B → P
     keys = [k for k in TARGETS if k in assembled]
     numbered = number_figures([assembled[k] for k in keys])
     for key, text in zip(keys, numbered):
@@ -141,8 +142,8 @@ def build_pdf():
     env["PATH"] = XELATEX_DIR + os.pathsep + env["PATH"]
     out = REPO / "submission_document_v2.pdf"
     cmd = [
-        PANDOC, str(TARGETS["S"]), str(TARGETS["C"]), str(TARGETS["B"]),
-        str(TARGETS["P"]),
+        PANDOC, str(TARGETS["S"]), str(TARGETS["T"]), str(TARGETS["C"]),
+        str(TARGETS["B"]), str(TARGETS["P"]),
         "-o", str(out), "--pdf-engine=xelatex",
         "-V", "mainfont=Segoe UI", "-V", "geometry:margin=2cm", "--toc",
     ]
@@ -156,6 +157,7 @@ def build_zip(pdf):
         "SUBMISSION.md",
         "technical/01_sarcoma_hne_triage.ipynb",
         "technical/02_savings_model.ipynb",
+        "technical/technical_report.md",
         "technical/requirements.txt",
         "technical/fetch_overviews.py",
         "technical/build_notebook.py",

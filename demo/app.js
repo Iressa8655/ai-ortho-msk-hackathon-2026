@@ -141,6 +141,7 @@ function resetPanel() {
   $("pD").textContent = "–"; $("pL").textContent = "–";
   $("orderBox").classList.add("hidden"); $("abstainBox").classList.add("hidden");
   $("tileInfo").textContent = "–";
+  $("actionNote").classList.add("hidden");
   $("timing").innerHTML = '<span class="dot" style="background:#9aa7ba"></span>idle';
   const cv = $("tiles"); cv.getContext("2d").clearRect(0, 0, cv.width, cv.height);
 }
@@ -172,6 +173,18 @@ async function startAnalysis() {
   finally { b.textContent = "Run again"; b.disabled = false; b.style.opacity = "1"; }
 }
 $("startBtn").addEventListener("click", startAnalysis);
+
+// Demo-only actions. A real deployment would write an order to the LIS and log the disagreement for audit.
+function actionNote(text, colour) {
+  const n = $("actionNote"); n.textContent = text; n.style.color = colour; n.classList.remove("hidden");
+}
+$("lisBtn").addEventListener("click", () => {
+  const order = $("orderText").textContent;
+  actionNote(`Order sent to LIS (demo): ${order}`, "var(--ok)");
+});
+$("disagreeBtn").addEventListener("click", () => {
+  actionNote("Disagreement logged for audit (demo). Case follows the standard pathway.", "var(--warn)");
+});
 $("changeBtn").addEventListener("click", () => {
   current = null; $("slide").classList.add("hidden"); $("dropzone").classList.remove("hidden");
   $("caseName").textContent = "New case"; resetPanel(); setProgress(0, "waiting for a slide");

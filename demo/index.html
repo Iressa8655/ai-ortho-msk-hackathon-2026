@@ -62,7 +62,8 @@
         <div class="label">Recommended first test</div>
         <div id="orderText" class="mt-2 font-semibold"></div>
         <div id="orderNote" class="text-sm text-[var(--muted)] mt-1"></div>
-        <div class="flex gap-3 mt-4"><button class="btn btn-primary flex-1">Write to LIS</button><button class="btn flex-1">Disagree</button></div>
+        <div class="flex gap-3 mt-4"><button id="lisBtn" class="btn btn-primary flex-1">Write to LIS</button><button id="disagreeBtn" class="btn flex-1">Disagree</button></div>
+        <div id="actionNote" class="text-sm mt-3 hidden" style="color:var(--ok)"></div>
       </div>
 
       <div class="panel p-4 hidden" id="abstainBox" style="border-color:#f0d9a3;background:#fff9ec"><div class="label" style="color:var(--warn)">Low confidence</div><div class="text-sm mt-1" style="color:#6b4a00">The model would abstain and route this case down the standard pathway.</div></div>
