@@ -1,10 +1,10 @@
-# Technical report, how the baseline model was built
+# Technical part: how the baseline model was built
 
-This file is assembled from the vault review pages T01 to T08. It documents the notebook `01_sarcoma_hne_triage.ipynb` section by section: data, tiling, features, training, errors, the browser demo, and the gap to the production model.
+The notebook `01_sarcoma_hne_triage.ipynb` section by section: data, tiling, features, training, errors, the browser demo, limitations, scope, and how to run it.
 
 ## 1. Pipeline at a glance
 
-Everything in this section is in one notebook, `technical/01_sarcoma_hne_triage.ipynb`, which runs end to end on a laptop CPU in about an hour, most of it download time. Figure 4 shows the six steps. Each step is one notebook section, with the story above the code, a comment on every line, and the output explained below it.
+Everything in this section is in one notebook, `technical/01_sarcoma_hne_triage.ipynb`, which runs end to end on a laptop CPU in about an hour, most of it download time. Figure 7 shows the six steps. Each step is one notebook section, with the story above the code, a comment on every line, and the output explained below it.
 
 ![The six steps of the baseline, one notebook section each](technical/figures/fig0_pipeline.png)
 
@@ -25,7 +25,7 @@ The design choice behind every step is the same: the smallest thing that proves 
 
 **Cohort.** One slide per patient, so no patient can appear in both the training and the test fold. Thirty patients per class. We took the thirty smallest files per class because the lowest pyramid level scales with file size and reads faster. This is a selection bias and it is stated as such in section 8.
 
-**What is read.** Only the lowest pyramid level of each slide, fetched over HTTP range requests with `fetch_overviews.py`, about 30 seconds per slide. The whole dataset is sixty small PNG files instead of sixty gigabytes, which is why anyone can rerun the notebook. Figure 5 shows two overviews per class.
+**What is read.** Only the lowest pyramid level of each slide, fetched over HTTP range requests with `fetch_overviews.py`, about 30 seconds per slide. The whole dataset is sixty small PNG files instead of sixty gigabytes, which is why anyone can rerun the notebook. Figure 8 shows two overviews per class.
 
 ![Slide overviews, lowest pyramid level, two per class](technical/figures/fig1_example_overviews.png)
 
@@ -38,7 +38,7 @@ ResNet50 expects 224 px squares, so notebook section 5 slides a 224 px window wi
 | DDLPS | 30 | 70.5 | 3 | 129 |
 | LMS | 30 | 48.1 | 6 | 105 |
 
-DDLPS slides give more tiles because the tumours are larger and fattier. The count itself cannot leak into the classifier, because the next step averages all tiles into one vector per slide (Figure 6).
+DDLPS slides give more tiles because the tumours are larger and fattier. The count itself cannot leak into the classifier, because the next step averages all tiles into one vector per slide (Figure 9).
 
 ![Tissue tiles per slide by class](technical/figures/fig2_tiles_per_slide.png)
 
@@ -61,13 +61,13 @@ Sixty patients cannot support anything bigger than a linear model. Notebook sect
 | 4 | 0.611 |
 | **Out-of-fold, all 60** | **0.822** |
 
-At a 0.5 threshold 42 of 60 patients are correct, nine errors in each class (Figure 1). The spread between folds, 0.61 to 1.00, is what twelve-patient test folds look like. It is a limit of the cohort size, not a bug.
+At a 0.5 threshold 42 of 60 patients are correct, nine errors in each class (Figure 10). The spread between folds, 0.61 to 1.00, is what twelve-patient test folds look like. It is a limit of the cohort size, not a bug.
 
 ![ROC curve and confusion matrix, out-of-fold](technical/figures/fig3_roc_confusion.png)
 
 ## 6. Where it fails
 
-Notebook section 8 ranks the patients by how confidently wrong the model was. All four worst cases are DDLPS slides scored as LMS with p(DDLPS) below 0.08 (Figure 2).
+Notebook section 8 ranks the patients by how confidently wrong the model was. All four worst cases are DDLPS slides scored as LMS with p(DDLPS) below 0.08 (Figure 11).
 
 | Case | True | File size (MB) | Tiles | p(DDLPS) |
 |---|---|---|---|---|
@@ -108,4 +108,32 @@ The demo shows what the surgeon or pathologist sees: the two subtype probabiliti
 
 The multi-hospital validation set and the robustness gate before any clinical use are described in the business case.
 **Reporting standard.** The baseline is reported against the items of TRIPOD+AI, the 2024 reporting guideline for prediction models that use machine learning ([Collins and colleagues, BMJ 2024](https://doi.org/10.1136/bmj-2023-078378)): data source and eligibility (section 2), predictors and outcome (sections 3 to 5), sample size and its limits (section 8), model building and internal validation (section 5), performance with calibration not yet assessed, and the fairness items not yet assessable on sixty TCGA patients. A completed TRIPOD+AI checklist will accompany the production model, not this prototype.
+
+## 9. Scope of the prototype, and what the production model adds
+
+The code in `technical/` is a proof of concept on open TCGA-SARC data, built so that any reviewer can rerun it on a laptop and get the same numbers. It shows that the H&E image alone separates two common sarcoma subtypes. The production model is a larger version of the same pipeline, not a different product. Section 8 sets the two side by side.
+
+Moving from the prototype to the production model changes the data and the model. It does not change where the tool sits in the pathway or who acts on its output.
+
+## 10. How to run
+
+
+```
+conda create -n sarc python=3.12
+pip install -r technical/requirements.txt
+cd technical
+jupyter lab 01_sarcoma_hne_triage.ipynb # run all, first run downloads ~60 overviews
+jupyter lab 02_savings_model.ipynb
+```
+
+To see the trained baseline run on a slide, open the live demo at <https://iressa-sarcoma-triage-demo.static.hf.space/> (hosted as a Hugging Face Space; the model runs in your browser and the image never leaves your machine), or run it locally:
+
+```
+cd demo
+python -m http.server 8765
+```
+
+Then open <http://localhost:8765/>, drop an H&E overview image or click one of the six bundled TCGA-SARC slides. The model runs in the browser in a few seconds and shows the subtype probabilities and the panel it would order first. `demo/README.md` explains the files.
+
+Seed 42 is fixed in both notebooks. Features and overviews are cached under `technical/data/` after the first run.
 

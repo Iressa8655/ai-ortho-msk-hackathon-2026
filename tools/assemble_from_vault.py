@@ -19,11 +19,11 @@ XELATEX_DIR = r"C:\Users\User\AppData\Local\Programs\MiKTeX\miktex\bin\x64"
 
 TARGETS = {
     "S": REPO / "SUBMISSION.md",
+    "M": REPO / "medicine" / "clinical_implementation.md",
     "T": REPO / "technical" / "technical_report.md",
-    "C": REPO / "medicine" / "clinical_implementation.md",
     "B": REPO / "business" / "business_case.md",
 }
-MARKERS = {"S": "# ", "T": "## ", "C": "## ", "B": "## "}
+MARKERS = {"S": "# ", "M": "## ", "T": "## ", "B": "## "}
 
 
 def read_head(path, marker):
@@ -130,32 +130,32 @@ FIVE_CASES = [
      "decision support that reads the H&E slide already in hand and makes the first "
      "genomic order the right one. This part states the problem, the solution, and what the "
      "submitted prototype does and does not prove.",
-     ["B01", "B02", "B03", "B04"]),
+     ["B01", "B02", "B03"]),
     ("Part B. Economic case: what it saves and what it costs to run",
      "Value for money. The direct laboratory saving is modest because the test is cheap; the "
      "value is in patient-days of waiting removed and operations planned with the subtype known. "
      "Inference cost per slide is negligible, so the cost of the service is validation, "
      "regulation and support. Every input is labelled sourced or assumption and can be changed "
      "in the savings notebook.",
-     ["B05", "B06"]),
+     ["B04", "B05"]),
     ("Part C. Commercial case: who buys, how they pay, and who else sells",
      "The buyer and the deal. One payer in each country, NHS England through the Genomic "
      "Laboratory Hubs and the National Health Insurance Administration in Taiwan, and two kinds "
      "of user who pay nothing extra. The product reaches them inside the digital pathology "
      "viewer they already use. No company sells an H&E-to-fusion product for sarcoma today.",
-     ["B07", "B08", "B09", "B10"]),
+     ["B06", "B07", "B08", "B09"]),
     ("Part D. Financial case: budget and funders",
      "Affordability. Three years from prototype to first licence, grant-funded so that the "
      "first contract is signed with evidence rather than a price guess. The budget is itemised "
      "line by line and each line is marked sourced or assumption. The first application is the "
      "Cancer Research UK Early Detection and Diagnosis Primer Award.",
-     ["B11", "B12", "B13"]),
+     ["B10", "B11", "B12"]),
     ("Part E. Management case: delivery, regulation, team and risks",
      "Deliverability. Research use, then shadow deployment at one hub, then regulated use as "
      "UKCA-marked Class IIa decision support that a pathologist confirms. Performance is reported "
      "by laboratory, scanner and population, and the single largest risk, a model that learns "
      "stain colour instead of biology, has a measured gate before any clinical use.",
-     ["B14", "B15", "B16", "B17", "B18", "B19"]),
+     ["B13", "B14", "B15", "B16", "B17", "B18"]),
 ]
 
 
@@ -205,7 +205,7 @@ def assemble():
             body = "".join(extract_english(p) for p in pages)
         assembled[prefix] = read_head(target, MARKERS[prefix]) + body
         print(f"{target.relative_to(REPO)}: {len(pages)} sections")
-    # 圖號照 pandoc 讀檔順序 S → T → C → B
+    # 圖號照 pandoc 讀檔順序 S → M → T → B
     keys = [k for k in TARGETS if k in assembled]
     numbered = number_figures([assembled[k] for k in keys])
     for key, text in zip(keys, numbered):
@@ -217,7 +217,7 @@ def build_pdf():
     env["PATH"] = XELATEX_DIR + os.pathsep + env["PATH"]
     out = REPO / "submission_document_v2.pdf"
     cmd = [
-        PANDOC, str(TARGETS["S"]), str(TARGETS["T"]), str(TARGETS["C"]),
+        PANDOC, str(TARGETS["S"]), str(TARGETS["M"]), str(TARGETS["T"]),
         str(TARGETS["B"]),
         "-o", str(out), "--pdf-engine=xelatex",
         "-V", "mainfont=Segoe UI", "-V", "geometry:margin=2cm", "--toc",
