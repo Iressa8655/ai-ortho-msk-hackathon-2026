@@ -216,8 +216,8 @@ print(f"one level up:            AUC {auc_l1:.3f}, 95% CI {ci_l1[0]:.2f} to {ci_
 fig, ax = plt.subplots(figsize=(5.5, 3))
 for i, (name, auc, ci) in enumerate([("Lowest level, tens of tiles", auc_b, ci_b), ("One level up, hundreds of tiles", auc_l1, ci_l1)]):
     ax.errorbar(auc, i, xerr=[[auc - ci[0]], [ci[1] - auc]], fmt="o", color="#1f5fbf", capsize=4)
-    ax.text(0.5, i + 0.18, name, fontsize=9)
-ax.set_yticks([]); ax.set_xlim(0.5, 1.0); ax.axvline(0.5, color="#9aa7ba", ls="--")
+    ax.text(0.51, i + 0.22, name, fontsize=9, va="bottom")
+ax.set_yticks([]); ax.set_xlim(0.5, 1.0); ax.set_ylim(-0.5, 1.8); ax.axvline(0.5, color="#9aa7ba", ls="--")
 ax.set_xlabel("Out-of-fold AUC with 95% bootstrap interval"); ax.set_title("Resolution check, same 60 patients")
 plt.tight_layout(); plt.savefig(FIG / "fig16_resolution.png", dpi=120); plt.show()
 """)
