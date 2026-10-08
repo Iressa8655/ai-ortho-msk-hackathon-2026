@@ -67,6 +67,7 @@ Figure 9 is a mock-up of that screen. The numbered parts are the only additions 
 - The pathologist reads the H&E first. The score appears after the first read, to limit automation bias.
 - Low-confidence cases are labelled "no recommendation" and follow the current pathway unchanged.
 - Every score is logged with the model version, the scanner and the staining laboratory, so drift at a single site is visible within weeks.
+- The hazard log and the clinical safety case follow the two NHS clinical safety standards, DCB0129 for the manufacturer and DCB0160 for the deploying organisation, and a clinical safety officer signs off before any site goes live (the regulatory path is in the Business part, section 14).
 - The model is retrained only under a documented change-control plan, matching the regulator's expectations for adaptive AI ([TFDA predetermined change control guidance](https://www.fda.gov.tw/TC/siteListContent.aspx?sid=11652&id=47477); the MHRA takes the same approach through the AI Airlock, [GOV.UK](https://www.gov.uk/government/collections/ai-airlock-the-regulatory-sandbox-for-aiamd)).
 
 ## 4. Taiwan
@@ -80,6 +81,17 @@ The same tool at a Taiwan medical centre. National Health Insurance reimburses n
 
 
 Sarcoma AI has been trained almost entirely on European and North American slides. Performance is reported separately by laboratory, scanner, sex, age group and ancestry, and the Taiwan cohort exists so that an Asian population is in the validation set from the start, not as an afterthought.
+
+**The four cohorts, in the order they are used.** Each one answers a different robustness question.
+
+| Order | Cohort | Role | What it tests |
+|---|---|---|---|
+| 1 | TCGA-SARC, open, 60 patients in this submission ([GDC](https://portal.gdc.cancer.gov/projects/TCGA-SARC)) | Training and the reproducible baseline | That the overview carries subtype signal at all (Technical part) |
+| 2 | Royal National Orthopaedic Hospital biobank, under its existing ethics ([RNOH biobank](https://www.rnoh.nhs.uk/services/cellular-and-molecular-pathology/rnoh-biobank-and-research-programme)) | Training and internal validation with molecular ground truth | Performance on UK clinical material and on fusion-defined subtypes |
+| 3 | One tissue block stained in 30 hospitals and scanned on 3 scanners ([Chai and colleagues 2026](https://pmc.ncbi.nlm.nih.gov/articles/PMC12932120/)) | Held out entirely as the robustness gate | Whether predictions survive a change of laboratory and scanner |
+| 4 | Taiwan National Biobank Consortium, availability confirmed 2 October 2026 (section 4) | Held out entirely as the external validation set | Performance on an East Asian population, the first in any sarcoma AI |
+
+Slides never leave the institution that holds them; the model is taken to the data and only performance figures come back.
 
 ## 6. Clinical implementation, stage by stage
 
