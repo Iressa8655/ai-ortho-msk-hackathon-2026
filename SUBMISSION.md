@@ -13,7 +13,7 @@ colorlinks: true
 
 **Problem.** Sarcoma is not one disease (Figure 4, in the Medical part). Its subtype decides the operation and the oncology plan, and many subtypes are defined by a gene fusion. The molecular test that names the fusion is slow and centralised: in England urgent solid tumour panels have a 21-day target ([East Genomics](https://www.eastgenomics.nhs.uk/about-us/quality/nhse-test-directory-turnaround-times/)), in Taiwan National Health Insurance reimburses next-generation sequencing once per lifetime and only at regional hospitals or above ([Health Promotion Administration](https://www.twhealth.org.tw/journalView.php?cat=70&sid=1190)).
 
-**Solution.** Figure 1 shows the pathway today and with AI triage. A model [(https://iressa-sarcoma-triage-demo.static.hf.space)](https://iressa-sarcoma-triage-demo.static.hf.space/) that reads the routine H&E slide already produced for every biopsy and returns, in minutes, a subtype probability and a recommendation for which genomic test to order first. It does not replace the test. It makes the first order the right one.
+**Solution.** Figure 1 shows the pathway today and with AI triage. A model [(https://iressa-sarcoma-triage-demo.static.hf.space)](https://iressa-sarcoma-triage-demo.static.hf.space/) that reads the routine H&E slide already produced for every biopsy and returns, in minutes, a subtype probability and a recommendation for which genomic test to order first. It does not replace the test. It makes the first order the right one, so the orthopaedic oncology team has the subtype at its first multidisciplinary meeting and can settle limb salvage, margin and pre-operative chemotherapy three weeks earlier.
 ![AI in orthopaedics and MSK, 2018 to 2026: 15,504 PubMed records mapped onto the care pathway. Referral and triage is the thinnest stage](business/fig_ai_msk_pubmed_landscape.png)
 
 Across orthopaedic and musculoskeletal AI as a whole, referral and triage is the least studied stage of the care pathway (Figure 2), which is where this tool sits.
@@ -29,7 +29,7 @@ Across orthopaedic and musculoskeletal AI as a whole, referral and triage is the
 | File | Content |
 |---|---|
 | `technical/01_sarcoma_hne_triage.ipynb` | Working baseline on open TCGA-SARC data, 60 patients, out-of-fold AUC 0.82 |
-| `technical/technical_report.md` | Section-by-section write-up of how the baseline model was built, trained and evaluated (Technical report, sections 1 to 10) |
+| `technical/technical_report.md` | Section-by-section write-up of how the baseline model was built, trained and evaluated (Technical part, sections 1 to 10) |
 | `technical/02_savings_model.ipynb` | Transparent savings arithmetic, every input labelled sourced or assumption |
 | `technical/03_robustness_checks.ipynb` | Bootstrap interval, repeated splits, permutation null, calibration, stain perturbation, tile maps |
 | `technical/04_competitor_landscape.ipynb` | PubMed counts behind the competition figure, queries printed |

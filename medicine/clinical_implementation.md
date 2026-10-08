@@ -42,13 +42,9 @@ The bottleneck is not surgical capacity. It is three things that go wrong before
 
 ## 2. Where the AI sits, and what it returns
 
-Between step 2 and step 3. The H&E slide that already exists is scanned and scored. The output is a probability for each subtype and a recommendation for which genomic test to order first. The pathologist sees the slide before the score. The score never replaces the genomic test and never generates a report on its own.
+Between step 2 and step 3 of the pathway in section 1. The H&E slide that already exists is scanned and scored inside the viewer the laboratory already uses, and within minutes the model returns two probabilities, is this a sarcoma and which subtype, with the genomic panel to order first and how urgently, and a flag when the slide does not match the requested test. The score never replaces the genomic test and never generates a report on its own.
 
-The model reads the routine H&E slide, inside the viewer the laboratory already uses, and returns within minutes two probabilities: is this a sarcoma, and which subtype.
-
-the goal of it is to On day one it names the panel to order and how urgently, and flags slides that do not match the requested test.
-
- The orthopaedic oncologist therefore settles at the first meeting, not three weeks later, whether to give chemotherapy first, how wide the margin must be, and whether the limb can be saved.
+The orthopaedic oncologist therefore settles at the first meeting, not three weeks later, whether to give chemotherapy first, how wide the margin must be, and whether the limb can be saved.
 
 ![One H&E slide in, two probabilities out, and the three decisions the surgeon can then make](business/fig_model_outputs_biorender.jpg)
 
@@ -56,15 +52,11 @@ the goal of it is to On day one it names the panel to order and how urgently, an
 
 ![The existing pathway in grey; the AI step inserted in blue; six weeks becomes three](business/fig_patient_pathway_model_fit_biorender.jpg)
 
-**Where it sits.** Figure 8. Today the slide goes to the pathologist, a test is ordered, and a wrong panel repeats the loop; six weeks is common. With the model, one step is added between slide and pathologist. The pathologist reads the slide first, then the score. One correct test is ordered on day one; three weeks in total.
-
-Efficiency lever: the right genomic test is ordered on day one at the referring hospital, so the sarcoma centre receives a case with the molecular result already in progress.
+**Where it sits.** Figure 8. Today the slide goes to the pathologist, a test is ordered, and a wrong panel repeats the loop; six weeks is common. With the model, one step is added between slide and pathologist; the pathologist reads the slide first, then the score (section 3). One correct test is ordered on day one; three weeks in total.
 
 ## 3. Integration and safety
 
 **How it plugs in.** No new hardware. The model runs as a module in the existing digital pathology viewer, as third-party AI already does through Sectra Amplifier ([example listing](https://amplifiermarketplace.sectra.com/vendor/panakeia/)). The result is written into the laboratory system next to the H&E report, with the model version for audit. The slide stays inside the hospital network. A working demo of the baseline, upload a slide and read the result, is live at <https://iressa-sarcoma-triage-demo.static.hf.space/> and in `demo/`.
-
-The model runs inside the laboratory's existing digital pathology system. Slides do not leave the network. Output is a structured field in the laboratory information system alongside the H&E report, with the model version and confidence recorded for audit. Vendors already provide marketplace integration for third-party AI, for example Sectra Amplifier ([Panakeia on Sectra](https://amplifiermarketplace.sectra.com/vendor/panakeia/)), so no new viewer is needed.
 
 ![What the pathologist sees: (1) the slide, (2) the AI panel with model version, (3) sarcoma probability, (4) subtype probabilities, (5) the panel to order first and whether slide and request match, (6) the abstain threshold, (7) write to the laboratory system or disagree, (8) audit trail showing the slide never left the network and that the pathologist read first](business/fig_viewer_ui_mockup.png)
 
@@ -88,8 +80,6 @@ The same tool at a Taiwan medical centre. National Health Insurance reimburses n
 
 
 Sarcoma AI has been trained almost entirely on European and North American slides. Performance is reported separately by laboratory, scanner, sex, age group and ancestry, and the Taiwan cohort exists so that an Asian population is in the validation set from the start, not as an afterthought.
-
-Patient-level data are never moved between countries or institutions. Only the model moves.
 
 ## 6. Clinical implementation, stage by stage
 

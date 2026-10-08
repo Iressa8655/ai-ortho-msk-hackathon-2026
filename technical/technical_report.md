@@ -8,7 +8,7 @@ Everything in this section is in one notebook, `technical/01_sarcoma_hne_triage.
 
 ![The six steps of the baseline, one notebook section each](technical/figures/fig0_pipeline.png)
 
-The design choice behind every step is the same: the smallest thing that proves the overview image carries subtype signal, so that a reviewer can rerun it and get the same number. Nothing is trained from scratch, nothing needs a GPU, and the random seed is fixed at 42.
+The design choice behind every step is the same: the smallest thing that proves the overview image carries subtype signal, so that a reviewer can rerun it and get the same number. Nothing is trained from scratch, nothing needs a GPU, and the random seed is fixed at 42 in every notebook. `run_all.py` reruns all seven notebooks in order and prints an MD5 checksum for every figure and data file, so a reviewer can compare a rerun with the submitted outputs line by line (section 10).
 
 ## 2. Data, open TCGA-SARC slides
 
@@ -61,7 +61,7 @@ Sixty patients cannot support anything bigger than a linear model. Notebook sect
 | 4 | 0.611 |
 | **Out-of-fold, all 60** | **0.822** |
 
-The 95 per cent bootstrap interval on the out-of-fold AUC is 0.70 to 0.92, and the AUC across 20 different fold assignments ranges from 0.77 to 0.88 (section 10). At a 0.5 threshold 42 of 60 patients are correct, nine errors in each class (Figure 13). The spread between folds, 0.61 to 1.00, is what twelve-patient test folds look like. It is a limit of the cohort size, not a bug.
+The 95 per cent bootstrap interval on the out-of-fold AUC is 0.70 to 0.92, and the AUC across 20 different fold assignments ranges from 0.77 to 0.88 (section 9). At a 0.5 threshold 42 of 60 patients are correct, nine errors in each class (Figure 13). The spread between folds, 0.61 to 1.00, is what twelve-patient test folds look like. It is a limit of the cohort size, not a bug.
 
 ![ROC curve and confusion matrix, out-of-fold](technical/figures/fig3_roc_confusion.png)
 
@@ -94,13 +94,13 @@ Figure 15 is the demo after one bundled TCGA-SARC slide has been analysed.
 
 **Limitations, stated plainly.**
 
-1. Sixty patients and two subtypes in the headline model, ninety and three in the extension (section 10). This proves the pipeline runs end to end on open data. It is not a clinical result.
-2. Overview resolution only, roughly 16 times downsampled from the scan. Nuclear detail is invisible. One level up changes nothing with the present pooling (section 10), so resolution must be raised together with attention pooling and pathology-trained features, not alone.
-3. Smallest-file selection bias. The sixty slides are the smallest per class. A random cohort of the same size gives the same AUC within its interval (section 10), so the bias did not make the result, but it is still a bias in which tumours were seen.
+1. Sixty patients and two subtypes in the headline model, ninety and three in the extension (section 9). This proves the pipeline runs end to end on open data. It is not a clinical result.
+2. Overview resolution only, roughly 16 times downsampled from the scan. Nuclear detail is invisible. One level up changes nothing with the present pooling (section 9), so resolution must be raised together with attention pooling and pathology-trained features, not alone.
+3. Smallest-file selection bias. The sixty slides are the smallest per class. A random cohort of the same size gives the same AUC within its interval (section 9), so the bias did not make the result, but it is still a bias in which tumours were seen.
 4. A single scanning programme (TCGA). Stain and scanner variation between hospitals is untested.
 5. Mean pooling. Informative regions are averaged with uninformative ones, which is exactly what section 6 shows.
 
-**What changes in the production model.** The table maps each limitation to the change that removes it.
+**Scope.** The code in `technical/` is a proof of concept on open TCGA-SARC data, built so that any reviewer can rerun it on a laptop and get the same numbers. It shows that the H&E image alone separates common sarcoma subtypes. The production model is a larger version of the same pipeline, not a different product: moving to it changes the data and the model, not where the tool sits in the pathway or who acts on its output. The table maps each limitation to the change that removes it.
 
 | Baseline (this notebook) | Production model |
 |---|---|
@@ -111,17 +111,14 @@ Figure 15 is the demo after one bundled TCGA-SARC slide has been analysed.
 | Cross-validation only | External validation on held-out hospitals, calibration, subgroup audit |
 
 The multi-hospital validation set and the robustness gate before any clinical use are described in the business case.
-**Reporting standard.** The baseline is reported against the items of TRIPOD+AI, the 2024 reporting guideline for prediction models that use machine learning ([Collins and colleagues, BMJ 2024](https://doi.org/10.1136/bmj-2023-078378)): data source and eligibility (section 2), predictors and outcome (sections 3 to 5), sample size and its limits (section 8), model building and internal validation (section 5), performance, uncertainty, calibration and robustness (section 10), and the fairness items not yet assessable on sixty TCGA patients. A completed TRIPOD+AI checklist will accompany the production model, not this prototype.
+**Reporting standard.** The baseline is reported against the items of TRIPOD+AI, the 2024 reporting guideline for prediction models that use machine learning ([Collins and colleagues, BMJ 2024](https://doi.org/10.1136/bmj-2023-078378)): data source and eligibility (section 2), predictors and outcome (sections 3 to 5), sample size and its limits (section 8), model building and internal validation (section 5), performance, uncertainty, calibration and robustness (section 9), and the fairness items not yet assessable on sixty TCGA patients. A completed TRIPOD+AI checklist will accompany the production model, not this prototype.
 
-## 9. Scope of the prototype, and what the production model adds
-
-The code in `technical/` is a proof of concept on open TCGA-SARC data, built so that any reviewer can rerun it on a laptop and get the same numbers. It shows that the H&E image alone separates two common sarcoma subtypes. The production model is a larger version of the same pipeline, not a different product. Section 8 sets the two side by side.
-
-Moving from the prototype to the production model changes the data and the model. It does not change where the tool sits in the pathway or who acts on its output.
-
-## 10. Robustness checks
+## 9. Robustness checks
 
 One number, AUC 0.82 on 60 patients, invites eight questions about the data and five about the modelling. Notebook `technical/03_robustness_checks.ipynb` answers the first six with the cached features from notebook 01 and runs in minutes on a CPU; notebooks `05_more_data_checks.ipynb` and `07_fourth_class_and_resolution.ipynb` download more slides for the rest. All numbers below are from that run (seed 42).
+
+
+**Highlights for the data scientist.** AUC 0.82 with a 95 per cent bootstrap interval of 0.70 to 0.92; a permutation null with p = 0.002; stable across 20 fold assignments; Macenko stain normalisation lifts the point estimate to 0.86; the result survives a random cohort and a third and fourth subtype; one level more resolution adds nothing with mean pooling; every number is out-of-fold and reproducible from `run_all.py`.
 
 | Question | Method | Result |
 |---|---|---|
@@ -189,7 +186,7 @@ One number, AUC 0.82 on 60 patients, invites eight questions about the data and 
 
 **One level up in resolution.** Reading the pyramid level above the overview gives sixteen times the pixels and a median of 276 tissue tiles per slide instead of 57, yet the out-of-fold AUC moves from 0.82 to 0.83 with overlapping intervals (Figure 25). With mean pooling and a frozen ImageNet backbone, more tiles of the same kind add little; the gain from resolution is expected to come only when the pooling can weight tiles and the features are pathology-trained, which is why the production plan changes those two things together rather than resolution alone. The 60 level-1 images total 4 GB and took about half an hour to fetch, against a few megabytes for the overviews, which is why the baseline reads overviews.
 
-## 11. How to run
+## 10. How to run
 
 
 ```

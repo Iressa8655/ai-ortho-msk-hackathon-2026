@@ -45,8 +45,6 @@ External validation: Taiwanese slides from the National Biobank Consortium ([NBC
 
 **Aim.** The first genomic request is the right one for every sarcoma patient. What that is worth, in patient-days and in protected tests, is calculated in section 4; who pays for it is in section 6.
 
-Efficiency lever: **one H&E slide plus one model call replaces up to three weeks of waiting and one avoidable round of testing per misrouted case.**
-
 ## Part B. Economic case: what it saves and what it costs to run
 
 Value for money. The direct laboratory saving is modest because the test is cheap; the value is in patient-days of waiting removed and operations planned with the subtype known. Inference cost per slide is negligible, so the cost of the service is validation, regulation and support. Every input is labelled sourced or assumption and can be changed in the savings notebook.
@@ -103,7 +101,7 @@ The buyer and the deal. One payer in each country, NHS England through the Genom
 
 ### 6. Who pays, and why they would
 
-One payer in each country, two kinds of user, and one channel. Figure 30 shows the money and the use separately.
+One payer in each country, two kinds of user, and one channel. The payer buys the licence; the users, specialist centres and referring hospitals, pay nothing extra, so no patient or hospital is charged twice. Figure 30 shows the money and the use separately.
 
 | Who | Role | What they buy | Why it is worth it to them |
 |---|---|---|---|
@@ -171,7 +169,7 @@ Figure 33 puts the six stages on one timeline; the table gives the deliverable, 
 
 | Stage | When | What is delivered | Gate to the next stage | Funding route |
 |---|---|---|---|---|
-| 0. Research prototype | Done, October 2026 | Baseline on open TCGA-SARC data, this submission | AUC above chance with its interval reported (Technical part, section 10) | None, hackathon |
+| 0. Research prototype | Done, October 2026 | Baseline on open TCGA-SARC data, this submission | AUC above chance with its interval reported (Technical part, section 9) | None, hackathon |
 | 1. Research funding and patient involvement | 2026 Q4 to 2027 Q2 | Cancer Research UK Early Detection and Diagnosis Primer Award applied for first ([CRUK](https://www.cancerresearchuk.org/for-researchers/apply-for-and-manage-your-funding/our-funding-schemes/early-detection-diagnosis-primer-award)), Sarcoma UK and Bone Cancer Research Trust calls in parallel ([Sarcoma UK](https://sarcoma.org.uk/our-research/apply-for-research-funding/), [BCRT](https://www.bcrt.org.uk/research/for-researchers/)); patient advisory panel formed (section 15); RNOH biobank access letter | Award in hand; panel meets; access signed | Research grants, up to about £100,000 |
 | 2. Retrospective validation | 2027 Q1 to Q4 | Production model on RNOH and TCGA slides; fusion subtypes; robustness on the 30-hospital, 3-scanner set; Taiwan NBCT request through a Taiwan co-investigator; first manuscript | Per-subtype AUC with intervals; drift across laboratories below a pre-registered threshold | Same research grants; NIHR i4i Product Development Award applied for at the end of this stage ([NIHR i4i](https://www.nihr.ac.uk/funding/i4i-product-development-awards-pda-nice-early-use-april-2026/2026400)) |
 | 3. Shadow deployment, early clinical evaluation | 2028 Q1 to Q2 | Model scores live cases at one Genomic Laboratory Hub, output recorded, not shown; pathologist interaction and patient-reported experience measured; DTAC evidence | Misroute rate measured with and without the model; protocol registered before the first case | NIHR i4i; SBRI Healthcare phase 1 for the business case ([SBRI Healthcare](https://sbrihealthcare.co.uk/competitions/sbri-healthcare-cancer-programme)) |
@@ -291,7 +289,7 @@ Contributions for this submission are recorded in `group-member-contact/README.m
 
 | Risk | Likelihood | Mitigation |
 |---|---|---|
-| Model learns stain colour, not biology, and fails at new sites | High, the published sarcoma foundation-model study shows accuracy falling from 0.94 to as low as 0.47 across institutions ([Chai and colleagues 2026](https://pmc.ncbi.nlm.nih.gov/articles/PMC12932120/)) | Stain-variation dataset as a gate; Macenko normalisation, which already gives the highest point estimate on the baseline (Technical part, section 10); per-site reporting; abstention |
+| Model learns stain colour, not biology, and fails at new sites | High, the published sarcoma foundation-model study shows accuracy falling from 0.94 to as low as 0.47 across institutions ([Chai and colleagues 2026](https://pmc.ncbi.nlm.nih.gov/articles/PMC12932120/)) | Stain-variation dataset as a gate; Macenko normalisation, which already gives the highest point estimate on the baseline (Technical part, section 9); per-site reporting; abstention |
 | Too few open slides for fusion subtypes | Certain today | Start with the common subtypes (two, then four, Technical part, section 10), add RNOH and Taiwan biobank material under ethics |
 | Regulatory timeline slips | Medium | Enter as Class IIa decision support, apply to the MHRA AI Airlock phase 3 from April 2026 ([GOV.UK AI Airlock](https://www.gov.uk/government/collections/ai-airlock-the-regulatory-sandbox-for-aiamd)) |
 | Hubs do not adopt | Medium | Shadow deployment with a measured misroute rate before any purchase decision |
