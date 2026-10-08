@@ -6,8 +6,6 @@ The convenors asked for both a business case and a business plan. The business c
 
 The convenors asked for a business plan as well as a business case. This appendix is the plan, in the nine headings most funders and accelerators use ([US Small Business Administration template](https://www.sba.gov/business-guide/plan-your-business/write-your-business-plan)). Anything already covered in the business case is not repeated here; each heading says where to find it.
 
-*SBA: "Briefly tell your reader what your company is and why it will be successful. Include your mission statement, your product or service, and basic information about your company's leadership team, employees, and location."*
-
 **Mission.** Make the first genomic test the right one for every sarcoma patient, by reading the H&E slide that already exists. ^dfw8h1
 
 **Product.** Decision-support software that scores a routine H&E whole-slide image in minutes and returns a probability for each fusion-defined sarcoma subtype together with a recommendation for which genomic panel to order first. It is used by the pathologist, never alone.
@@ -20,8 +18,6 @@ The convenors asked for a business plan as well as a business case. This appendi
 
 ## 2. Company description
 
-*SBA: "Use your company description to provide detailed information about your company. Go into detail about the problems your business solves."*
-
 **The problem and who we serve.** Set out in the business case, section 2 (the problem) and section 6 (who pays and who uses it). In one line: the sarcoma subtype decides the operation, the confirming genomic test is slow and centralised, and a wrong first order costs a full cycle in England and the single reimbursed test in Taiwan.
 
 **Competitive advantage.** Three things nobody else holds together: clinical access to the largest UK sarcoma service through the planned UCL and Royal National Orthopaedic Hospital partnership, the only public 30-hospital, 3-scanner stain-variation dataset for sarcoma as a robustness gate ([Chai and colleagues 2026](https://pmc.ncbi.nlm.nih.gov/articles/PMC12932120/)), and an Asian validation cohort through Taiwan's National Biobank Consortium, which no published sarcoma AI has.
@@ -30,23 +26,17 @@ The convenors asked for a business plan as well as a business case. This appendi
 
 ## 3. Market analysis
 
-*SBA: "You'll need a good understanding of your industry outlook and target market. Competitive research will show you what other businesses are doing and what their strengths are."*
-
 **Industry outlook.** Digital pathology is moving from scanning to AI-assisted reporting, with marketplace integration already in clinical use, for example Sectra Amplifier hosting third-party AI ([Panakeia on Sectra](https://amplifiermarketplace.sectra.com/vendor/panakeia/)). H&E-to-molecular prediction is the fastest-growing product class in that market because it sells a test result without a new test.
 
 **Target market and competitors.** The case counts by country, the number of laboratories, and the competitor table are in the business case, sections 8 and 9. The short version: about 5,900 UK sarcoma cases a year, seven Genomic Laboratory Hubs, and no company listing a sarcoma product. Owkin, Panakeia and Paige have proven the regulatory route and the buyer in other cancers. Their strength is scale and marketplace presence. Our answer is a rare-disease niche they have not entered, with clinical partners they do not have.
 
 ## 4. Organisation and management
 
-*SBA: "Tell your reader how your company will be structured and who will run it. Describe the legal structure of your business."*
-
 **Who.** The roles, who fills them today and which are recruited at grant stage are in the business case, section 16.
 
 **Structure.** A research project inside the University of Oxford until the first product-development award, then a spin-out limited company with the university and the founder as shareholders. An advisory board of a sarcoma pathologist, a genomic laboratory director and a patient representative is planned before shadow deployment.
 
 ## 5. Service or product line
-
-*SBA: "Describe what you sell or what service you offer. Explain how it benefits your customers and what the product lifecycle looks like."*
 
 **What we sell.** A per-slide inference service, deployed inside the laboratory's digital pathology system, returning a structured triage report: subtype probabilities, a recommended first genomic panel, a confidence flag, and an abstain option.
 
@@ -58,8 +48,6 @@ The convenors asked for a business plan as well as a business case. This appendi
 
 ## 6. Marketing and sales
 
-*SBA: "Your goal in this section is to describe how you'll attract and retain customers. You'll also describe how a sale will actually happen."*
-
 **Who buys.** NHS England through the Genomic Laboratory Hubs, and the National Health Insurance Administration in Taiwan. Why each of them would pay is in the business case, section 6.
 
 **How a sale happens.** Shadow deployment at one Genomic Laboratory Hub produces a measured misroute rate with and without the model. That number, with the economic case in the NICE Evidence Standards Framework format ([NICE ESF](https://www.nice.org.uk/corporate/ecd7/resources/evidence-standards-framework-for-digital-health-technologies-pdf-1124017457605)), is the sales document. The first contract is a site licence with that hub, the second is a national licence negotiated with NHS England specialised commissioning.
@@ -70,8 +58,6 @@ The convenors asked for a business plan as well as a business case. This appendi
 
 ## 7. Funding request
 
-*SBA: "If you're asking for funding, this is where you'll outline your funding requirements. Your goal is to clearly explain how much funding you'll need."*
-
 **Amount.** About £406,000 over three years. The line-by-line budget is in the business case, section 11, and the funders, with deadlines, in section 12.
 
 **Type.** Grant funding, not equity, for the full three years. The regulatory line (£60,000) is the one to defend. The rest is ordinary research cost.
@@ -79,8 +65,6 @@ The convenors asked for a business plan as well as a business case. This appendi
 **Use of funds.** Salaries and clinical time 63 per cent, regulatory and health economics 21 per cent, data and compute 9 per cent, dissemination and patient involvement 7 per cent.
 
 ## 8. Financial projections
-
-*SBA: "Supplement your funding request with financial projections. Your goal is to convince the reader that your business is stable and will be a success."*
 
 All revenue figures below are assumptions, because no price has been agreed with any buyer. They are shown so the break-even logic can be checked and replaced. The cost side (compute and storage per slide) is in the business case, section 5, and the savings to the payer in section 4.
 
