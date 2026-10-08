@@ -69,9 +69,9 @@ The arithmetic is in `technical/02_savings_model.ipynb`, with every input labell
 
 With those conservative assumptions the UK direct laboratory saving is about **£70,000 a year and about 2,900 patient-days of waiting are removed.** The direct saving is small because the test is cheap. The value is in the days, and in Taiwan in protecting a test that can only be reimbursed once.
 
-![What it saves and who pays: the two headline numbers on the left, the two government payers on the right, one licence](business/fig_savings_and_payers_biorender.png)
+![Saved per year on the left; who pays on the right, each buying one licence to the AI module instead of paying for repeat tests](business/fig_savings_and_payers_biorender.png)
 
-Figure 29 shows the two numbers and the two payers.
+Figure 29 shows the two numbers saved per year and the two payers, each of which buys one licence to the module instead of paying for repeat tests.
 
 **Why the payer is the government, not the hospital.** In England cancer genomic tests are funded centrally by NHS England ([BWC genomics](https://bwc.nhs.uk/genomic-testing-in-adult-solid-tumours/)), and the 21-day panel target is a national performance measure for the hubs, so the avoided repeat, the protected target and the triage licence all sit on one budget. In Taiwan the National Health Insurance Administration pays for sequencing once per lifetime, so a wrong first order is an unrecoverable public cost. Sarcoma is rare and referral is centralised, so one national licence covers the whole pathway. Each buyer and what it gets is listed in section 6.
 
@@ -92,8 +92,10 @@ Per-slide inference cost, computed from public prices.
 | Storage cost | a 250,000-slide-a-year laboratory spends about US$90,000 a year | [Digital Pathology Association](https://digitalpathologyassociation.org/blog/dont-be-afraid-of-storage-costs) |
 | Volume, UK | about 3,000 slides a year if half of new cases are triaged | §4 |
 
-At that volume compute is under US$300 a year. The cost of the product is regulatory, clinical validation and support, not inference. 
-A per-slide price in the tens of pounds is therefore almost pure margin once the device is certified, and a national licence should be priced against the days saved, not against compute.
+**What this means.** Running the model is nearly free: under US$300 a year of computing for every UK slide. The real costs are one-off and happen before the first sale: getting the device certified, validating it in clinics, and supporting the laboratories that use it. Two consequences follow.
+
+1. Once the device is certified, almost all of a per-slide fee is margin, because each extra slide costs a few pence to score.
+2. The price should not be set from the computing cost, which would make it absurdly low. It should be set from what the payer gains: the waiting days removed and the repeat tests avoided (section 4). That is how a national licence is priced.
 
 ## Part C. Commercial case: who buys, how they pay, and who else sells
 
