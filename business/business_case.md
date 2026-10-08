@@ -8,7 +8,7 @@ The case for change. Sarcoma subtype decides the operation and the oncology plan
 
 ### 1. Map of this business case
 
-The five parts follow the five-case model used for NHS and HM Treasury business cases ([Green Book](https://www.gov.uk/government/publications/the-green-book-appraisal-and-evaluation-in-central-government)). Each part answers one question, and the sections under it are read in order (Figure 26).
+The five parts follow the five-case model used for NHS and HM Treasury business cases ([Green Book](https://www.gov.uk/government/publications/the-green-book-appraisal-and-evaluation-in-central-government)). Each part answers one question, and the sections under it are read in order; the nine headings of a conventional business plan (company, market, product, sales, funding, projections, team, risks) are all inside these five parts, so there is no separate plan (Figure 26).
 
 ![The five parts and the sections under each](business/fig_five_case_map.png)
 
@@ -18,7 +18,7 @@ The five parts follow the five-case model used for NHS and HM Treasury business 
 | B. Economic | What the payer saves and what one slide costs to run | 4, 5 |
 | C. Commercial | Who pays, how the money flows, how big the market is, who else sells | 6 to 9 |
 | D. Financial | What three years cost and who funds them | 10 to 12 |
-| E. Management | By when, under which regulation, with patients involved how, by whom, and what could go wrong | 13 to 17 |
+| E. Management | By when, under which regulation, with patients involved how, by whom, and what could go wrong | 14 to 18 |
 
 Key performance indicators: misroute rate, days to molecular result, abstention rate and per-site AUC, listed in notebook 02 section 5 and notebook 01 section 9.
 
@@ -44,6 +44,10 @@ External validation: Taiwanese slides from the National Biobank Consortium ([NBC
 **How many slides, and which are used for training and which for validation.** This submission: 60 TCGA-SARC patients, one diagnostic slide each, 30 leiomyosarcoma and 30 dedifferentiated liposarcoma, chosen from the 600 diagnostic slides of 254 patients that TCGA-SARC holds. They are used in 5-fold cross-validation, so in each fold 48 slides train the model and 12 are scored, and every patient is scored exactly once by a model that never saw them (Technical part, sections 2 and 5). The production model: all usable TCGA-SARC slides for training, Royal National Orthopaedic Hospital biobank slides for training and internal validation, the 30-hospital, 3-scanner set of one tissue block held out entirely as the robustness test, and the Taiwan NBCT material held out entirely as the external validation set. NBCT currently lists 10 osteosarcoma and 9 chondrosarcoma tissue samples (1 paraffin block and 8 or 9 frozen each) with images and reports; the soft tissue sarcoma count is being requested. Slide counts for the RNOH biobank are confirmed once the access letter is signed, so no number is quoted here.
 
 **Aim.** The first genomic request is the right one for every sarcoma patient. What that is worth, in patient-days and in protected tests, is calculated in section 4; who pays for it is in section 6.
+
+**What we sell.** A per-slide inference service, deployed inside the laboratory's digital pathology system, returning a structured triage report: subtype probabilities, a recommended first genomic panel, a confidence flag, and an abstain option.
+
+**Intellectual property.** Model weights, the stain-robust training recipe and the triage reporting format. Foundation models are used under their published licences. This is a dependency to check before commercial use.
 
 ## Part B. Economic case: what it saves and what it costs to run
 
@@ -111,6 +115,12 @@ One payer in each country, two kinds of user, and one channel. The payer buys th
 | **District and regional hospitals** (both countries) | User | Nothing extra; the score appears in the viewer they already use | They cannot run genomic tests themselves. The score tells them whether to refer, and stops the lump being removed before anyone knows it is a sarcoma. |
 | **Digital pathology marketplaces** (Sectra Amplifier, Leica) | Channel | A listed module, paid by revenue share | Scanner vendors do not buy rare-cancer models outright. They list them and take a share, which is how third-party pathology AI already reaches hospitals ([Sectra Amplifier listing](https://amplifiermarketplace.sectra.com/vendor/panakeia/)). |
 
+**How a sale happens.** Shadow deployment at one Genomic Laboratory Hub produces a measured misroute rate with and without the model. That number, with the economic case in the NICE Evidence Standards Framework format ([NICE ESF](https://www.nice.org.uk/corporate/ecd7/resources/evidence-standards-framework-for-digital-health-technologies-pdf-1124017457605)), is the sales document. The first contract is a site licence with that hub, the second is a national licence negotiated with NHS England specialised commissioning.
+
+**Channels.** Direct to hubs and sarcoma centres; marketplace listing on the scanner vendors' platforms (Sectra, Leica, Hamamatsu, 3DHistech) as an OEM module; the sarcoma charity and the British Sarcoma Group meetings for clinical awareness.
+
+**Retention.** Per-site performance dashboards, drift alerts by laboratory and scanner, and an annual revalidation report delivered as part of the licence.
+
 **Price against cost.** Against the per-slide compute cost in section 5 and the repeat-panel cost in section 4, one unplanned excision followed by re-operation costs the system far more than that; management after an unplanned excision cost 64 per cent more than after a planned one in a Scandinavian series ([EJSO 2020](https://pubmed.ncbi.nlm.nih.gov/32037016/)). A per-slide fee in the tens of pounds therefore pays for itself on the first avoided repeat test, and many times over on the first avoided re-operation. The fee used in the financial projections is £40 a slide; it is an assumption until a hub quotes. **No fee for an abstained case.** When the model declines to recommend (Medical part, section 3), the slide is not charged, so the payer only pays when a recommendation is actually delivered and the risk of an unhelpful call stays with us, not with the hub.
 
 ![Business model: who pays (green, money in), who uses (grey, result out), and the marketplace channel](business/fig_business_model_biorender.jpg)
@@ -167,7 +177,7 @@ Research funding comes first and is small; the larger product-development award 
 
 Figure 33 puts the six stages on one timeline; the table gives the deliverable, the gate and the funder for each.
 
-| Stage | When | Delivered (detail per quarter in section 13) | Gate to the next stage | Who pays |
+| Stage | When | Delivered (detail per quarter in section 14) | Gate to the next stage | Who pays |
 |---|---|---|---|---|
 | 0. Research prototype | Done, October 2026 | This submission | AUC above chance with its interval reported (Technical part, section 9) | None, hackathon |
 | 1. Research funding and patient involvement | 2026 Q4 to 2027 Q2 | First grant applications; patient panel (section 15); RNOH access letter | Award in hand; panel meets; access signed | Cancer Research UK Early Detection and Diagnosis Primer Award first ([CRUK](https://www.cancerresearchuk.org/for-researchers/apply-for-and-manage-your-funding/our-funding-schemes/early-detection-diagnosis-primer-award)), Sarcoma UK and Bone Cancer Research Trust in parallel ([Sarcoma UK](https://sarcoma.org.uk/our-research/apply-for-research-funding/), [BCRT](https://www.bcrt.org.uk/research/for-researchers/)); up to about £100,000 |
@@ -176,7 +186,7 @@ Figure 33 puts the six stages on one timeline; the table gives the deliverable, 
 | 4. Advisory use and Taiwan external validation | 2028 Q3 to Q4 | Advisory mode; Taiwan external validation; NICE ESF economic case | Days to molecular result and repeat-test rate improve on the shadow baseline | Innovate UK Biomedical Catalyst ([Innovate UK](https://grantedai.com/grants/biomedical-catalyst-industry-led-r-d-small-projects-innovate-uk-part-of-ukri-c8835f70)); NSTC smart-healthcare programme for Taiwan ([NSTC](https://www.nstc.gov.tw/folksonomy/detail/fddf1cb6-469b-4c41-a9dc-dc93ba4170db?l=ch)) |
 | 5. Regulated use and monitoring | 2029 | UKCA Class IIa file; first licence; drift monitoring | Approved Body audit passed | Licence revenue; SBRI Healthcare phase 2 |
 
-Roll-out follows the same stages: research use in year 1, shadow deployment at one Genomic Laboratory Hub in year 2, regulated use with a parallel Taiwan pilot in year 3; the clinical stages inside each year, who owns them and how success is measured, are in the Medical part, section 6. The quarter-by-quarter gates are in section 13, the budget line by line in section 11, and the funders ranked by fit in section 12.
+Roll-out follows the same stages: research use in year 1, shadow deployment at one Genomic Laboratory Hub in year 2, regulated use with a parallel Taiwan pilot in year 3; the clinical stages inside each year, who owns them and how success is measured, are in the Medical part, section 6. The quarter-by-quarter gates are in section 14, the budget line by line in section 11, and the funders ranked by fit in section 12.
 
 ### 11. How much money, line by line
 
@@ -197,6 +207,10 @@ Three-year budget. Sourced lines carry a link; the rest are labelled assumptions
 | **Total** | **£105,000** | **£150,000** | **£151,000** | **About £406,000 over three years** |
 
 The number to defend is the regulatory line. Everything else is ordinary research cost. If the Approved Body quote comes back higher, the roll-out shifts by a quarter, not the model.
+
+**Type of money.** Grant funding, not equity, for the full three years. The regulatory line (£60,000) is the one to defend. The rest is ordinary research cost.
+
+**Use of funds.** Salaries and clinical time 63 per cent, regulatory and health economics 21 per cent, data and compute 9 per cent, dissemination and patient involvement 7 per cent.
 
 ### 12. Where the money comes from, and who is actively giving
 
@@ -221,11 +235,27 @@ Ranked by fit, with the next deadline where it is published.
 
 **Who is actively giving right now.** Sarcoma UK and the Bone Cancer Research Trust run annual sarcoma-specific calls and have named diagnosis as a priority. Cancer Research UK's primer award is the fastest route to a first £100,000. The EMERGE Pacesetter seen at ICNR is a business-plan accelerator rather than a research funder, and it is rehabilitation-focused, so it is a place to learn the pitch, not the place to fund the model.
 
+### 13. Financial projections and break-even
+
+All revenue figures below are assumptions, because no price has been agreed with any buyer. They are shown so the break-even logic can be checked and replaced. The cost side is in section 5 and the savings to the payer in section 4.
+
+| Item | Value | Status |
+|---|---|---|
+| Price per slide to a hub | £40 | assumption |
+| UK slides triaged a year at full adoption | about 3,000 | assumption, half of new cases |
+| UK revenue a year at full adoption | about £120,000 | derived |
+| National licence alternative | priced against patient-days saved, about 2,900 a year in the conservative model | derived, `02_savings_model.ipynb` |
+| Taiwan revenue a year, 300 slides at NT$1,500 | about NT$450,000, about £11,000 | assumption |
+
+**Break-even.** With fixed costs of about £150,000 a year in years 2 and 3 and a contribution of about £40 per slide, break-even on per-slide pricing needs about 3,750 slides a year, more than the whole UK sarcoma volume. The business therefore does not break even on UK per-slide fees alone. It breaks even on one of three routes: a national licence priced on days saved instead of slides, an OEM module sold through scanner vendors across several countries, or extension to the next fusion-defined tumour types (paediatric and gastrointestinal stromal tumours) that reuse the same pipeline. The three-year plan is grant-funded precisely so that the first licence is signed with evidence in hand, not with a price guess.
+
+**Cash-flow shape.** Grants in, no revenue, years 1 to 2. First licence revenue year 3 Q3. The projection assumes the i4i award is secured. If it is not, year 2 compresses to the shadow deployment alone and the regulatory file slips a year.
+
 ## Part E. Management case: delivery, regulation, team and risks
 
 Deliverability. Research use, then shadow deployment at one hub, then regulated use as UKCA-marked Class IIa decision support that a pathologist confirms. Performance is reported by laboratory, scanner and population, and the single largest risk, a model that learns stain colour instead of biology, has a measured gate before any clinical use.
 
-### 13. Development timeline, how fast and what is delivered when
+### 14. Development timeline, how fast and what is delivered when
 
 
 Section 10 gives the stages and who pays for each; this table is the one checkable deliverable per quarter, so a funder can see on any date whether the plan is on track.
@@ -242,7 +272,7 @@ Section 10 gives the stages and who pays for each; this table is the one checkab
 | 2029 Q1 to Q2 | Approved Body audit; MHRA registration; TFDA submission | Certificate issued |
 | 2029 Q3 onward | First paid licence to a hub; advisory-mode deployment | Contract signed |
 
-### 14. Ethics and regulation, the path we will follow
+### 15. Ethics and regulation, the path we will follow
 
 
 **What the tool is in law.** Software that triages patient data to influence a diagnostic decision is a medical device in the UK, UKCA-marked under the Medical Devices Regulations 2002, with a UK Approved Body audit for Class IIa and above ([MHRA view, clinician's guide](https://www.iatrox.com/blog/is-this-ai-tool-a-medical-device-uk-mhra-guide)). We plan for Class IIa, decision support that a pathologist confirms, never an autonomous result.
@@ -258,18 +288,18 @@ Section 10 gives the stages and who pays for each; this table is the one checkab
 
 **Ethics commitments written into the design** are stated once each where they belong: the pathologist-first workflow and the abstain option in the Medical part, section 3; performance reported by laboratory, scanner, sex, age and population, and data that never crosses a border, in the Medical part, section 5; patient and public involvement before shadow deployment in section 15.
 
-### 15. Patient and public involvement
+### 16. Patient and public involvement
 
 Patients are involved from the first year, not after the device exists.
 
 1. **A patient advisory panel in year 1**, formed with Sarcoma UK and the Bone Cancer Research Trust, both of which fund and support patient involvement in sarcoma research ([Sarcoma UK, Improving Sarcoma Diagnosis](https://sarcoma.org.uk/our-research/apply-for-research-funding/improving-sarcoma-diagnosis-funding-round/), [BCRT for researchers](https://www.bcrt.org.uk/research/for-researchers/)). The panel co-writes the patient-facing explanation of what the tool does and does not do: it does not diagnose, it makes the first genomic order the right one.
 2. **What patients feel during the wait is measured, not assumed.** During the year 2 shadow deployment the panel helps design a short patient-reported experience measure on the wait between biopsy and molecular result, so that the days saved in section 4 can be paired with what those days mean to a patient.
 3. **The panel reads the fairness reporting.** Performance by sex, age, laboratory, scanner and population (Medical part, section 5) is written up in a plain public summary that the panel approves before it is published.
-4. **The panel sits on the advisory board** named in section 16, so the patient voice is in the room when the roll-out decisions in section 10 are made.
+4. **The panel sits on the advisory board** named in section 17, so the patient voice is in the room when the roll-out decisions in section 10 are made.
 
 This is the patient and public involvement that the NHS Digital Technology Assessment Criteria and the NICE Evidence Standards Framework expect for a tool of this class ([NICE ESF](https://www.nice.org.uk/corporate/ecd7/resources/evidence-standards-framework-for-digital-health-technologies-pdf-1124017457605)). The partnerships with the two charities are planned, not yet agreed.
 
-### 16. Team, roles needed and who is in place
+### 17. Team, roles needed and who is in place
 
 
 | Role | Needed for | Status |
@@ -282,9 +312,13 @@ This is the patient and public involvement that the NHS Digital Technology Asses
 | Regulatory and health economics | UKCA file, NICE ESF economic case | Recruited at grant stage |
 | Taiwan clinical partner | Asian validation cohort, NHI pilot | Planned partner: a Taiwan medical centre with NGS accreditation |
 
+**Structure.** A research project inside the University of Oxford until the first product-development award, then a spin-out limited company with the university and the founder as shareholders. An advisory board of a sarcoma pathologist, a genomic laboratory director and a patient representative is planned before shadow deployment.
+
+**Legal structure.** Not yet incorporated. The research phase runs inside the University of Oxford. The planned route is a university spin-out through Oxford University Innovation at the point of the first NIHR i4i award, with intellectual property assigned under the university's standard terms. This is an assumption to confirm with Oxford University Innovation.
+
 Contributions for this submission are recorded in `group-member-contact/README.md`.
 
-### 17. Risks and mitigations
+### 18. Risks and mitigations
 
 
 | Risk | Likelihood | Mitigation |

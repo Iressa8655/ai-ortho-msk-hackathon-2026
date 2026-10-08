@@ -35,7 +35,7 @@ Across orthopaedic and musculoskeletal AI as a whole, referral and triage is the
 | `technical/04_competitor_landscape.ipynb` | PubMed counts behind the competition figure, queries printed |
 | `technical/05_more_data_checks.ipynb`, `06_second_round_checks.ipynb`, `07_fourth_class_and_resolution.ipynb` | Random cohort, third and fourth class, learning curve, other heads, attention pooling, pathology foundation model, stain normalisation, one level more resolution |
 | `medicine/clinical_implementation.md` | Medical part: the clinical problem, where the AI sits, integration and safety, Taiwan, diversity, implementation stages |
-| `business/business_case.md` | Business part on the NHS five-case model: strategic, economic, commercial, financial, management, including business model, competition, milestones, funding and patient involvement |
+| `business/business_case.md` | Business part on the NHS five-case model, strategic, economic, commercial, financial, management, which also carries the business plan: product, market, competition, sales, funding, projections, team and risks |
 | `technical/requirements.txt`, `technical/fetch_overviews.py` | Environment and download helper |
 | `group-member-contact/README.md` | Team and contributions |
 

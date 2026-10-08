@@ -67,7 +67,7 @@ Figure 9 is a mock-up of that screen. The numbered parts are the only additions 
 - The pathologist reads the H&E first. The score appears after the first read, to limit automation bias.
 - Low-confidence cases are labelled "no recommendation" and follow the current pathway unchanged.
 - Every score is logged with the model version, the scanner and the staining laboratory, so drift at a single site is visible within weeks.
-- The hazard log and the clinical safety case follow the two NHS clinical safety standards, DCB0129 for the manufacturer and DCB0160 for the deploying organisation, and a clinical safety officer signs off before any site goes live (the regulatory path is in the Business part, section 14).
+- The hazard log and the clinical safety case follow the two NHS clinical safety standards, DCB0129 for the manufacturer and DCB0160 for the deploying organisation, and a clinical safety officer signs off before any site goes live (the regulatory path is in the Business part, section 15).
 - The model is retrained only under a documented change-control plan, matching the regulator's expectations for adaptive AI ([TFDA predetermined change control guidance](https://www.fda.gov.tw/TC/siteListContent.aspx?sid=11652&id=47477); the MHRA takes the same approach through the AI Airlock, [GOV.UK](https://www.gov.uk/government/collections/ai-airlock-the-regulatory-sandbox-for-aiamd)).
 
 ## 4. Taiwan

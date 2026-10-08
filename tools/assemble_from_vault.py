@@ -22,9 +22,8 @@ TARGETS = {
     "M": REPO / "medicine" / "clinical_implementation.md",
     "T": REPO / "technical" / "technical_report.md",
     "B": REPO / "business" / "business_case.md",
-    "P": REPO / "business" / "business_plan_appendix.md",
 }
-MARKERS = {"S": "# ", "M": "## ", "T": "## ", "B": "## ", "P": "## "}
+MARKERS = {"S": "# ", "M": "## ", "T": "## ", "B": "## "}
 
 
 def read_head(path, marker):
@@ -182,13 +181,13 @@ FIVE_CASES = [
      "first contract is signed with evidence rather than a price guess. The budget is itemised "
      "line by line and each line is marked sourced or assumption. The first application is the "
      "Cancer Research UK Early Detection and Diagnosis Primer Award."),
-     ["B10", "B11", "B12"]),
+     ["B10", "B11", "B12", "B13"]),
     ("Part E. Management case: delivery, regulation, team and risks",
      ("Deliverability. Research use, then shadow deployment at one hub, then regulated use as "
      "UKCA-marked Class IIa decision support that a pathologist confirms. Performance is reported "
      "by laboratory, scanner and population, and the single largest risk, a model that learns "
      "stain colour instead of biology, has a measured gate before any clinical use."),
-     ["B13", "B14", "B15", "B16", "B17"]),
+     ["B14", "B15", "B16", "B17", "B18"]),
 ]
 
 
@@ -238,7 +237,7 @@ def assemble():
             body = "".join(extract_english(p) for p in pages)
         assembled[prefix] = read_head(target, MARKERS[prefix]) + body
         print(f"{target.relative_to(REPO)}: {len(pages)} sections")
-    # 圖號照 pandoc 讀檔順序 S → M → T → B → P
+    # 圖號照 pandoc 讀檔順序 S → M → T → B
     keys = [k for k in TARGETS if k in assembled]
     numbered = number_figures([assembled[k] for k in keys])
     for key, text in zip(keys, numbered):
@@ -251,7 +250,7 @@ def build_pdf():
     out = REPO / "submission_document_v2.pdf"
     cmd = [
         PANDOC, str(TARGETS["S"]), str(TARGETS["M"]), str(TARGETS["T"]),
-        str(TARGETS["B"]), str(TARGETS["P"]),
+        str(TARGETS["B"]),
         "-o", str(out), "--pdf-engine=xelatex",
         "-V", "mainfont=Segoe UI", "-V", "geometry:margin=2cm", "--toc",
     ]
@@ -294,7 +293,6 @@ def build_zip(pdf):
         "technical/data/cohort_with_predictions.csv",
         "medicine/clinical_implementation.md",
         "business/business_case.md",
-        "business/business_plan_appendix.md",
         "group-member-contact/README.md",
     ]
     files += ["demo/README.md"]  # demo itself is live on Hugging Face; README carries the URL
