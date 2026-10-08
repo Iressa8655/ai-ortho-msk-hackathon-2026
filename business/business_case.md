@@ -57,7 +57,7 @@ Value for money. The direct laboratory saving is modest because the test is chea
 The arithmetic is in `technical/02_savings_model.ipynb`, with every input labelled SOURCED or ASSUMPTION so a reviewer can change any number and re-run.
 
 | Input | Value | Status |
-| ------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------ | -------------- |
+| ------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------- |
 | New sarcoma cases, UK, per year | about 5,900 ([Sarcoma UK](https://sarcoma.org.uk/about-us/stay-connected/sarcoma-incidence-and-survival-statistics-in-the-uk/)) | [sourced](https://sarcoma.org.uk/about-us/stay-connected/sarcoma-incidence-and-survival-statistics-in-the-uk/) |
 | Cost of one NHS NGS cancer panel | £339 ([2017 figure](http://enseqlopedia.com/2017/03/cost-ngs-cancer-test-nhs-339/), historic) | [sourced, dated](http://enseqlopedia.com/2017/03/cost-ngs-cancer-test-nhs-339/) |
 | Urgent solid tumour panel target | 90 per cent within 21 days ([East Genomics](https://www.eastgenomics.nhs.uk/about-us/quality/nhse-test-directory-turnaround-times/)) | [sourced](https://www.eastgenomics.nhs.uk/about-us/quality/nhse-test-directory-turnaround-times/) |
@@ -67,7 +67,11 @@ The arithmetic is in `technical/02_savings_model.ipynb`, with every input labell
 | Share of misroutes the triage catches | 0.70 | assumption |
 | Days saved per caught misroute | 14 | assumption |
 
-With those conservative assumptions the UK direct laboratory saving is about £70,000 a year and about 2,900 patient-days of waiting are removed. The direct saving is small because the test is cheap. The value is in the days, and in Taiwan in protecting a test that can only be reimbursed once.
+With those conservative assumptions the UK direct laboratory saving is about **£70,000 a year and about 2,900 patient-days of waiting are removed.** The direct saving is small because the test is cheap. The value is in the days, and in Taiwan in protecting a test that can only be reimbursed once.
+
+![What it saves and who pays: the two headline numbers on the left, the two government payers on the right, one licence](business/fig_savings_and_payers_biorender.png)
+
+Figure 29 shows the two numbers and the two payers.
 
 **Why the payer is the government, not the hospital.** In England cancer genomic tests are funded centrally by NHS England ([BWC genomics](https://bwc.nhs.uk/genomic-testing-in-adult-solid-tumours/)), and the 21-day panel target is a national performance measure for the hubs, so the avoided repeat, the protected target and the triage licence all sit on one budget. In Taiwan the National Health Insurance Administration pays for sequencing once per lifetime, so a wrong first order is an unrecoverable public cost. Sarcoma is rare and referral is centralised, so one national licence covers the whole pathway. Each buyer and what it gets is listed in section 6.
 
@@ -97,7 +101,7 @@ The buyer and the deal. One payer in each country, NHS England through the Genom
 
 ### 6. Who pays, and why they would
 
-One payer in each country, two kinds of user, and one channel. Figure 29 shows the money and the use separately.
+One payer in each country, two kinds of user, and one channel. Figure 30 shows the money and the use separately.
 
 | Who | Role | What they buy | Why it is worth it to them |
 |---|---|---|---|
@@ -114,7 +118,7 @@ One payer in each country, two kinds of user, and one channel. Figure 29 shows t
 ### 7. Payment pathway
 
 
-Figure 30 shows who pays whom along the diagnostic pathway. Grey arrows carry the sample and the report, green arrows carry money. The source file is `business/payment_pathway_biorender.jpg` ([editable BioRender version](https://app.biorender.com/illustrations/639f48d72cfd34c4f14311b2)). 
+Figure 31 shows who pays whom along the diagnostic pathway. Grey arrows carry the sample and the report, green arrows carry money. The source file is `business/payment_pathway_biorender.jpg` ([editable BioRender version](https://app.biorender.com/illustrations/639f48d72cfd34c4f14311b2)). 
 
 The flow in words: the patient is biopsied at a local hospital; the H&E slide is scanned; the model is called, and that call is what is charged per slide to the laboratory or hub; the triage report names the panel; the correct genomic test is ordered once; the result reaches the sarcoma multidisciplinary team.
 
@@ -145,7 +149,7 @@ Bottom line :
 
 Academic literature on sarcoma AI is prognosis-first, not fusion-first, for example survival prediction from H&E with reported AUC 0.97 in one cohort ([PMC review](https://pmc.ncbi.nlm.nih.gov/articles/PMC11129162/)) and margin-aware prognosis in 2025 ([Scientific Reports 2025](https://www.nature.com/articles/s41598-025-20804-1)). A 2025 review frames fusion detection as the next AI target in soft tissue sarcoma genomics ([PubMed 41497157](https://pubmed.ncbi.nlm.nih.gov/41497157/)).
 
-**Where the effort is, counted.** Figure 31 puts numbers on the two claims above, from PubMed counts run in `technical/04_competitor_landscape.ipynb` on 7 October 2026 with the queries printed in that notebook. Sarcoma AI publishing grew from 20 records in 2018 to 270 in 2025 but stayed at about 1.1 to 1.5 per cent of all cancer AI records (panel A). Within sarcoma AI, prognosis (537 records) and histology diagnosis (400) lead; molecular or biomarker prediction from H&E is at most 251 on a broad keyword match, and few of those predict a fusion gene (panel B). Deep-learning H&E-to-molecular work is an order of magnitude larger in breast (1,692), lung (1,620) and colorectal cancer (1,098) than in sarcoma (182) (panel C), and the regulated products follow the same pattern: colorectal, breast and prostate have one each, sarcoma has none (panel D). Keyword counts overlap and overcount; the figure is a map of effort, not a systematic review.
+**Where the effort is, counted.** Figure 32 puts numbers on the two claims above, from PubMed counts run in `technical/04_competitor_landscape.ipynb` on 7 October 2026 with the queries printed in that notebook. Sarcoma AI publishing grew from 20 records in 2018 to 270 in 2025 but stayed at about 1.1 to 1.5 per cent of all cancer AI records (panel A). Within sarcoma AI, prognosis (537 records) and histology diagnosis (400) lead; molecular or biomarker prediction from H&E is at most 251 on a broad keyword match, and few of those predict a fusion gene (panel B). Deep-learning H&E-to-molecular work is an order of magnitude larger in breast (1,692), lung (1,620) and colorectal cancer (1,098) than in sarcoma (182) (panel C), and the regulated products follow the same pattern: colorectal, breast and prostate have one each, sarcoma has none (panel D). Keyword counts overlap and overcount; the figure is a map of effort, not a systematic review.
 
 ![Where the competition is, and where it is not: PubMed counts by year, task and tumour type, and the regulated products by tumour type](business/fig_competitor_landscape.png)
 
@@ -161,7 +165,7 @@ Research funding comes first and is small; the larger product-development award 
 
 ![Six stages on one timeline, 2026 Q4 to 2029; green text is who pays for each stage](business/fig_milestones_timeline.png)
 
-Figure 32 puts the six stages on one timeline; the table gives the deliverable, the gate and the funder for each.
+Figure 33 puts the six stages on one timeline; the table gives the deliverable, the gate and the funder for each.
 
 | Stage | When | What is delivered | Gate to the next stage | Funding route |
 |---|---|---|---|---|
