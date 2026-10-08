@@ -91,7 +91,13 @@ def extract_english(page):
         raise SystemExit(f"no EN block in {page.name}")
     english = strip_callouts(match.group(1))
     english = strip_her_comments(english, page.name)
+    english = strip_block_ids(english)
     return convert_wikilink_images(english.rstrip()) + "\n\n"
+
+
+def strip_block_ids(text):
+    """拿掉 Obsidian 的行尾區塊錨點 ^abc123，不能進 PDF。"""
+    return re.sub(r"[ 	]+\^[A-Za-z0-9-]+[ 	]*$", "", text, flags=re.M)
 
 
 def strip_her_comments(text, page_name):

@@ -1,12 +1,10 @@
 # Part F, appendix: the business plan in nine sections
 
-The convenors asked for both a business case and a business plan. The business case (Part A to E) is the NHS five-case document. This appendix is the same plan in the nine-section start-up format, kept short: where a section would repeat the business case it points there.
-
 ## 1. Executive summary
 
 The convenors asked for a business plan as well as a business case. This appendix is the plan, in the nine headings most funders and accelerators use ([US Small Business Administration template](https://www.sba.gov/business-guide/plan-your-business/write-your-business-plan)). Anything already covered in the business case is not repeated here; each heading says where to find it.
 
-**Mission.** Make the first genomic test the right one for every sarcoma patient, by reading the H&E slide that already exists. ^dfw8h1
+**Mission.** Make the first genomic test the right one for every sarcoma patient, by reading the H&E slide that already exists.
 
 **Product.** Decision-support software that scores a routine H&E whole-slide image in minutes and returns a probability for each fusion-defined sarcoma subtype together with a recommendation for which genomic panel to order first. It is used by the pathologist, never alone.
 
