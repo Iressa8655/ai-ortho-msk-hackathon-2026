@@ -184,7 +184,7 @@ Roll-out follows the same stages: research use in year 1, shadow deployment at o
 Three-year budget. Sourced lines carry a link; the rest are labelled assumptions and should be replaced by quotes before any grant is submitted.
 
 | Line | Year 1 | Year 2 | Year 3 | Basis |
-| ---------------------------------------------- | ------------ | ------------ | ------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+|------------------------|----------|----------|----------|--------------------------------------------|
 | Machine learning researcher, 1.0 FTE | £60,000 | £62,000 | £64,000 | Oxford research grade 7, £39,424 to £47,779 salary ([Oxford salary scales](https://www.ox.ac.uk/about/jobs/working-here/pay-and-reward/salary-scales)), plus about 30 per cent on-costs, assumption |
 | Clinical lead time, 0.2 FTE | £15,000 | £15,000 | £15,000 | Assumption, buy-out of clinical sessions |
 | Pathology annotation and slide scanning | £20,000 | £10,000 | £5,000 | Assumption, scanning and pathologist time at RNOH |
