@@ -22,8 +22,9 @@ TARGETS = {
     "M": REPO / "medicine" / "clinical_implementation.md",
     "T": REPO / "technical" / "technical_report.md",
     "B": REPO / "business" / "business_case.md",
+    "P": REPO / "business" / "business_plan_appendix.md",
 }
-MARKERS = {"S": "# ", "M": "## ", "T": "## ", "B": "## "}
+MARKERS = {"S": "# ", "M": "## ", "T": "## ", "B": "## ", "P": "## "}
 
 
 def read_head(path, marker):
@@ -160,7 +161,7 @@ FIVE_CASES = [
 
 
 def page_for(key):
-    hits = sorted(VAULT.glob(f"{key} [A-E]. *.md")) or sorted(VAULT.glob(f"{key} *.md"))
+    hits = sorted(VAULT.glob(f"{key} [A-F]. *.md")) or sorted(VAULT.glob(f"{key} *.md"))
     if not hits:
         raise SystemExit(f"missing page for {key}")
     return hits[0]
@@ -205,7 +206,7 @@ def assemble():
             body = "".join(extract_english(p) for p in pages)
         assembled[prefix] = read_head(target, MARKERS[prefix]) + body
         print(f"{target.relative_to(REPO)}: {len(pages)} sections")
-    # 圖號照 pandoc 讀檔順序 S → M → T → B
+    # 圖號照 pandoc 讀檔順序 S → M → T → B → P
     keys = [k for k in TARGETS if k in assembled]
     numbered = number_figures([assembled[k] for k in keys])
     for key, text in zip(keys, numbered):
@@ -218,7 +219,7 @@ def build_pdf():
     out = REPO / "submission_document_v2.pdf"
     cmd = [
         PANDOC, str(TARGETS["S"]), str(TARGETS["M"]), str(TARGETS["T"]),
-        str(TARGETS["B"]),
+        str(TARGETS["B"]), str(TARGETS["P"]),
         "-o", str(out), "--pdf-engine=xelatex",
         "-V", "mainfont=Segoe UI", "-V", "geometry:margin=2cm", "--toc",
     ]
@@ -261,6 +262,7 @@ def build_zip(pdf):
         "technical/data/cohort_with_predictions.csv",
         "medicine/clinical_implementation.md",
         "business/business_case.md",
+        "business/business_plan_appendix.md",
         "group-member-contact/README.md",
     ]
     files += ["demo/README.md"]  # demo itself is live on Hugging Face; README carries the URL
