@@ -11,19 +11,18 @@ colorlinks: true
 # Executive summary
 ![Today, the slide waits three weeks and the surgeon guesses between four treatments; with AI triage on day one, the right test is ordered once](business/fig_before_after_ai_triage_biorender.png)
 
-**Problem.** Sarcoma is not one disease (Figure 2). Its subtype decides the operation and the oncology plan, and many subtypes are defined by a gene fusion. The molecular test that names the fusion is slow and centralised: in England urgent solid tumour panels have a 21-day target ([East Genomics](https://www.eastgenomics.nhs.uk/about-us/quality/nhse-test-directory-turnaround-times/)), in Taiwan National Health Insurance reimburses next-generation sequencing once per lifetime and only at regional hospitals or above ([Health Promotion Administration](https://www.twhealth.org.tw/journalView.php?cat=70&sid=1190)).
-![Sarcoma is not one disease: six subtypes, six genetic definitions, four treatment paths](business/fig_sarcoma_not_one_disease_biorender.jpg)
+**Problem.** Sarcoma is not one disease (Figure 4, in the Medical part). Its subtype decides the operation and the oncology plan, and many subtypes are defined by a gene fusion. The molecular test that names the fusion is slow and centralised: in England urgent solid tumour panels have a 21-day target ([East Genomics](https://www.eastgenomics.nhs.uk/about-us/quality/nhse-test-directory-turnaround-times/)), in Taiwan National Health Insurance reimburses next-generation sequencing once per lifetime and only at regional hospitals or above ([Health Promotion Administration](https://www.twhealth.org.tw/journalView.php?cat=70&sid=1190)).
 
 **Solution.** Figure 1 shows the pathway today and with AI triage. A model [(https://iressa-sarcoma-triage-demo.static.hf.space)](https://iressa-sarcoma-triage-demo.static.hf.space/) that reads the routine H&E slide already produced for every biopsy and returns, in minutes, a subtype probability and a recommendation for which genomic test to order first. It does not replace the test. It makes the first order the right one.
 ![AI in orthopaedics and MSK, 2018 to 2026: 15,504 PubMed records mapped onto the care pathway. Referral and triage is the thinnest stage](business/fig_ai_msk_pubmed_landscape.png)
 
-Across orthopaedic and musculoskeletal AI as a whole, referral and triage is the least studied stage of the care pathway (Figure 3), which is where this tool sits.
+Across orthopaedic and musculoskeletal AI as a whole, referral and triage is the least studied stage of the care pathway (Figure 2), which is where this tool sits.
 
 **Efficiency lever.** One H&E slide plus one model call replaces up to three weeks of waiting and one avoidable round of testing per misrouted case.
 
 ![What the result looks like for the surgeon: one slide, one answer, one operation](business/fig_with_ai_happy_surgeon_biorender.png)
 
-**Result so far.** Figure 4 shows what the surgeon gets. A reproducible baseline on open TCGA-SARC data separates two common subtypes from slide overviews with an out-of-fold AUC of 0.82 on 60 patients, and runs live in the browser at <https://iressa-sarcoma-triage-demo.static.hf.space/>.
+**Result so far.** Figure 3 shows what the surgeon gets. A reproducible baseline on open TCGA-SARC data separates two common subtypes from slide overviews with an out-of-fold AUC of 0.82 on 60 patients, and runs live in the browser at <https://iressa-sarcoma-triage-demo.static.hf.space/>.
 
 **What is in this submission.**
 
