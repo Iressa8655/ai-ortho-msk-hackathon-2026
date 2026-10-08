@@ -303,4 +303,10 @@ def build_zip(pdf):
 
 if __name__ == "__main__":
     assemble()
-    build_zip(build_pdf())
+    final = REPO / "submission_document_FINAL.pdf"
+    if final.exists():
+        # 2026-10-08 她在 PDF 上定稿，之後不重組 PDF，zip 直接用定稿
+        print("FINAL pdf exists, not rebuilding the PDF; zip uses", final.name)
+        build_zip(final)
+    else:
+        build_zip(build_pdf())
