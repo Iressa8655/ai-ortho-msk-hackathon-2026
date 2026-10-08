@@ -56,6 +56,32 @@ def convert_wikilink_images(text):
     return re.sub(pattern, repl, text)
 
 
+def isolate_images(text):
+    """每張圖前後補空行，pandoc 才會當成獨立 figure 編號加圖說；
+    同時檢查每張圖都有圖說和內文 (Figure {fig:…}) 參照，缺就警告。"""
+    out = []
+    for line in text.split(chr(10)):
+        if re.match(r"^\s*!\[", line):
+            if out and out[-1].strip():
+                out.append("")
+            out.append(line.strip())
+            out.append("")
+        else:
+            if line.strip() == "" and out and out[-1] == "":
+                continue
+            out.append(line)
+    return chr(10).join(out)
+
+
+def check_figures(text, page_name):
+    for match in re.finditer(r"!\[([^\]]*)\]\(([^)]+)\)", text):
+        caption, path = match.group(1), os.path.basename(match.group(2))
+        if not caption.strip():
+            print(f"warning: figure without caption in {page_name}: {path}")
+        if "{fig:" + path + "}" not in text:
+            print(f"warning: figure never referenced in text of {page_name}: {path}")
+
+
 def extract_english(page):
     text = page.read_text(encoding="utf-8")
     match = re.search(

@@ -5,9 +5,8 @@ The convenors asked for both a business case and a business plan. The business c
 ## 1. Executive summary
 
 This appendix restates the plan in the nine-section business plan format ([US Small Business Administration](https://www.sba.gov/business-guide/plan-your-business/write-your-business-plan)), because the convenors asked for both a business case and a business plan. Where a section would repeat the business case it points to the section there instead.
-![431](business/fig_sarcoma_not_one_disease_biorender.jpg)
 
-![436](business/fig_with_ai_happy_surgeon_biorender.png)
+
 
 *SBA: "Briefly tell your reader what your company is and why it will be successful. Include your mission statement, your product or service, and basic information about your company's leadership team, employees, and location."*
 
