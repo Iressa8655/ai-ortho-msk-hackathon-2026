@@ -4,12 +4,9 @@ The convenors asked for both a business case and a business plan. The business c
 
 ## 1. Executive summary
 
-This appendix restates the plan in the nine-section business plan format ([US Small Business Administration](https://www.sba.gov/business-guide/plan-your-business/write-your-business-plan)), because the convenors asked for both a business case and a business plan. Where a section would repeat the business case it points to the section there instead.
-
-
+The convenors asked for a business plan as well as a business case. This appendix is the plan, in the nine headings most funders and accelerators use ([US Small Business Administration template](https://www.sba.gov/business-guide/plan-your-business/write-your-business-plan)). Anything already covered in the business case is not repeated here; each heading says where to find it.
 
 *SBA: "Briefly tell your reader what your company is and why it will be successful. Include your mission statement, your product or service, and basic information about your company's leadership team, employees, and location."*
-
 
 **Mission.** Make the first genomic test the right one for every sarcoma patient, by reading the H&E slide that already exists. ^dfw8h1
 
@@ -100,8 +97,6 @@ All revenue figures below are assumptions, because no price has been agreed with
 **Cash-flow shape.** Grants in, no revenue, years 1 to 2. First licence revenue year 3 Q3. The projection assumes the i4i award is secured. If it is not, year 2 compresses to the shadow deployment alone and the regulatory file slips a year.
 
 ## 9. Appendix
-
-*SBA: an optional section for supporting documents.*
 
 The supporting files are listed in the executive summary, and the technical part documents every notebook section by section.
 
