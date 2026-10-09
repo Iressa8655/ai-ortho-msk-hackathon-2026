@@ -11,3 +11,5 @@ technical/data/fetch_level1.err
 technical/data/features_by_case/
 technical/data/tile_features/
 technical/data/robustness_*.npy
+
+_build/

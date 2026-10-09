@@ -35,6 +35,24 @@ def read_head(path, marker):
 IMAGE_DIRS = ["business", "technical/figures", "medicine"]
 
 
+SMALL_DIR = REPO / "_build" / "figs_small"
+
+
+def shrink_image(src):
+    """把圖縮到最寬 1400 px、JPEG 品質 80，給 PDF 用；原圖不動。
+    PDF 原本 28 MB 全是 BioRender 的大圖，email 上限 36 MB 擋掉了。"""
+    from PIL import Image
+    SMALL_DIR.mkdir(parents=True, exist_ok=True)
+    out = SMALL_DIR / (Path(src).stem + ".jpg")
+    if out.exists() and out.stat().st_mtime >= Path(src).stat().st_mtime:
+        return out
+    img = Image.open(src).convert("RGB")
+    if img.width > 1400:
+        img = img.resize((1400, round(img.height * 1400 / img.width)), Image.LANCZOS)
+    img.save(out, "JPEG", quality=80, optimize=True)
+    return out
+
+
 def repo_image_path(name):
     """vault 的 ![[x.jpg]] 轉成 repo 相對路徑，給 pandoc 用。找不到就原樣回傳。"""
     for folder in IMAGE_DIRS:
@@ -248,9 +266,23 @@ def build_pdf():
     env = dict(os.environ)
     env["PATH"] = XELATEX_DIR + os.pathsep + env["PATH"]
     out = REPO / "submission_document_v2.pdf"
+    # PDF 用縮圖（最寬 1400 px、JPEG 80），md 原檔留原圖給 zip
+    tmp_dir = REPO / "_build"; tmp_dir.mkdir(exist_ok=True)
+    tmp_files = []
+    for key in ["S", "M", "T", "B"]:
+        text = TARGETS[key].read_text(encoding="utf-8")
+
+        def small(match):
+            rel = match.group(1)
+            if os.environ.get("FULL_FIGS") == "1" or not (REPO / rel).exists():
+                return match.group(0)
+            return "](" + shrink_image(REPO / rel).relative_to(REPO).as_posix() + ")"
+
+        text = re.sub(r"\]\(((?:business|technical/figures|medicine)/[^)]+)\)", small, text)
+        tmp = tmp_dir / TARGETS[key].name
+        tmp.write_text(text, encoding="utf-8"); tmp_files.append(str(tmp))
     cmd = [
-        PANDOC, str(TARGETS["S"]), str(TARGETS["M"]), str(TARGETS["T"]),
-        str(TARGETS["B"]),
+        PANDOC, *tmp_files,
         "-o", str(out), "--pdf-engine=xelatex",
         "-V", "mainfont=Segoe UI", "-V", "geometry:margin=2cm", "--toc",
     ]
